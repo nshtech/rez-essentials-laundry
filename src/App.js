@@ -4,6 +4,7 @@ import './App.css';
 
 import firebase from 'firebase/app';
 import 'firebase/database';
+import Dashboard from './components/Dashboard';
 
 const firebaseConfig = {
   apiKey: "AIzaSyAfTUULx93uJ8x9gZN1gmTCYFT9zTDz_Xc",
@@ -20,22 +21,7 @@ firebase.initializeApp(firebaseConfig);
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Dashboard></Dashboard>
   );
 }
 
