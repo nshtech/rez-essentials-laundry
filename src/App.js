@@ -5,6 +5,7 @@ import './App.css';
 import firebase from 'firebase/app';
 import 'firebase/database';
 import Dashboard from './components/Dashboard';
+import Profile from './components/Profile';
 
 const firebaseConfig = {
   apiKey: "AIzaSyAfTUULx93uJ8x9gZN1gmTCYFT9zTDz_Xc",
