@@ -19,16 +19,22 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './listItems';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Button from '@material-ui/core/Button';
 // import Chart from './Chart';
 import Deposits from './Deposits';
 import Orders from './Orders';
-
+import Cat from './source.gif'
+import Slivka from './slivka.jpg'
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+
+      <Link color="inherit" href="https://rezessentials.com/">
+        Student Holdings Rez Laundry
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -41,6 +47,15 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
+
+  },
+  header: {
+    color: 'purple',
+    align: 'center',
+    display: 'block',
+    marginRight: '20',
+    fontSize: '30px',
+
   },
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
@@ -105,16 +120,29 @@ const useStyles = makeStyles((theme) => ({
   container: {
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4),
+
   },
   paper: {
-    padding: theme.spacing(2),
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
+
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
   },
+  ImageCat: {
+    width: '50%',
+    height: 'auto',
+    alignItems: 'center',
+    display: 'block',
+    margin: '0 auto',
+  },
   fixedHeight: {
     height: 240,
   },
+  media: {
+   height: 140,
+ },
 }));
 
 export default function Dashboard() {
@@ -171,16 +199,56 @@ export default function Dashboard() {
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={3}>
-            {/* Recent Orders */}
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                <Orders />
-              </Paper>
-            </Grid>
-          </Grid>
-          <Box pt={4}>
+        <Container maxWidth="lg" className={classes.container} >
+        <Box pb = {0.5}>
+
+            <div className = {classes.header} align= "center" fontSize = "100px"> Laundry Status: In Progress </div>
+
+        </Box>
+        <Box pb = {2}>
+            <Paper className={classes.paper}>
+
+              <img src = {Cat} alt= "laundry cat" className = {classes.ImageCat}/>
+
+            </Paper>
+            </Box>
+            <Box pb = {2} >
+            <Card className={classes.root} variant="outlined">
+    <CardContent>
+      <Typography className={classes.title} color="textSecondary" gutterBottom>
+        Current Plan
+      </Typography>
+      <Typography variant="h5" component="h2">
+        20lbs Annual Laundry Plan
+      </Typography>
+      <Typography className={classes.pos} color="textSecondary">
+        2020-2021
+      </Typography>
+
+    </CardContent>
+    <CardActions>
+      <Button size="small" color="primary" variant = "contained">More Info </Button>
+      <Button size="small" color="secondary" variant = "contained">Upgrade</Button>
+    </CardActions>
+  </Card>
+  </Box>
+  <Box pb = {2}>
+  <Card classname = {classes.root} variant = "oulined">
+  <CardContent>
+  <Typography gutterBottom variant="h5" component="h2">
+          Slivka Hall
+        </Typography>
+    </CardContent>
+    <CardMedia
+          className={classes.media}
+          image= {Slivka}
+          title="Slivka Hall"
+        />
+
+          </Card>
+          </Box>
+
+          <Box pt={0}>
             <Copyright />
           </Box>
         </Container>
