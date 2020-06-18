@@ -126,6 +126,7 @@ function Copyright() {
   export default function Profile() {
     const classes = useStyles();
     const [open, setOpen] = React.useState(true);
+    const [customerinfo, setCustomerInfo] = React.useState({});
     const handleDrawerOpen = () => {
       setOpen(true);
     };
@@ -144,6 +145,21 @@ function Copyright() {
     const reshall = db.child('/customers/000/reshall');
     const email = db.child('/customers/000/email');
     const phone = db.child('/customers/000/phone');
+
+    // useEffect(() => {
+    //   const db = firebase.database().ref().child('/tasks');
+
+    //   const getFeed = snap => {
+    //     if (snap.val()) {
+    //       setTasks(Object.values(snap.val()));
+    //       setFilter(Object.values(filter))
+    //       setisLoading(false)
+    //     }
+    //   }
+    //   db.on('value', getFeed, error => alert(error));
+    //   return () => { db.off('value', getFeed); };
+    // }, []);
+
     return (
       <div className="card card-list" style={{marginLeft: 20}}>
           <h1>Caroline Lobel</h1>
