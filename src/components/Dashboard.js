@@ -35,7 +35,7 @@ function Copyright() {
 
       <Link color="inherit" href="https://rezessentials.com/">
         Student Holdings Rez Laundry
-      </Link>{' '}
+      </Link>{' © '}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
@@ -47,7 +47,8 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
-
+    maxWidth: '325',
+    height: '100%'
   },
   header: {
     color: 'purple',
@@ -143,6 +144,36 @@ const useStyles = makeStyles((theme) => ({
   media: {
    height: 140,
  },
+  leftside: {
+    align: 'left',
+    width: '50%',
+    display: 'flex',
+  },
+  rightside: {
+    align: 'right',
+    width: '10%',
+    display: 'flex',
+  },
+  buttongrad: {
+  background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+    border: 0,
+    borderRadius: 3,
+    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+    color: 'white',
+    height: 48,
+    width: 100,
+    padding: '0 30px',
+  },
+  buttonmore: {
+  background: 'linear-gradient(45deg, #24D8F3 20%, #6513CA  90%)',
+    border: 0,
+    borderRadius: 3,
+    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+    color: 'white',
+    height: 48,
+    width: 100,
+    padding: '0 30px',
+  },
 }));
 
 export default function Dashboard() {
@@ -205,6 +236,8 @@ export default function Dashboard() {
             <div className = {classes.header} align= "center" fontSize = "100px"> Laundry Status: In Progress </div>
 
         </Box>
+        <Grid container spacing = {3}>
+        <Grid item xs = {12}>
         <Box pb = {2}>
             <Paper className={classes.paper}>
 
@@ -212,10 +245,12 @@ export default function Dashboard() {
 
             </Paper>
             </Box>
-            <Box pb = {2} >
+            </Grid>
+            <Grid item xs = {6} >
+            <Box pb = {2}>
             <Card className={classes.root} variant="outlined">
     <CardContent>
-      <Typography className={classes.title} color="textSecondary" gutterBottom>
+      <Typography gutterbottom className={classes.title} color="textSecondary" gutterBottom>
         Current Plan
       </Typography>
       <Typography variant="h5" component="h2">
@@ -227,13 +262,15 @@ export default function Dashboard() {
 
     </CardContent>
     <CardActions>
-      <Button size="small" color="primary" variant = "contained">More Info </Button>
-      <Button size="small" color="secondary" variant = "contained">Upgrade</Button>
+      <Button className = {classes.buttonmore}>More Info </Button>
+      <Button className = {classes.buttongrad}>Upgrade</Button>
     </CardActions>
   </Card>
   </Box>
+  </Grid>
+<Grid item xs = {6}>
   <Box pb = {2}>
-  <Card classname = {classes.root} variant = "oulined">
+  <Card variant = "oulined">
   <CardContent>
   <Typography gutterBottom variant="h5" component="h2">
           Slivka Hall
@@ -247,7 +284,8 @@ export default function Dashboard() {
 
           </Card>
           </Box>
-
+          </Grid>
+          </Grid>
           <Box pt={0}>
             <Copyright />
           </Box>
