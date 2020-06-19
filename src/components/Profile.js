@@ -156,7 +156,7 @@ function Copyright() {
               <div style={{ minWidth: '50%'  }}>
                   <h3 style={{ marginBlockStart: 0, marginBlockEnd: '0.25em' }}>Account Information</h3>
                   <p style={{ marginBlockStart: 0, marginBlockEnd: '0.25em', paddingRight: 15 }}>Customer ID: 000</p>
-                  <p style={{ marginBlockStart: 0, marginBlockEnd: '0.25em', paddingRight: 15 }}>Laundry Plan: yearly</p>
+                  <p style={{ marginBlockStart: 0, marginBlockEnd: '0.25em', paddingRight: 15 }}>Laundry Plan: {db.child('/customers/000/laundrystatus')}</p>
                   <p style={{ marginBlockStart: 0, marginBlockEnd: '0.25em', paddingRight: 15 }}>Max Weight: 15 lb/week</p>
               </div>
               <div style = {{minWidth: '50%'}}>
