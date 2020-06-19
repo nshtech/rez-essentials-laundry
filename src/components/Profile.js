@@ -47,6 +47,11 @@ function Copyright() {
   const useStyles = makeStyles((theme) => ({
     root: {
       display: 'flex',
+      flexGrow: 1,
+      marginLeft: 20,
+      marginRight: 20,
+      marginTop: 20,
+
     },
     toolbar: {
       paddingRight: 24, // keep right padding when drawer closed
@@ -127,6 +132,27 @@ function Copyright() {
     const classes = useStyles();
     const [open, setOpen] = React.useState(true);
     const [customerinfo, setCustomerInfo] = React.useState({});
+    
+    /*useEffect(() => {
+      const db = firebase.database().ref().child('/customers/000');
+
+        if (db != null) {
+          db.child('/customers/000').on("value")
+          .then(snapshot => {
+            setCustomerInfo( {
+              "name": db.child('/customers/000/name'),
+              "laundrystatus": db.child('/customers/000/laundrystatus'),
+              "weightstatus": db.child('/customers/000/weightstatus'),
+              "customerID": db.child('/customers/000/id'),
+              "plan": db.child('/customers/000/plan'),
+              "maxweight": db.child('/customers/000/maxweight'),
+              "reshall": db.child('/customers/000/reshall'),
+              "email": db.child('/customers/000/email'),
+              "phone": db.child('/customers/000/phone')
+            });
+        })
+      };
+    }, []);*/
     const handleDrawerOpen = () => {
       setOpen(true);
     };
@@ -146,22 +172,43 @@ function Copyright() {
     const email = db.child('/customers/000/email');
     const phone = db.child('/customers/000/phone');
 
-    // useEffect(() => {
-    //   const db = firebase.database().ref().child('/tasks');
 
-    //   const getFeed = snap => {
-    //     if (snap.val()) {
-    //       setTasks(Object.values(snap.val()));
-    //       setFilter(Object.values(filter))
-    //       setisLoading(false)
-    //     }
-    //   }
-    //   db.on('value', getFeed, error => alert(error));
-    //   return () => { db.off('value', getFeed); };
-    // }, []);
 
     return (
-      <div className="card card-list" style={{marginLeft: 20}}>
+
+      <div className={classes.root}>
+        <Grid container spacing={3}>
+          <Grid item xs={5} sm={5}>
+            <Paper className = {classes.paper}>
+              <h2>Account Information</h2>
+              <p >Customer ID: 000</p>
+              <p >Laundry Plan: yearly</p>
+              <p >Max Weight: 15 lb/week</p>
+            </Paper>
+          </Grid>
+          <Grid item xs={8} sm={5}>
+            <Paper className = {classes.paper}>
+              <h2>Contact Information</h2>
+              <p>Residential Hall: Delta Gamma</p>
+              <p >Email: carolinelobel2022@u.northwestern.edu</p>
+              <p >Phone: 2019067437</p>
+            </Paper>
+          </Grid>
+          <Grid item xs={5} sm={5}>
+            <Paper className = {classes.paper}>
+              <h2>Current Laundry Status</h2>
+              <p className='picked-up' style={{ marginRight: 15 }}>picked up</p>
+              <p className='overweight'>overweight</p>
+            </Paper>
+          </Grid>
+        </Grid>
+      </div>
+
+      
+    );
+  }
+  
+  /*<div className="card card-list" style={{marginLeft: 20}}>
           <h1>Caroline Lobel</h1>
           <div style={{ display: 'flex' }}>
               <p style={{marginRight: 15 }}>Laundry Status:</p>
@@ -182,7 +229,4 @@ function Copyright() {
                   <p style={{ marginBlockStart: 0, marginBlockEnd: '0.25em', paddingRight: 15 }}>Phone: 2019067437</p>
               </div>
           </div>
-      </div>
-    );
-  }
-  
+      </div> */
