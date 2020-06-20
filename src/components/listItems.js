@@ -40,7 +40,9 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Account Information" />
     </ListItem>
-    <AssignmentIcon />
+    <ListItem>
+      <ListItemIcon>
+        <AssignmentIcon />
       </ListItemIcon>
       <ListItemText primary="Usage" />
     </ListItem>
