@@ -8,6 +8,9 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import LocalLaundryServiceIcon from '@material-ui/icons/LocalLaundryService';
+import ContactSupportIcon from '@material-ui/icons/ContactSupport';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import PersonIcon from '@material-ui/icons/Person';
 
@@ -15,21 +18,21 @@ export const mainListItems = (
   <div>
     <ListItem button>
       <ListItemIcon>
-        <DashboardIcon />
+        <LocalLaundryServiceIcon />
       </ListItemIcon>
       <ListItemText primary="Dashboard" />
     </ListItem>
     <ListItem button>
       <ListItemIcon>
-        <ShoppingCartIcon />
+        <AccountCircleIcon />
       </ListItemIcon>
-      <ListItemText primary="Orders" />
+      <ListItemText primary="Profile" />
     </ListItem>
     <ListItem button>
       <ListItemIcon>
-        <PeopleIcon />
+        <ContactSupportIcon />
       </ListItemIcon>
-      <ListItemText primary="Customers" />
+      <ListItemText primary="Support" />
     </ListItem>
     <ListItem button>
       <ListItemIcon>
@@ -37,10 +40,13 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Account Information" />
     </ListItem>
-
-
+    <AssignmentIcon />
+      </ListItemIcon>
+      <ListItemText primary="Usage" />
+    </ListItem>
   </div>
 );
+
 
 /*    <ListItem button>
       <ListItemIcon>
@@ -54,6 +60,8 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Integrations" />
     </ListItem> */
+
+
 
 export const secondaryListItems = (
   <div>

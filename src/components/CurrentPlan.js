@@ -11,25 +11,30 @@ function preventDefault(event) {
 const useStyles = makeStyles({
   depositContext: {
     flex: 1,
+    paddingBottom: 10
   },
+  weightLimit: {
+    flex: 1,
+    paddingTop: 10,
+    paddingBottom: 10
+  },
+  title: {
+    color: '#6a09a4',
+    backgroundColor: 'lightgrey'
+  }
 });
 
-export default function Deposits() {
+export default function CurrentPlan() {
   const classes = useStyles();
   return (
     <React.Fragment>
-      <Title>Recent Deposits</Title>
+      <Typography gutterBottom variant="h6" component="h2">My Plan</Typography>
       <Typography component="p" variant="h4">
-        $3,024.00
+        20lb Annual Plan
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
-        on 15 March, 2019
+        ends June 2021
       </Typography>
-      <div>
-        <Link color="primary" href="#" onClick={preventDefault}>
-          View balance
-        </Link>
-      </div>
     </React.Fragment>
   );
 }
