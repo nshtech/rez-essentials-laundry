@@ -6,6 +6,8 @@ import firebase from 'firebase/app';
 import 'firebase/database';
 import Dashboard from './components/Dashboard';
 import Profile from './components/Profile';
+// Material UI
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 const firebaseConfig = {
   apiKey: "AIzaSyAfTUULx93uJ8x9gZN1gmTCYFT9zTDz_Xc",
@@ -20,9 +22,18 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
+
+const THEME = createMuiTheme({
+  typography: {
+    "fontFamily": "\"Manrope\", sans-serif"
+  }
+});
+
 function App() {
   return (
-    <Dashboard></Dashboard>
+    <MuiThemeProvider theme={THEME}>
+      <Dashboard></Dashboard>
+    </MuiThemeProvider>
   );
 }
 

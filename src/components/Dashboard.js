@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
 import Box from '@material-ui/core/Box';
@@ -19,16 +19,22 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './listItems';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
-// import Chart from './Chart';
-import Deposits from './Deposits';
+import Title from './Title';
+import { Sparklines, SparklinesReferenceLine, SparklinesLine } from 'react-sparklines';
+import ProfileSnapshot from './ProfileSnapshot';
+import FormSnapshot from './FormSnapshot';
+import CurrentPlan from './CurrentPlan';
 import Orders from './Orders';
 import Cat from './source.gif'
 import Slivka from './slivka.jpg'
+import '../App.css'
+
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -56,7 +62,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'block',
     marginRight: '20',
     fontSize: '30px',
-
   },
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
@@ -69,6 +74,7 @@ const useStyles = makeStyles((theme) => ({
     ...theme.mixins.toolbar,
   },
   appBar: {
+    backgroundColor: '#6a09a4',
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
@@ -91,6 +97,9 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+  },
+  cardtitle: {
+    color: '#6a09a4'
   },
   drawerPaper: {
     position: 'relative',
@@ -123,16 +132,28 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(4),
 
   },
+  grid: {
+    alignItems: "stretch",
+    width: '100%'
+  },
+  subgrid: {
+    maxWidth: '50%',
+  },
   paper: {
-    paddingTop: theme.spacing(2),
-    paddingBottom: theme.spacing(2),
-
+    padding: theme.spacing(2),
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
   },
+  paperbottom: {
+    padding: theme.spacing(2),
+    display: 'flex',
+    overflow: 'auto',
+    flexDirection: 'column',
+    marginTop: 10
+  },
   ImageCat: {
-    width: '50%',
+    width: '20%',
     height: 'auto',
     alignItems: 'center',
     display: 'block',
@@ -174,11 +195,25 @@ const useStyles = makeStyles((theme) => ({
     width: 100,
     padding: '0 30px',
   },
+  details: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  cover: {
+    width: 151,
+  },
+  media: {
+    height: 300,
+  },
+  depositContext: {
+    paddingBottom: 15
+  }
 }));
 
 export default function Dashboard() {
+
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -186,7 +221,7 @@ export default function Dashboard() {
     setOpen(false);
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-
+  const theme = useTheme();
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -201,9 +236,7 @@ export default function Dashboard() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Dashboard
-          </Typography>
+          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>Hello, Patrice</Typography>
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
               <NotificationsIcon />
@@ -211,86 +244,92 @@ export default function Dashboard() {
           </IconButton>
         </Toolbar>
       </AppBar>
-      <Drawer
-        variant="permanent"
-        classes={{
-          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-        }}
-        open={open}
-      >
+      <Drawer variant="permanent" classes={{paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),}} open={open}>
         <div className={classes.toolbarIcon}>
           <IconButton onClick={handleDrawerClose}>
             <ChevronLeftIcon />
           </IconButton>
         </div>
         <Divider />
-        <List>{mainListItems}</List>
+          <List>{mainListItems}</List>
         <Divider />
-        <List>{secondaryListItems}</List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container} >
-        <Box pb = {0.5}>
-
-            <div className = {classes.header} align= "center" fontSize = "100px"> Laundry Status: In Progress </div>
-
-        </Box>
-        <Grid container spacing = {3}>
-        <Grid item xs = {12}>
-        <Box pb = {2}>
-            <Paper className={classes.paper}>
-
-              <img src = {Cat} alt= "laundry cat" className = {classes.ImageCat}/>
-
-            </Paper>
-            </Box>
+        <Container maxWidth="lg" className={classes.container}>
+          <Grid container spacing={1} classes={classes.grid}>
+            {/* Chart */}
+            <Grid item xs={12} className={classes.subgrid}>
+              <Card>
+                <CardContent>
+                  <Typography gutterBottom variant="h6" component="h2">
+                    Laundry Status
+                  </Typography>
+                  <Typography gutterBottom variant="h4" component="p">
+                    Washing
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary" component="p">
+                    Your laundry is currently being washed and will be with you shortly.
+                    </Typography>
+                </CardContent>
+                  <CardMedia
+                    className={classes.media}
+                    image={Cat}
+                    title="Cat"
+                  />
+              </Card>
             </Grid>
-            <Grid item xs = {6} >
-            <Box pb = {2}>
-            <Card className={classes.root} variant="outlined">
-    <CardContent>
-      <Typography gutterbottom className={classes.title} color="textSecondary" gutterBottom>
-        Current Plan
-      </Typography>
-      <Typography variant="h5" component="h2">
-        20lbs Annual Laundry Plan
-      </Typography>
-      <Typography className={classes.pos} color="textSecondary">
-        2020-2021
-      </Typography>
-
-    </CardContent>
-    <CardActions>
-      <Button className = {classes.buttonmore}>More Info </Button>
-      <Button className = {classes.buttongrad}>Upgrade</Button>
-    </CardActions>
-  </Card>
-  </Box>
-  </Grid>
-<Grid item xs = {6}>
-  <Box pb = {2}>
-  <Card variant = "oulined">
-  <CardContent>
-  <Typography gutterBottom variant="h5" component="h2">
-          Slivka Hall
-        </Typography>
-    </CardContent>
-    <CardMedia
-          className={classes.media}
-          image= {Slivka}
-          title="Slivka Hall"
-        />
-
-          </Card>
-          </Box>
+            <Grid item xs={12} className={classes.subgrid}>
+              {/* Recent Activity */}
+              <Grid item xs={12}>
+                <Card className={classes.paper}>
+                  <Typography gutterBottom variant="h6" component="h2">
+                    Next Pickup
+                  </Typography>
+                  <Typography component="p" variant="h4">
+                    Wed, March 16th
+                  </Typography>
+                  <Typography color="textSecondary">
+                    on 7/15/2020
+                  </Typography>
+                </Card>
+              </Grid>
+              {/* Current Plan */}
+              <Grid item xs={12}>
+                <Card className={classes.paperbottom}>
+                  <Typography gutterBottom variant="h6" component="h2">Most Recent Weight</Typography>
+                    <Typography component="p" variant="h4">
+                      15.7 lbs
+                  </Typography>
+                    <Typography color="textSecondary" className={classes.depositContext}>
+                      on 7/15/2020
+                  </Typography>
+                  <Sparklines data={[5, 10, 5, 20]}>
+                    <SparklinesLine />
+                    <SparklinesReferenceLine type="min" />
+                  </Sparklines>
+                </Card>
+              </Grid>
+            </Grid>
+            {/* <Grid item xs={12} className={classes.subgrid}>
+              <Grid item xs={12}>
+                <Card className={classes.paper}>
+                  <CurrentPlan />
+                </Card>
+              </Grid>
+              <Grid item xs={12}>
+                <Card className={classes.paperbottom}>
+                  <FormSnapshot />
+                </Card>
+              </Grid>
+            </Grid> */}
           </Grid>
-          </Grid>
-          <Box pt={0}>
-            <Copyright />
+          <Box pt={4}>
+            <Copyright style={{ paddingTop: 3}} />
           </Box>
         </Container>
       </main>
     </div>
+    
   );
 }
