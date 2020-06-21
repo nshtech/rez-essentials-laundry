@@ -20,6 +20,7 @@ import Orders from './Orders';
 import Cat from './source.gif'
 import '../App.css'
 import Profile from './Profile';
+import WeightSpark from './WeightSpark';
 
 function Copyright() {
   return (
@@ -78,12 +79,19 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'auto',
     flexDirection: 'column',
   },
-  paperbottom: {
+  paperflex: {
     padding: theme.spacing(2),
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
     marginTop: 10
+  },
+  divflex: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  cardmedia: {
+    width: 50,
   },
   ImageCat: {
     width: '20%',
@@ -96,27 +104,7 @@ const useStyles = makeStyles((theme) => ({
     height: 240,
   },
   media: {
-   height: 140,
- },
-  leftside: {
-    align: 'left',
-    width: '50%',
-    display: 'flex',
-  },
-  rightside: {
-    align: 'right',
-    width: '10%',
-    display: 'flex',
-  },
-  details: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  cover: {
-    width: 151,
-  },
-  media: {
-    height: 300,
+    height: 340,
   },
   depositContext: {
     paddingBottom: 15
@@ -150,7 +138,7 @@ export default function Dashboard() {
                   </Typography>
                   <Typography variant="body2" color="textSecondary" component="p">
                     Your laundry is currently being washed and will be with you shortly.
-                    </Typography>
+                  </Typography>
                 </CardContent>
                 <CardMedia
                   className={classes.media}
@@ -170,24 +158,22 @@ export default function Dashboard() {
                     Wed, March 16th
                   </Typography>
                   <Typography color="textSecondary">
-                    on 7/15/2020
+                    at Delta Gamma
                   </Typography>
                 </Card>
               </Grid>
               {/* Current Plan */}
               <Grid item xs={12}>
-                <Card className={classes.paperbottom}>
-                  <Typography gutterBottom variant="h6" component="h2">Most Recent Weight</Typography>
-                  <Typography component="p" variant="h4">
-                    15.7 lbs
-                  </Typography>
-                  <Typography color="textSecondary" className={classes.depositContext}>
-                    on 7/15/2020
-                  </Typography>
-                  <Sparklines data={[5, 10, 5, 20]}>
-                    <SparklinesLine />
-                    <SparklinesReferenceLine type="min" />
-                  </Sparklines>
+                <Card className={classes.paperflex}>
+                    <Typography gutterBottom variant="h6" component="h2">Most Recent Weight</Typography>
+                    <Typography component="p" variant="h4">
+                      15.7 lbs
+                    </Typography>
+                    <Typography color="textSecondary" className={classes.depositContext}>
+                      on 7/15/2020
+                    </Typography>
+                    <Typography gutterBottom variant="h6" component="h2">Past Month</Typography>
+                    <WeightSpark />
                 </Card>
               </Grid>
             </Grid>
