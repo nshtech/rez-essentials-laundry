@@ -1,7 +1,11 @@
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardHeader from '@material-ui/core/CardHeader';
 import Drawer from '@material-ui/core/Drawer';
 import Box from '@material-ui/core/Box';
 import AppBar from '@material-ui/core/AppBar';
@@ -28,17 +32,27 @@ import '../App.css';
 import firebase from 'firebase/app';
 import 'firebase/database';
 
+import PersonIcon from '@material-ui/icons/Person';
+import HomeIcon from '@material-ui/icons/Home';
+import ReceiptIcon from '@material-ui/icons/Receipt';
+import LocalLaundryServiceIcon from '@material-ui/icons/LocalLaundryService';
+import ContactPhoneIcon from '@material-ui/icons/ContactPhone';
+import ContactMailIcon from '@material-ui/icons/ContactMail';
+import PermContactCalendarIcon from '@material-ui/icons/PermContactCalendar';
+
+
+
 
 function Copyright() {
     return (
       <Typography variant="body2" color="textSecondary" align="center">
-        {'Copyright © '}
-        <Link color="inherit" href="https://material-ui.com/">
-          Your Website
-        </Link>{' '}
-        {new Date().getFullYear()}
-        {'.'}
-      </Typography>
+
+      <Link color="inherit" href="https://rezessentials.com/">
+        Student Holdings Rez Laundry
+      </Link>{' © '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
     );
   }
   
@@ -47,11 +61,15 @@ function Copyright() {
   const useStyles = makeStyles((theme) => ({
     root: {
       display: 'flex',
-      flexGrow: 1,
-      marginLeft: 20,
-      marginRight: 20,
-      marginTop: 20,
-
+      maxWidth: '325',
+      height: '100%'
+    },
+    header: {
+      color: 'purple',
+      align: 'center',
+      display: 'block',
+      marginRight: '20',
+      fontSize: '30px',
     },
     toolbar: {
       paddingRight: 24, // keep right padding when drawer closed
@@ -64,6 +82,7 @@ function Copyright() {
       ...theme.mixins.toolbar,
     },
     appBar: {
+      backgroundColor: '#6a09a4',
       zIndex: theme.zIndex.drawer + 1,
       transition: theme.transitions.create(['width', 'margin'], {
         easing: theme.transitions.easing.sharp,
@@ -86,6 +105,9 @@ function Copyright() {
     },
     title: {
       flexGrow: 1,
+    },
+    cardtitle: {
+      color: '#6a09a4'
     },
     drawerPaper: {
       position: 'relative',
@@ -114,8 +136,18 @@ function Copyright() {
       overflow: 'auto',
     },
     container: {
-      paddingTop: theme.spacing(4),
+      width: '100%',
+      paddingTop: theme.spacing(11),
       paddingBottom: theme.spacing(4),
+  
+    },
+    grid: {
+      //justify: "space-evenly",
+      //alignItems: "stretch",
+      width: '100%',
+    },
+    subgrid: {
+       maxWidth: '100%',
     },
     paper: {
       padding: theme.spacing(2),
@@ -123,16 +155,77 @@ function Copyright() {
       overflow: 'auto',
       flexDirection: 'column',
     },
+    paperbottom: {
+      padding: theme.spacing(2),
+      display: 'flex',
+      overflow: 'auto',
+      flexDirection: 'column',
+      marginTop: 10
+    },
+    ImageCat: {
+      width: '20%',
+      height: 'auto',
+      alignItems: 'center',
+      display: 'block',
+      margin: '0 auto',
+    },
     fixedHeight: {
       height: 240,
     },
+    media: {
+     height: 140,
+   },
+    leftside: {
+      align: 'left',
+      width: '50%',
+      display: 'flex',
+    },
+    rightside: {
+      align: 'right',
+      width: '10%',
+      display: 'flex',
+    },
+    buttongrad: {
+    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+      border: 0,
+      borderRadius: 3,
+      boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+      color: 'white',
+      height: 48,
+      width: 100,
+      padding: '0 30px',
+    },
+    buttonmore: {
+    background: 'linear-gradient(45deg, #24D8F3 20%, #6513CA  90%)',
+      border: 0,
+      borderRadius: 3,
+      boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+      color: 'white',
+      height: 48,
+      width: 100,
+      padding: '0 30px',
+    },
+    details: {
+      display: 'flex',
+      flexDirection: 'column',
+    },
+    cover: {
+      width: 151,
+    },
+    media: {
+      height: 300,
+    },
+    depositContext: {
+      paddingBottom: 15
+    },
+
   }));
 
   export default function Profile() {
     const classes = useStyles();
     const [open, setOpen] = React.useState(true);
     const [customerinfo, setCustomerInfo] = React.useState({});
-    
+    const theme = useTheme();
     /*useEffect(() => {
       const db = firebase.database().ref().child('/customers/000');
 
@@ -175,33 +268,95 @@ function Copyright() {
 
 
     return (
-
+      
       <div className={classes.root}>
-        <Grid container spacing={3}>
-          <Grid item xs={5} sm={5}>
-            <Paper className = {classes.paper}>
-              <h2>Account Information</h2>
-              <p >Customer ID: 000</p>
-              <p >Laundry Plan: yearly</p>
-              <p >Max Weight: 15 lb/week</p>
-            </Paper>
+        <CssBaseline />
+      <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
+        <Toolbar className={classes.toolbar}>
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>Patrice Power's Account</Typography>
+          <IconButton color="inherit">
+            <Badge badgeContent={4} color="secondary">
+              <NotificationsIcon />
+            </Badge>
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+      <Drawer variant="permanent" classes={{paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),}} open={open}>
+        <div className={classes.toolbarIcon}>
+          <IconButton onClick={handleDrawerClose}>
+            <ChevronLeftIcon />
+          </IconButton>
+        </div>
+        <Divider />
+          <List>{mainListItems}</List>
+        <Divider />
+      </Drawer>
+
+
+
+
+      <main className="classes.content">
+        <Container className={classes.container} alignItems="stretch" direction="column"  justify="space-around">
+          <Grid container spacing={3} classes={classes.grid} direction="column"  justify="space-around">
+            <Grid item className={classes.subgrid} >
+              <Card className={classes.paper}>
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}>
+                    Account Information
+                  </Typography>
+                  <Typography gutterBottom variant="body1" component="p">
+                    Customer ID: 001 <br/>
+                    Residential Hall: Delta Gamma <br/>
+                    Current Plan: Yearly <br/>
+                    Weight Limit: 20 lb/week
+                  </Typography>
+                </CardContent>
+
+              </Card>
+            </Grid>
+            <Grid item className={classes.subgrid} >
+                <Card className={classes.paper}>
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}>
+                      Contact Information
+                    </Typography>
+                    <Typography component="p" variant="body1">
+                      Phone: 617-244-9360 <br />
+                      Email: patricepower@studentholdings.org
+                      <br/>
+                      <br/>
+                    </Typography>
+                  </CardContent>
+                </Card>
+            </Grid>
+            <Grid item className={classes.subgrid} >
+                <Card className={classes.paper}>
+                  <CardContent>
+                  <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}>Current Laundry Status</Typography>
+                    <Typography className="picked-up" component="p" variant="body1">
+                      picked up
+                  </Typography>
+                    <Typography component="p" variant="body2" className="overweight">
+                      overweight
+                  </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
           </Grid>
-          <Grid item xs={8} sm={5}>
-            <Paper className = {classes.paper}>
-              <h2>Contact Information</h2>
-              <p>Residential Hall: Delta Gamma</p>
-              <p >Email: carolinelobel2022@u.northwestern.edu</p>
-              <p >Phone: 2019067437</p>
-            </Paper>
-          </Grid>
-          <Grid item xs={5} sm={5}>
-            <Paper className = {classes.paper}>
-              <h2>Current Laundry Status</h2>
-              <p className='picked-up' style={{ marginRight: 15 }}>picked up</p>
-              <p className='overweight'>overweight</p>
-            </Paper>
-          </Grid>
-        </Grid>
+          <Box pt={4} alignItems="center">
+            <Copyright style={{ paddingTop: 3}} />
+          </Box>
+        </Container>
+        </main>
       </div>
 
       
