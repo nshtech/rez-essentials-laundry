@@ -13,6 +13,13 @@ import LocalLaundryServiceIcon from '@material-ui/icons/LocalLaundryService';
 import ContactSupportIcon from '@material-ui/icons/ContactSupport';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import PersonIcon from '@material-ui/icons/Person';
+import CurrentPlan from './CurrentPlan';
+import Orders from './Orders';
+import Dashboard from './Dashboard';
+import Profile from './Profile';
+//import { MemoryRouter as Router } from 'react-router';
+//import { Link } from 'react-router-dom';
+//import Link from '@material-ui/core/Link';
 
 export const mainListItems = (
   <div>
@@ -22,7 +29,7 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Dashboard" />
     </ListItem>
-    <ListItem button>
+    <ListItem button >
       <ListItemIcon>
         <AccountCircleIcon />
       </ListItemIcon>
@@ -35,12 +42,6 @@ export const mainListItems = (
       <ListItemText primary="Support" />
     </ListItem>
     <ListItem button>
-      <ListItemIcon>
-        <PersonIcon />
-      </ListItemIcon>
-      <ListItemText primary="Account Information" />
-    </ListItem>
-    <ListItem>
       <ListItemIcon>
         <AssignmentIcon />
       </ListItemIcon>
