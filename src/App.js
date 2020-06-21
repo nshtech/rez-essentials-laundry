@@ -4,7 +4,7 @@ import './App.css';
 
 import firebase from 'firebase/app';
 import 'firebase/database';
-import Dashboard from './components/Dashboard';
+import Frame from './components/Frame';
 import Profile from './components/Profile';
 // Material UI
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
@@ -34,6 +34,7 @@ function App() {
   return (
     <MuiThemeProvider theme={THEME}>
       <Dashboard></Dashboard>
+      <Frame />
 
     </MuiThemeProvider>
   );
