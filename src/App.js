@@ -33,7 +33,7 @@ const THEME = createMuiTheme({
 function App() {
   return (
     <MuiThemeProvider theme={THEME}>
-      <Profile></Profile>
+      <Dashboard></Dashboard>
 
     </MuiThemeProvider>
   );
