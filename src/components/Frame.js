@@ -13,11 +13,13 @@ import IconButton from '@material-ui/core/IconButton';
 import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import { mainListItems, secondaryListItems } from './listItems';
+import MainListItems from './listItems';
+// import { mainListItems, secondaryListItems } from './listItems';
 import Button from '@material-ui/core/Button';
 
 import '../App.css'
 import Dashboard from './Dashboard';
+import Profile from './Profile';
 
 function Copyright() {
     return (
@@ -110,10 +112,13 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+
+
 export default function Frame() {
 
     const classes = useStyles();
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = React.useState(false)
+    const [currentPage, setCurrentPage] = React.useState('Dashboard');
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -122,6 +127,17 @@ export default function Frame() {
     };
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
     const theme = useTheme();
+
+
+    const Content = ({ currentPage }) => {
+        if (currentPage == 'Dashboard') {
+            return<Dashboard />
+        } else if (currentPage == 'Profile') {
+            return <Profile />
+        }
+    }
+
+
     return (
         <div className={classes.root}>
             <CssBaseline />
@@ -144,12 +160,12 @@ export default function Frame() {
                         </IconButton>
                     </div>
                     <Divider />
-                    <List>{mainListItems}</List>
+                    <MainListItems currentPageState={{currentPage, setCurrentPage}}></MainListItems>
                     <Divider />
                 </Drawer>
             <main className={classes.content}>
                 <div className={classes.appBarSpacer} />
-                <Dashboard />
+                <Content currentPage={currentPage} />
             </main>
         </div>
 

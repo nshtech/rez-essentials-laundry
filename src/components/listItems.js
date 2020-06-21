@@ -1,91 +1,43 @@
 import React from 'react';
+import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import PeopleIcon from '@material-ui/icons/People';
-import BarChartIcon from '@material-ui/icons/BarChart';
-import LayersIcon from '@material-ui/icons/Layers';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import LocalLaundryServiceIcon from '@material-ui/icons/LocalLaundryService';
 import ContactSupportIcon from '@material-ui/icons/ContactSupport';
 import AssignmentIcon from '@material-ui/icons/Assignment';
-import PersonIcon from '@material-ui/icons/Person';
-import CurrentPlan from './CurrentPlan';
-import Orders from './Orders';
-import Dashboard from './Dashboard';
-import Profile from './Profile';
-//import { MemoryRouter as Router } from 'react-router';
-//import { Link } from 'react-router-dom';
-//import Link from '@material-ui/core/Link';
 
-export const mainListItems = (
-  <div>
-    <ListItem button>
-      <ListItemIcon>
-        <LocalLaundryServiceIcon />
-      </ListItemIcon>
-      <ListItemText primary="Dashboard" />
-    </ListItem>
-    <ListItem button >
-      <ListItemIcon>
-        <AccountCircleIcon />
-      </ListItemIcon>
-      <ListItemText primary="Profile" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <ContactSupportIcon />
-      </ListItemIcon>
-      <ListItemText primary="Support" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Usage" />
-    </ListItem>
-  </div>
-);
+export default function MainListItems({ currentPageState }) {
 
-
-/*    <ListItem button>
-      <ListItemIcon>
-        <BarChartIcon />
-      </ListItemIcon>
-      <ListItemText primary="Reports" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <LayersIcon />
-      </ListItemIcon>
-      <ListItemText primary="Integrations" />
-    </ListItem> */
-
-
-
-export const secondaryListItems = (
-  <div>
-    <ListSubheader inset>Saved reports</ListSubheader>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Current month" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Last quarter" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Year-end sale" />
-    </ListItem>
-  </div>
-);
+  return (
+    <List>
+      <div>
+        <ListItem button onClick={() => currentPageState.setCurrentPage('Dashboard')}>
+          <ListItemIcon>
+            <LocalLaundryServiceIcon />
+          </ListItemIcon>
+          <ListItemText primary="Dashboard" />
+        </ListItem>
+        <ListItem button onClick={() => currentPageState.setCurrentPage('Profile')}>
+          <ListItemIcon>
+            <AccountCircleIcon />
+          </ListItemIcon>
+          <ListItemText primary="Profile" />
+        </ListItem>
+        <ListItem button>
+          <ListItemIcon>
+            <ContactSupportIcon />
+          </ListItemIcon>
+          <ListItemText primary="Support" />
+        </ListItem>
+        <ListItem button>
+          <ListItemIcon>
+            <AssignmentIcon />
+          </ListItemIcon>
+          <ListItemText primary="Usage" />
+        </ListItem>
+      </div>
+    </List>
+    )
+}
