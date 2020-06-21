@@ -18,6 +18,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Badge from '@material-ui/core/Badge';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import Button from '@material-ui/core/Button';
 
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
@@ -133,7 +134,7 @@ function Copyright() {
     },
     container: {
       width: '100%',
-      paddingTop: theme.spacing(11),
+      paddingTop: theme.spacing(4),
       paddingBottom: theme.spacing(4),
   
     },
@@ -214,6 +215,10 @@ function Copyright() {
     depositContext: {
       paddingBottom: 15
     },
+    rezbutton: {
+      backgroundColor: '#6a09a4',
+      color: 'white'
+    }
 
   }));
 
@@ -267,88 +272,70 @@ function Copyright() {
       
       <div className={classes.root}>
 
-
-
-
-
       <main className="classes.content">
-        <Container className={classes.container} alignItems="stretch" direction="column"  justify="space-around">
-          <Grid container spacing={3} classes={classes.grid} direction="column"  justify="space-around">
-            <Grid item className={classes.subgrid} >
-              <Card className={classes.paper}>
+      <Container maxWidth="lg" className={classes.container}>
+          <Grid container spacing={1} classes={classes.grid} direction="row">
+            {/* Account Info */}
+            <Grid item xs={12} className={classes.subgrid}>
+              <Card>
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}>
-                    Account Information
+                    <PersonIcon/>User Information
                   </Typography>
                   <Typography gutterBottom variant="body1" component="p">
-                    Customer ID: 001 <br/>
-                    Residential Hall: Delta Gamma <br/>
-                    Current Plan: Yearly <br/>
-                    Weight Limit: 20 lb/week
+                    <b>Customer ID:</b> 001 <br/>
+                    <b>Residential Hall:</b> Delta Gamma <br/>
+                    <b>Current Plan:</b> School Year 2019-2020 <br/>
+                    <b>Weight Limit:</b> 20 lb/week
                   </Typography>
                 </CardContent>
-
               </Card>
             </Grid>
-            <Grid item className={classes.subgrid} >
+            {/* Contact Information */}
+            <Grid item xs={12}>
                 <Card className={classes.paper}>
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}>
-                      Contact Information
-                    </Typography>
-                    <Typography component="p" variant="body1">
-                      Phone: 617-244-9360 <br />
-                      Email: patricepower@studentholdings.org
-                      <br/>
-                      <br/>
-                    </Typography>
-                  </CardContent>
-                </Card>
-            </Grid>
-            <Grid item className={classes.subgrid} >
-                <Card className={classes.paper}>
-                  <CardContent>
-                  <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}>Current Laundry Status</Typography>
-                    <Typography className="picked-up" component="p" variant="body1">
-                      picked up
+                  <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}>
+                    <PermContactCalendarIcon/>Contact Information
                   </Typography>
-                    <Typography component="p" variant="body2" className="overweight">
-                      overweight
+                  <Typography component="p" variant="body1">
+                  <b>Phone:</b> 617-244-9360 <br/>
+                  <b>Email:</b> patricepower@studentholdings.org
                   </Typography>
-                  </CardContent>
                 </Card>
               </Grid>
+            <Grid container item xs={12} className={classes.subgrid}>
+              
+              {/* Current Laundry Status 
+              <Grid item xs={12}>
+                <Card className={classes.paperbottom}>
+                  <Typography gutterBottom variant="h5" component="h2">Current Laundry Status</Typography>
+                  <Typography component="p" variant="body1" className="picked-up">
+                    picked up
+                  </Typography>
+                  <Typography  className="overweight" component="p" variant="body1">
+                    overweight
+                  </Typography>
+                </Card>
+              </Grid>*/}
+              {/* Laundry History */}
+              <Grid item xs={12}>
+                <Card className={classes.paperbottom}>
+                  <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}><LocalLaundryServiceIcon/>Account Trends</Typography>
+                  <Typography component="p" variant="body1" >
+                    My bag has been overweight <b>10/13</b> times this year.  I should increase my weekly weight limit!   <Button size="small" variant="contained" className={classes.rezbutton}><b>Upgrade Plan</b></Button>
+                  </Typography>
+                  
+    
+                </Card>
+              </Grid>
+            </Grid>
           </Grid>
-          <Box pt={4} alignItems="center">
-            <Copyright style={{ paddingTop: 3}} />
+          <Box pt={4}>
+            <Copyright style={{ paddingTop: 3 }} />
           </Box>
         </Container>
-        </main>
+      </main>
       </div>
-
       
     );
   }
-  
-  /*<div className="card card-list" style={{marginLeft: 20}}>
-          <h1>Caroline Lobel</h1>
-          <div style={{ display: 'flex' }}>
-              <p style={{marginRight: 15 }}>Laundry Status:</p>
-              <p className='picked-up' style={{ marginRight: 15 }}>picked up</p>
-              <p className='overweight'>overweight</p>
-          </div>
-          <div style={{ display: 'flex' }}>
-              <div style={{ minWidth: '50%'  }}>
-                  <h3 style={{ marginBlockStart: 0, marginBlockEnd: '0.25em' }}>Account Information</h3>
-                  <p style={{ marginBlockStart: 0, marginBlockEnd: '0.25em', paddingRight: 15 }}>Customer ID: 000</p>
-                  <p style={{ marginBlockStart: 0, marginBlockEnd: '0.25em', paddingRight: 15 }}>Laundry Plan: yearly</p>
-                  <p style={{ marginBlockStart: 0, marginBlockEnd: '0.25em', paddingRight: 15 }}>Max Weight: 15 lb/week</p>
-              </div>
-              <div style = {{minWidth: '50%'}}>
-                  <h3 style={{ marginBlockStart: 0, marginBlockEnd: '0.25em' }}>Contact Information</h3>
-                  <p style={{ marginBlockStart: 0, marginBlockEnd: '0.25em', paddingRight: 15 }}>Residential Hall: Delta Gamma</p>
-                  <p style={{ marginBlockStart: 0, marginBlockEnd: '0.25em', paddingRight: 15 }}>Email: carolinelobel2022@u.northwestern.edu</p>
-                  <p style={{ marginBlockStart: 0, marginBlockEnd: '0.25em', paddingRight: 15 }}>Phone: 2019067437</p>
-              </div>
-          </div>
-      </div> */
