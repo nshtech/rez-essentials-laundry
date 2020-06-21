@@ -34,6 +34,7 @@ import Orders from './Orders';
 import Cat from './source.gif'
 import Slivka from './slivka.jpg'
 import '../App.css'
+import Profile from './Profile';
 
 function Copyright() {
   return (
@@ -223,39 +224,6 @@ export default function Dashboard() {
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const theme = useTheme();
   return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
-        <Toolbar className={classes.toolbar}>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>Hello, Patrice</Typography>
-          <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-      <Drawer variant="permanent" classes={{paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),}} open={open}>
-        <div className={classes.toolbarIcon}>
-          <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon />
-          </IconButton>
-        </div>
-        <Divider />
-          <List>{mainListItems}</List>
-        <Divider />
-      </Drawer>
-      <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={1} classes={classes.grid}>
             {/* Chart */}
@@ -272,11 +240,11 @@ export default function Dashboard() {
                     Your laundry is currently being washed and will be with you shortly.
                     </Typography>
                 </CardContent>
-                  <CardMedia
-                    className={classes.media}
-                    image={Cat}
-                    title="Cat"
-                  />
+                <CardMedia
+                  className={classes.media}
+                  image={Cat}
+                  title="Cat"
+                />
               </Card>
             </Grid>
             <Grid item xs={12} className={classes.subgrid}>
@@ -298,11 +266,11 @@ export default function Dashboard() {
               <Grid item xs={12}>
                 <Card className={classes.paperbottom}>
                   <Typography gutterBottom variant="h6" component="h2">Most Recent Weight</Typography>
-                    <Typography component="p" variant="h4">
-                      15.7 lbs
+                  <Typography component="p" variant="h4">
+                    15.7 lbs
                   </Typography>
-                    <Typography color="textSecondary" className={classes.depositContext}>
-                      on 7/15/2020
+                  <Typography color="textSecondary" className={classes.depositContext}>
+                    on 7/15/2020
                   </Typography>
                   <Sparklines data={[5, 10, 5, 20]}>
                     <SparklinesLine />
@@ -311,25 +279,10 @@ export default function Dashboard() {
                 </Card>
               </Grid>
             </Grid>
-            {/* <Grid item xs={12} className={classes.subgrid}>
-              <Grid item xs={12}>
-                <Card className={classes.paper}>
-                  <CurrentPlan />
-                </Card>
-              </Grid>
-              <Grid item xs={12}>
-                <Card className={classes.paperbottom}>
-                  <FormSnapshot />
-                </Card>
-              </Grid>
-            </Grid> */}
           </Grid>
           <Box pt={4}>
-            <Copyright style={{ paddingTop: 3}} />
+            <Copyright style={{ paddingTop: 3 }} />
           </Box>
         </Container>
-      </main>
-    </div>
-    
   );
 }
