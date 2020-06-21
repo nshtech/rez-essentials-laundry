@@ -9,6 +9,7 @@ import Profile from './components/Profile';
 // Material UI
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
+
 const firebaseConfig = {
   apiKey: "AIzaSyAfTUULx93uJ8x9gZN1gmTCYFT9zTDz_Xc",
   authDomain: "rez-laundry-app.firebaseapp.com",
@@ -32,7 +33,8 @@ const THEME = createMuiTheme({
 function App() {
   return (
     <MuiThemeProvider theme={THEME}>
-      <Dashboard></Dashboard>
+      <Profile></Profile>
+
     </MuiThemeProvider>
   );
 }
