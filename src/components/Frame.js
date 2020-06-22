@@ -20,6 +20,7 @@ import Button from '@material-ui/core/Button';
 import '../App.css'
 import Dashboard from './Dashboard';
 import Profile from './Profile';
+import Form from './form';
 
 function Copyright() {
     return (
@@ -134,7 +135,9 @@ export default function Frame() {
             return<Dashboard />
         } else if (currentPage == 'Profile') {
             return <Profile />
-        }
+        } else if (currentPage == 'Form') {
+            return <Form />
+        } 
     }
 
 

@@ -25,7 +25,7 @@ export default function MainListItems({ currentPageState }) {
           </ListItemIcon>
           <ListItemText primary="Profile" />
         </ListItem>
-        <ListItem button>
+        <ListItem button onClick={() => currentPageState.setCurrentPage('Form')}>
           <ListItemIcon>
             <ContactSupportIcon />
           </ListItemIcon>
