@@ -16,7 +16,7 @@ import Button from '@material-ui/core/Button';
         return `${value}°C`;
     }
 
-    export default function FormPropsTextFields() {
+    export default function Forms() {
         const classes = useStyles();
 
         return (
