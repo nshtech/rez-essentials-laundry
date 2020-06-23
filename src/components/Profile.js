@@ -124,6 +124,9 @@ function Copyright() {
     };
     const [edit,setEdit] = React.useState(false);
 
+    const laundry_times = 13;
+    const overweight_times = 5;
+
     useEffect(() => {
       const db = firebase.database().ref().child('/customers/001');
 
@@ -153,7 +156,19 @@ function Copyright() {
         console.log('database email updated')
       } 
     }
-
+    //plan upgrade suggestion
+    function suggestions(laundry_times,overweight_times) {
+      if (overweight_times/laundry_times > 0.5) {
+        return (
+          <Typography component="p" variant="body1" >My bag has been overweight <b>{overweight_times}/{laundry_times}</b> times this year.  I should increase my weekly weight limit!   <Button size="small" variant="contained" className={classes.rezbutton}><b>Upgrade Plan</b></Button>
+          </Typography>
+        );
+      }
+      else {
+        return ( <Typography component="p" variant="body1" >My bag has been overweight <b>{overweight_times}/{laundry_times}</b> times this year.
+        </Typography>);
+      }
+    }
     {/*EDIT MODE */}
     if (edit) {
       return (
@@ -195,11 +210,7 @@ function Copyright() {
                 <Grid item xs={12}>
                   <Card className={classes.paperbottom}>
                     <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}><LocalLaundryServiceIcon/>Account Trends</Typography>
-                    <Typography component="p" variant="body1" >
-                      My bag has been overweight <b>10/13</b> times this year.  I should increase my weekly weight limit!   <Button size="small" variant="contained" className={classes.rezbutton}><b>Upgrade Plan</b></Button>
-                    </Typography>
-                    
-      
+                    {suggestions(laundry_times,overweight_times)}
                   </Card>
                 </Grid>
               </Grid>
@@ -256,9 +267,7 @@ function Copyright() {
               <Grid item xs={12}>
                 <Card className={classes.paperbottom}>
                   <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}><LocalLaundryServiceIcon/>Account Trends</Typography>
-                  <Typography component="p" variant="body1" >
-                    My bag has been overweight <b>10/13</b> times this year.  I should increase my weekly weight limit!   <Button size="small" variant="contained" className={classes.rezbutton}><b>Upgrade Plan</b></Button>
-                  </Typography>
+                  {suggestions(laundry_times,overweight_times)}
                   
     
                 </Card>
