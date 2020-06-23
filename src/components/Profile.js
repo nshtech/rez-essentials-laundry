@@ -213,7 +213,9 @@ function Copyright() {
         
       );
     }
-   
+    
+
+    //VIEW MODE
     else {
     return (
       <div className={classes.root}>
