@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import MediaCard from './components/Support.js'
 
 import firebase from 'firebase/app';
 import 'firebase/database';
@@ -32,10 +33,10 @@ const THEME = createMuiTheme({
 
 function App() {
   return (
-    <MuiThemeProvider theme={THEME}>
-      <Frame />
+      <MuiThemeProvider theme={THEME}>
+        <Frame />
 
-    </MuiThemeProvider>
+      </MuiThemeProvider>
   );
 }
 
