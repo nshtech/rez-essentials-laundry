@@ -1,28 +1,20 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';import logo from './logo.svg';
 import './App.css';
 import MediaCard from './components/Support.js'
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-import firebase from 'firebase/app';
+// Firebase
 import 'firebase/database';
-import Frame from './components/Frame';
+import Frame from './components/Frame'
+import Login from './components/Login'
+import firebase from './components/shared/firebase';
+
 import Profile from './components/Profile';
+
+
 // Material UI
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
-
-const firebaseConfig = {
-  apiKey: "AIzaSyAfTUULx93uJ8x9gZN1gmTCYFT9zTDz_Xc",
-  authDomain: "rez-laundry-app.firebaseapp.com",
-  databaseURL: "https://rez-laundry-app.firebaseio.com",
-  projectId: "rez-laundry-app",
-  storageBucket: "rez-laundry-app.appspot.com",
-  messagingSenderId: "453879510299",
-  appId: "1:453879510299:web:edbf22170111e441500fbe",
-  measurementId: "G-VJM4T1CKYX"
-};
-
-firebase.initializeApp(firebaseConfig);
 
 
 const THEME = createMuiTheme({
@@ -32,10 +24,27 @@ const THEME = createMuiTheme({
 });
 
 function App() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged(setUser);
+  }, []);
+
+  useEffect(() => {
+    if (!user) {
+      localStorage.setItem('user', null)
+    }
+  }, [user])
+
   return (
       <MuiThemeProvider theme={THEME}>
-        <Frame />
-
+        <BrowserRouter>
+          <Switch>
+            <Route path="/login" exact component={() => <Login user={user} />}></Route>
+            <Route path="/home" exact component={() => <Frame user={user} />}></Route>
+            <Route path="/" render={() => <div>404</div>}></Route>
+          </Switch>
+        </BrowserRouter>
       </MuiThemeProvider>
   );
 }
