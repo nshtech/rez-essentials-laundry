@@ -25,6 +25,7 @@ const THEME = createMuiTheme({
 
 function App() {
   const [user, setUser] = useState(null);
+  const [uid, setUid] = useState(null);
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(setUser);
@@ -40,9 +41,9 @@ function App() {
       <MuiThemeProvider theme={THEME}>
         <BrowserRouter>
           <Switch>
-            <Route path="/login" exact component={() => <Login user={user} />}></Route>
+            <Route path="/" exact component={() => <Login user={user, setUser} uid={uid} />}></Route>
             <Route path="/home" exact component={() => <Frame user={user} />}></Route>
-            <Route path="/" render={() => <div>404</div>}></Route>
+            <Route path="/404" render={() => <div>404</div>}></Route>
           </Switch>
         </BrowserRouter>
       </MuiThemeProvider>

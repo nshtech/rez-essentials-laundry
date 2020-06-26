@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
+import { Redirect } from 'react-router-dom'
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -16,6 +17,10 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import MainListItems from './listItems';
 // import { mainListItems, secondaryListItems } from './listItems';
 import Button from '@material-ui/core/Button';
+
+//Firebase
+import firebase from './shared/firebase.js';
+import 'firebase/database';
 
 import '../App.css'
 import Dashboard from './Dashboard';
@@ -115,10 +120,11 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-export default function Frame() {
+export default function Frame({user}) {
 
     const classes = useStyles();
     const [open, setOpen] = React.useState(false)
+    const [signout, setSignout] = useState(false)
     const [currentPage, setCurrentPage] = React.useState('Dashboard');
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -129,6 +135,14 @@ export default function Frame() {
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
     const theme = useTheme();
 
+    const signOutUser = () => {
+        // handleClose()
+        console.log("singin out")
+        firebase.auth().signOut()
+        localStorage.setItem("user", null)
+        console.log(user)
+        setSignout(true)
+    }
 
     const Content = ({ currentPage }) => {
         if (currentPage == 'Dashboard') {
@@ -138,6 +152,14 @@ export default function Frame() {
         } else if (currentPage == 'Form') {
             return <Form />
         } 
+    }
+
+    if (signout) {
+        return <Redirect to="/"></Redirect>
+    }
+
+    if (user == null) {
+        return <Redirect to="/"></Redirect>
     }
 
 
@@ -151,7 +173,7 @@ export default function Frame() {
                         <MenuIcon />
                     </IconButton>
                     <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>Hello, Patrice</Typography>
-                    <Button color="inherit">
+                    <Button onClick={signOutUser} color="inherit">
                         Logout
                     </Button>
                 </Toolbar>

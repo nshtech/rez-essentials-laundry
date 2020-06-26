@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-export default function Login({ user, history }) {
+export default function Login({ user, uid }) {
     const classes = useStyles();
     const [userID, setUserID] = useState(null);
     const [loggedIn, setLoggedIn] = useState(false)
@@ -79,53 +79,55 @@ export default function Login({ user, history }) {
         ],
         callbacks: {
             signInSuccessWithAuthResult: () => {
-                setLoggedIn(true)
+                checkUser()
             }
         }
     };
 
     useEffect(() => {
         const db = firebase.database().ref()
-        const customerEmails= [];
-        db.child('/customers/').on('value', function (snapshot) {
-            snapshot.forEach(function (childSnapshot) {
-                // console.log(childSnapshot.val().email)
-                // console.log(Object.keys(childSnapshot.val()))
-                customerEmails.push(childSnapshot.val().email);
-            });
-        });
-        console.log(customerEmails)
 
+        if (user != null && userID != null) {
+            db.child('/users/' + userID).once("value")
+                .then(snapshot => {
+                    if (!snapshot.val()) {
+                        db.child('/users/' + userID).set({
+                            username: user.displayName,
+                            email: user.email
+                        })
+                    }
+                })
+            localStorage.setItem('user', JSON.stringify(user))
+        }
+        
+    }, [user])
+
+    const checkUser = () => {
+
+        const db = firebase.database().ref()
         if (user != null) {
-            console.log(user.email)
             db.child('/customers/').on("value", function (snapshot) {
                 console.log(snapshot.val());
                 snapshot.forEach(function (data) {
                     if (data.val().email == user.email) {
+                        console.log("email found!!!")
+                        console.log(data.val().id)
                         setUserID(data.val().id)
+                        setLoggedIn(true)
+                        // user.setUser(null)
                     }
                 });
             });
+            if (!loggedIn) {
+                return <Redirect to="/404"></Redirect>
+            }
             console.log(userID)
-
-
-            db.child('/users/' + user.uid).once("value")
-                .then(snapshot => {
-                    if (!snapshot.val()) {
-                        db.child('/users/' + user.uid).set({
-                            username: user.displayName,
-                            email: user.email,
-                            id: userID
-                        })
-                    }
-                })
         }
-        localStorage.setItem('user', JSON.stringify(user))
-    }, [user])
+    };
 
-    // if (loggedIn) {
-    //     return <Redirect to="/home"></Redirect>
-    // }
+    if (loggedIn) {
+        return <Redirect to="/home"></Redirect>
+    }
 
     return (
         <Grid container component="main" className={classes.root}>
