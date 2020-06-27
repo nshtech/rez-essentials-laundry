@@ -115,6 +115,8 @@ function Copyright() {
     const classes = useStyles();
     const [open, setOpen] = React.useState(true);
     const [customerinfo, setCustomerInfo] = React.useState({});
+    const [newphone, setNewPhone] = React.useState(null);
+    const [newemail, setNewEmail] = React.useState(null);
     const theme = useTheme();
     const handleDrawerOpen = () => {
       setOpen(true);
@@ -140,20 +142,38 @@ function Copyright() {
       return () => { db.off('value', getCustomer); };
     }, []);
 
+    function saveContactInfo() {
+      if (newphone !== null) {
+        firebase.database().ref('/customers/'+customerinfo.id+'/phone').set(newphone);
+        customerinfo.phone = newphone;
+        //console.log('database phone updated');
+      }
+      if (newemail !== null) {
+        firebase.database().ref('/customers/'+customerinfo.id+'/email').set(newemail);
+        customerinfo.email = newemail;
+        //console.log('database email updated');
+      }
+      setEdit(false);
+      //console.log('edit == false');
+      
+    }
+
     //HANDLE PHONE AND EMAIL UPDATE
     function handleInputChange(event) {
       const target=event.target;
       const name = target.name;
       const value = target.value;
       if (name==="phone" && value.length===12) {
-        firebase.database().ref('/customers/'+customerinfo.id+'/phone').set(value);
-        customerinfo.phone = value;
-        console.log('database phone updated');
+        setNewPhone(value);
+        //firebase.database().ref('/customers/'+customerinfo.id+'/phone').set(value);
+        //customerinfo.phone = value;
+        //console.log('state var phone updated');
       }
       else if (name==="email" && value.includes("@") && value.includes('.')) {
-        firebase.database().ref('/customers/'+customerinfo.id+'/email').set(value);
-        customerinfo.email = value;
-        console.log('database email updated')
+        setNewEmail(value);
+        //firebase.database().ref('/customers/'+customerinfo.id+'/email').set(value);
+        //customerinfo.email = value;
+        //console.log('state var email updated')
       } 
     }
     //plan upgrade suggestion
@@ -197,7 +217,7 @@ function Copyright() {
               <Grid item xs={12}>
                   <Card className={classes.paper}>
                     <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}>
-                      <PermContactCalendarIcon/>Contact Information <Button size="small" variant="contained" className={classes.rezbutton} onClick={() => {setEdit(false)}}><b>SAVE</b></Button>
+                      <PermContactCalendarIcon/>Contact Information <Button size="small" variant="contained" className={classes.rezbutton} onClick={() => {saveContactInfo()}}><b>SAVE</b></Button>
                     </Typography>
                     <Typography component="p" variant="body1">
                       <b>Phone:</b> <Input name="phone" placeholder={customerinfo.phone} defaultValue={customerinfo.phone} className={classes.textField} onChange={handleInputChange}/> <br/>
