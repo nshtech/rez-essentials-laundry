@@ -124,6 +124,9 @@ export default function DashboardWrapper() {
     const [open, setOpen] = React.useState(false)
     const [signout, setSignout] = useState(false)
     const [currentPage, setCurrentPage] = React.useState('dashboard');
+
+    const userId = localStorage.getItem('user_id')
+
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -134,6 +137,7 @@ export default function DashboardWrapper() {
     const theme = useTheme();
 
     const signOutUser = () => {
+        localStorage.removeItem('user_id');
         setSignout(true)
     }
 
@@ -145,37 +149,58 @@ export default function DashboardWrapper() {
         return <Redirect to={"/" + currentPage}></Redirect>
     }
 
+    const isRezUser = (userId) => {
+        const db = firebase.database().ref()
+        db.child('/customers/').on("value", function (snapshot) {
+            console.log(snapshot.val());
+            snapshot.forEach(function (data) {
+                if (data.val().id == userId) {
+                    console.log("email found!!!")
+                    console.log(data.val().id)
+                    isrezuser = true
+                }
+            });
+        });
+        return isrezuser
+    }
+    var isrezuser = isRezUser(userId)
 
-    return (
-        <div className={classes.root}>
-            <CssBaseline />
-            <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
-                <Toolbar className={classes.toolbar}>
-                    <IconButton edge="start" color="inherit" aria-label="open drawer" onClick={handleDrawerOpen}
-                        className={clsx(classes.menuButton, open && classes.menuButtonHidden)}>
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>Hello, Patrice</Typography>
-                    <Button onClick={signOutUser} color="inherit">
-                        Logout
+    if (isrezuser){
+        console.log(userId)
+        return (
+            <div className={classes.root}>
+                <CssBaseline />
+                <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
+                    <Toolbar className={classes.toolbar}>
+                        <IconButton edge="start" color="inherit" aria-label="open drawer" onClick={handleDrawerOpen}
+                            className={clsx(classes.menuButton, open && classes.menuButtonHidden)}>
+                            <MenuIcon />
+                        </IconButton>
+                        <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>Hello, Patrice</Typography>
+                        <Button onClick={signOutUser} color="inherit">
+                            Logout
                     </Button>
-                </Toolbar>
-            </AppBar>
-            <Drawer variant="permanent" classes={{ paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose), }} open={open}>
-                <div className={classes.toolbarIcon}>
-                    <IconButton onClick={handleDrawerClose}>
-                        <ChevronLeftIcon />
-                    </IconButton>
-                </div>
-                <Divider />
-                <MainListItems currentPageState={{ currentPage, setCurrentPage }}></MainListItems>
-                <Divider />
-            </Drawer>
-            <main className={classes.content}>
-                <div className={classes.appBarSpacer} />
-                <Dashboard currentPageState={{ currentPage, setCurrentPage }}/>
-            </main>
-        </div>
+                    </Toolbar>
+                </AppBar>
+                <Drawer variant="permanent" classes={{ paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose), }} open={open}>
+                    <div className={classes.toolbarIcon}>
+                        <IconButton onClick={handleDrawerClose}>
+                            <ChevronLeftIcon />
+                        </IconButton>
+                    </div>
+                    <Divider />
+                    <MainListItems currentPageState={{ currentPage, setCurrentPage }}></MainListItems>
+                    <Divider />
+                </Drawer>
+                <main className={classes.content}>
+                    <div className={classes.appBarSpacer} />
+                    <Dashboard currentPageState={{ currentPage, setCurrentPage }} />
+                </main>
+            </div>
 
-    );
+        );
+    } else {
+        return <Redirect to="/"></Redirect>
+    }
+
     }

@@ -68,6 +68,7 @@ export default function SignInSide() {
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
     const [loggedIn, setLoggedIn] = useState(false);
+    const [noEmailFound, setNoEmailFound] = useState(false);
 
     const updateEmailInput = (event) => {
         console.log(event.target.value)
@@ -83,23 +84,27 @@ export default function SignInSide() {
         console.log(email)
         console.log(password)
         if (email != null && password != null) {
-            db.child('/customers/').on("value", function (snapshot) {
+            db.child('/users/').on("value", function (snapshot) {
                 console.log(snapshot.val());
                 snapshot.forEach(function (data) {
-                    if (data.val().email == email) {
+                    if (data.val().email == email && data.val().password == password) {
                         console.log("email found!!!")
-                        console.log(data.val().id)
+                        // console.log(data.val().id)
                         setUserId(data.val().id)
+                        localStorage.setItem('user_id', data.val().id);
+                        // setEmailFound(false)
                     }
                 });
             });
-            console.log(userId)
+            // console.log(userId)
         }
+
     };
 
     if (userId) {
-        return <Redirect to="/dashboard"></Redirect>
+        return <Redirect to='/dashboard'></Redirect>
     }
+
 
     return (
         <Grid container component="main" className={classes.root}>
@@ -158,7 +163,7 @@ export default function SignInSide() {
                                 </Link>
                             </Grid>
                             <Grid item>
-                                <Link href="#" variant="body2">
+                                <Link href="/signup" variant="body2">
                                     {"Don't have an account? Sign Up"}
                                 </Link>
                             </Grid>

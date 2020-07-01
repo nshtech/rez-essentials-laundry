@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 // Firebase
 import 'firebase/database';
 import SignIn from './components/SignIn'
+import SignUp from './components/SignUp'
 import DashboardWrapper from './components/DashboardWrapper'
 import Account from './components/Account'
 import CustomerSupport from './components/CustomerSupport'
@@ -75,6 +76,7 @@ function App() {
             <Route path="/account" exact component={() => <Account />}></Route>
             <Route path="/support" exact component={() => <CustomerSupport />}></Route>
             <Route path="/" exact component={() => <SignIn />}></Route>
+            <Route path="/signup" exact component={() => <SignUp />}></Route>
             <Route path="/404" render={() => <div>404</div>}></Route>
           </Switch>
         </BrowserRouter>
