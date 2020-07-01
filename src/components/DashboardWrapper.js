@@ -24,8 +24,6 @@ import 'firebase/database';
 
 import '../App.css'
 import Dashboard from './Dashboard';
-import Profile from './Profile';
-import Form from './form';
 
 function Copyright() {
     return (
@@ -120,12 +118,12 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-export default function Frame() {
+export default function DashboardWrapper() {
 
     const classes = useStyles();
     const [open, setOpen] = React.useState(false)
     const [signout, setSignout] = useState(false)
-    const [currentPage, setCurrentPage] = React.useState('Dashboard');
+    const [currentPage, setCurrentPage] = React.useState('dashboard');
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -136,32 +134,16 @@ export default function Frame() {
     const theme = useTheme();
 
     const signOutUser = () => {
-        // // handleClose()
-        // console.log("singin out")
-        // firebase.auth().signOut()
-        // localStorage.setItem("user", null)
-        // console.log(user)
-        // // user.set(null)
         setSignout(true)
-    }
-
-    const Content = ({ currentPage }) => {
-        if (currentPage == 'Dashboard') {
-            return<Dashboard />
-        } else if (currentPage == 'Profile') {
-            return <Profile />
-        } else if (currentPage == 'Form') {
-            return <Form />
-        } 
     }
 
     if (signout) {
         return <Redirect to="/"></Redirect>
     }
 
-    // if (user == null) {
-    //     return <Redirect to="/signin"></Redirect>
-    // }
+    if (currentPage != 'dashboard') {
+        return <Redirect to={"/" + currentPage}></Redirect>
+    }
 
 
     return (
@@ -170,7 +152,7 @@ export default function Frame() {
             <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
                 <Toolbar className={classes.toolbar}>
                     <IconButton edge="start" color="inherit" aria-label="open drawer" onClick={handleDrawerOpen}
-                            className={clsx(classes.menuButton, open && classes.menuButtonHidden)}>
+                        className={clsx(classes.menuButton, open && classes.menuButtonHidden)}>
                         <MenuIcon />
                     </IconButton>
                     <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>Hello, Patrice</Typography>
@@ -179,21 +161,21 @@ export default function Frame() {
                     </Button>
                 </Toolbar>
             </AppBar>
-                <Drawer variant="permanent" classes={{ paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose), }} open={open}>
-                    <div className={classes.toolbarIcon}>
-                        <IconButton onClick={handleDrawerClose}>
-                            <ChevronLeftIcon />
-                        </IconButton>
-                    </div>
-                    <Divider />
-                    <MainListItems currentPageState={{currentPage, setCurrentPage}}></MainListItems>
-                    <Divider />
-                </Drawer>
+            <Drawer variant="permanent" classes={{ paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose), }} open={open}>
+                <div className={classes.toolbarIcon}>
+                    <IconButton onClick={handleDrawerClose}>
+                        <ChevronLeftIcon />
+                    </IconButton>
+                </div>
+                <Divider />
+                <MainListItems currentPageState={{ currentPage, setCurrentPage }}></MainListItems>
+                <Divider />
+            </Drawer>
             <main className={classes.content}>
                 <div className={classes.appBarSpacer} />
-                <Content currentPage={currentPage} />
+                <Dashboard />
             </main>
         </div>
 
     );
-}
+    }

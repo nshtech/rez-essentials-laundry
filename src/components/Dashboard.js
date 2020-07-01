@@ -21,6 +21,7 @@ import Cat from './source.gif'
 import '../App.css'
 import Profile from './Profile';
 import WeightSpark from './WeightSpark';
+import { CardActionArea } from '@material-ui/core';
 
 function Copyright() {
   return (
@@ -108,7 +109,18 @@ const useStyles = makeStyles((theme) => ({
   },
   depositContext: {
     paddingBottom: 15
-  }
+  },
+  quickbuttons: {
+    padding: 'auto',
+    display: 'flex',
+    alignItems: 'center',
+    margin:'auto'
+  },
+  rezbutton: {
+    backgroundColor: '#6a09a4',
+    color: 'white',
+    margin: 4
+  },
 }));
 
 export default function Dashboard() {
@@ -152,14 +164,21 @@ export default function Dashboard() {
               <Grid item xs={12}>
                 <Card className={classes.paper}>
                   <Typography gutterBottom variant="h6" component="h2">
-                    Next Pickup
-                  </Typography>
-                  <Typography component="p" variant="h4">
-                    Wed, March 16th
+                    Customer Support
                   </Typography>
                   <Typography color="textSecondary">
-                    at Delta Gamma
+                    Help us offer you the best laundry experience we can.
                   </Typography>
+                  <CardActions>
+                    <div className={classes.quickbuttons}>
+                      <Button size="small" color="primary" className={classes.rezbutton}>
+                        Submit Feedback</Button>
+                      <Button size="small" color="primary" className={classes.rezbutton}>
+                        Update Preferences</Button>
+                      <Button size="small" color="primary" className={classes.rezbutton}>
+                        Contact RezLaundry</Button>
+                    </div>
+                  </CardActions>
                 </Card>
               </Grid>
               {/* Current Plan */}

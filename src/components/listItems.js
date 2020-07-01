@@ -13,19 +13,19 @@ export default function MainListItems({ currentPageState }) {
   return (
     <List>
       <div>
-        <ListItem button onClick={() => currentPageState.setCurrentPage('Dashboard')}>
+        <ListItem button onClick={() => currentPageState.setCurrentPage('dashboard')}>
           <ListItemIcon>
             <LocalLaundryServiceIcon />
           </ListItemIcon>
           <ListItemText primary="Dashboard" />
         </ListItem>
-        <ListItem button onClick={() => currentPageState.setCurrentPage('Profile')}>
+        <ListItem button onClick={() => currentPageState.setCurrentPage('account')}>
           <ListItemIcon>
             <AccountCircleIcon />
           </ListItemIcon>
           <ListItemText primary="Profile" />
         </ListItem>
-        <ListItem button onClick={() => currentPageState.setCurrentPage('Form')}>
+        <ListItem button onClick={() => currentPageState.setCurrentPage('support')}>
           <ListItemIcon>
             <ContactSupportIcon />
           </ListItemIcon>

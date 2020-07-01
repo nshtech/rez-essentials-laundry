@@ -98,7 +98,7 @@ export default function SignInSide() {
     };
 
     if (userId) {
-        return <Redirect to="/home"></Redirect>
+        return <Redirect to="/dashboard"></Redirect>
     }
 
     return (

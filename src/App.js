@@ -5,8 +5,10 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 // Firebase
 import 'firebase/database';
-import Frame from './components/Frame'
 import SignIn from './components/SignIn'
+import DashboardWrapper from './components/DashboardWrapper'
+import Account from './components/Account'
+import CustomerSupport from './components/CustomerSupport'
 import Login from './components/Login'
 import firebase from './components/shared/firebase';
 
@@ -15,6 +17,7 @@ import Profile from './components/Profile';
 
 // Material UI
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import Dashboard from './components/Dashboard';
 
 
 
@@ -68,7 +71,9 @@ function App() {
         <BrowserRouter>
           <Switch>
             {/* <Route path="/" exact component={() => <Login user={user, setUser} uid={uid} />}></Route> */}
-            <Route path="/home" exact component={() => <Frame />}></Route>
+            <Route path="/dashboard" exact component={() => <DashboardWrapper />}></Route>
+            <Route path="/account" exact component={() => <Account />}></Route>
+            <Route path="/support" exact component={() => <CustomerSupport />}></Route>
             <Route path="/" exact component={() => <SignIn />}></Route>
             <Route path="/404" render={() => <div>404</div>}></Route>
           </Switch>
