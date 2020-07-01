@@ -120,7 +120,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-export default function Frame({user}) {
+export default function Frame() {
 
     const classes = useStyles();
     const [open, setOpen] = React.useState(false)
@@ -136,11 +136,12 @@ export default function Frame({user}) {
     const theme = useTheme();
 
     const signOutUser = () => {
-        // handleClose()
-        console.log("singin out")
-        firebase.auth().signOut()
-        localStorage.setItem("user", null)
-        console.log(user)
+        // // handleClose()
+        // console.log("singin out")
+        // firebase.auth().signOut()
+        // localStorage.setItem("user", null)
+        // console.log(user)
+        // // user.set(null)
         setSignout(true)
     }
 
@@ -158,9 +159,9 @@ export default function Frame({user}) {
         return <Redirect to="/"></Redirect>
     }
 
-    if (user == null) {
-        return <Redirect to="/"></Redirect>
-    }
+    // if (user == null) {
+    //     return <Redirect to="/signin"></Redirect>
+    // }
 
 
     return (

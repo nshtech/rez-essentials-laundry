@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 // Firebase
 import 'firebase/database';
 import Frame from './components/Frame'
+import SignIn from './components/SignIn'
 import Login from './components/Login'
 import firebase from './components/shared/firebase';
 
@@ -27,22 +28,48 @@ function App() {
   const [user, setUser] = useState(null);
   const [uid, setUid] = useState(null);
 
-  useEffect(() => {
-    firebase.auth().onAuthStateChanged(setUser);
-  }, []);
+  // useEffect(() => {
+  //   firebase.auth().onAuthStateChanged(setUser);
+  //   // firebase.auth().onAuthStateChanged(function (user) {
+  //   //   if (user) {
+  //   //     var mybool = checkUser(user)
+  //   //     if (mybool == false) {
+  //   //       setUser(null)
+  //   //     }
+  //   //   }
+  //   // })
+  // }, []);
 
-  useEffect(() => {
-    if (!user) {
-      localStorage.setItem('user', null)
-    }
-  }, [user])
+  // useEffect(() => {
+  //   if (!user) {
+  //     localStorage.setItem('user', null)
+  //   }
+  // }, [user])
+
+  const checkUser = (user) => {
+    var isrezuser = false
+
+    const db = firebase.database().ref()
+    db.child('/customers/').on("value", function (snapshot) {
+      console.log(snapshot.val());
+      snapshot.forEach(function (data) {
+        if (data.val().email == user.email) {
+          console.log("email found!!!")
+          console.log(data.val().id)
+          isrezuser = true
+          }
+        });
+      });
+      return isrezuser
+  };
 
   return (
       <MuiThemeProvider theme={THEME}>
         <BrowserRouter>
           <Switch>
-            <Route path="/" exact component={() => <Login user={user, setUser} uid={uid} />}></Route>
-            <Route path="/home" exact component={() => <Frame user={user} />}></Route>
+            {/* <Route path="/" exact component={() => <Login user={user, setUser} uid={uid} />}></Route> */}
+            <Route path="/home" exact component={() => <Frame />}></Route>
+            <Route path="/" exact component={() => <SignIn />}></Route>
             <Route path="/404" render={() => <div>404</div>}></Route>
           </Switch>
         </BrowserRouter>

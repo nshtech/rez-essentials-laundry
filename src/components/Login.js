@@ -79,13 +79,26 @@ export default function Login({ user, uid }) {
         ],
         callbacks: {
             signInSuccessWithAuthResult: () => {
-                checkUser()
+                setLoggedIn(true)
             }
         }
     };
 
     useEffect(() => {
         const db = firebase.database().ref()
+        if (user != null) {
+            db.child('/customers/').on("value", function (snapshot) {
+                console.log(snapshot.val());
+                snapshot.forEach(function (data) {
+                    if (data.val().email == user.email) {
+                        console.log("email found!!!")
+                        console.log(data.val().id)
+                        setUserID(data.val().id)
+                    }
+                });
+            });
+            console.log(userID)
+        }
 
         if (user != null && userID != null) {
             db.child('/users/' + userID).once("value")
@@ -112,15 +125,9 @@ export default function Login({ user, uid }) {
                     if (data.val().email == user.email) {
                         console.log("email found!!!")
                         console.log(data.val().id)
-                        setUserID(data.val().id)
-                        setLoggedIn(true)
-                        // user.setUser(null)
-                    }
+                        setUserID(data.val().id)                    }
                 });
             });
-            if (!loggedIn) {
-                return <Redirect to="/404"></Redirect>
-            }
             console.log(userID)
         }
     };
