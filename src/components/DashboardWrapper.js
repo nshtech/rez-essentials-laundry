@@ -173,7 +173,7 @@ export default function DashboardWrapper() {
             </Drawer>
             <main className={classes.content}>
                 <div className={classes.appBarSpacer} />
-                <Dashboard />
+                <Dashboard currentPageState={{ currentPage, setCurrentPage }}/>
             </main>
         </div>
 

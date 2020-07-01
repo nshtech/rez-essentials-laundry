@@ -22,6 +22,7 @@ import '../App.css'
 import Profile from './Profile';
 import WeightSpark from './WeightSpark';
 import { CardActionArea } from '@material-ui/core';
+import { Redirect } from 'react-router';
 
 function Copyright() {
   return (
@@ -123,7 +124,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Dashboard() {
+export default function Dashboard({currentPageState}) {
 
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -171,11 +172,11 @@ export default function Dashboard() {
                   </Typography>
                   <CardActions>
                     <div className={classes.quickbuttons}>
-                      <Button size="small" color="primary" className={classes.rezbutton}>
+                      <Button size="small" color="primary" className={classes.rezbutton} onClick={() => currentPageState.setCurrentPage('support')}>
                         Submit Feedback</Button>
-                      <Button size="small" color="primary" className={classes.rezbutton}>
+                      <Button size="small" color="primary" className={classes.rezbutton} onClick={() => currentPageState.setCurrentPage('support')}>
                         Update Preferences</Button>
-                      <Button size="small" color="primary" className={classes.rezbutton}>
+                      <Button size="small" color="primary" className={classes.rezbutton} onClick={() => currentPageState.setCurrentPage('support')}>
                         Contact RezLaundry</Button>
                     </div>
                   </CardActions>
