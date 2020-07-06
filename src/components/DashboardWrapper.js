@@ -201,7 +201,8 @@ export default function DashboardWrapper() {
 
         );
     } else {
-        return <Button>Hi</Button>
+        localStorage.removeItem('user_id');
+        return <Redirect to="/"></Redirect>
     }
 
     }

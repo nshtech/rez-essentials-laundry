@@ -118,7 +118,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-export default function DashboardWrapper() {
+export default function CustomerSupport() {
 
     const classes = useStyles();
     const [open, setOpen] = React.useState(false)
