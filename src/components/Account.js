@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -121,9 +121,29 @@ const useStyles = makeStyles((theme) => ({
 export default function Account() {
 
     const classes = useStyles();
+    const [user, setUser] = useState(null)
+    // const [uid, setUid]
     const [open, setOpen] = React.useState(false)
     const [signout, setSignout] = useState(false)
     const [currentPage, setCurrentPage] = React.useState('account');
+    const [userData, setUserData] = React.useState({});
+    const [customerinfo, setCustomerInfo] = React.useState({});
+
+    useEffect(() => {
+        const userId = localStorage.getItem('user_id');
+        const db = firebase.database().ref().child('/customers/' + userId);;
+
+        const getCustomer = snap => {
+            console.log(snap.val())
+            if (snap.val()) {
+                setCustomerInfo(snap.val());
+            }
+        }
+        db.on('value', getCustomer, error => alert(error));
+        return () => { db.off('value', getCustomer); };
+    }, []);
+
+
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -132,8 +152,6 @@ export default function Account() {
     };
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
     const theme = useTheme();
-
-    const userId = localStorage.getItem('user_id')
 
     const signOutUser = () => {
         localStorage.removeItem('user_id');
@@ -148,8 +166,9 @@ export default function Account() {
         return <Redirect to={"/" + currentPage}></Redirect>
     }
 
-
-    if (userId) {
+    const userId = localStorage.getItem('user_id');
+    if (userId){
+        // console.log(user.id)
         return (
             <div className={classes.root}>
                 <CssBaseline />
@@ -159,7 +178,7 @@ export default function Account() {
                             className={clsx(classes.menuButton, open && classes.menuButtonHidden)}>
                             <MenuIcon />
                         </IconButton>
-                        <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>Hello, Patrice</Typography>
+                        <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>Hello, {customerinfo.name}</Typography>
                         <Button onClick={signOutUser} color="inherit">
                             Logout
                     </Button>
@@ -182,8 +201,8 @@ export default function Account() {
             </div>
 
         );
-        } else {
-            return <Redirect to="/signup"></Redirect>
-        }
-
+    } else {
+        // localStorage.removeItem('user_id');
+        return <Redirect to="/signup"></Redirect>
+    }
 }
