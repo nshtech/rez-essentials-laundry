@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -62,13 +64,26 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function SignInSide() {
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
+export default function SignIn() {
     const classes = useStyles();
     const [userId, setUserId] = useState(null);
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
     const [loggedIn, setLoggedIn] = useState(false);
     const [noEmailFound, setNoEmailFound] = useState(false);
+
+    const [open, setOpen] = React.useState(false);
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
+    };
 
     const updateEmailInput = (event) => {
         console.log(event.target.value)
@@ -92,11 +107,14 @@ export default function SignInSide() {
                         // console.log(data.val().id)
                         setUserId(data.val().id)
                         localStorage.setItem('user_id', data.val().id);
-                        // setEmailFound(false)
                     }
                 });
             });
-            // console.log(userId)
+            const isuser = localStorage.getItem('user_id');
+            console.log(isuser)
+            if (!isuser) {
+                setOpen(true);
+            }
         }
 
     };
@@ -112,6 +130,11 @@ export default function SignInSide() {
             <CssBaseline />
             <Grid item xs={false} sm={4} md={7} className={classes.image} />
             <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+                <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                    <Alert onClose={handleClose} severity="error">
+                        Incorrect email or password.
+                    </Alert>
+                </Snackbar>
                 <div className={classes.paper}>
                     <Avatar className={classes.avatar}>
                         <LockOutlinedIcon />

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -51,6 +53,10 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 export default function SignUp() {
     const classes = useStyles();
 
@@ -65,6 +71,14 @@ export default function SignUp() {
     const [resignup, setReSignUp] = useState(false);
     const [signupfinished, setSignupFinished] = useState(false);
 
+    const [open, setOpen] = React.useState(false);
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
+    };
 
     const updateLNameInput = (event) => {
         console.log(event.target.value)
@@ -109,6 +123,7 @@ export default function SignUp() {
                     if (data.val().email == email) {
                         console.log("this is already a user")
                         setReSignUp(true)
+                        setOpen(true)
                     }
                 });
             });
@@ -139,13 +154,18 @@ export default function SignUp() {
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="warning">
+                    An account already exists under this email.
+                    </Alert>
+            </Snackbar>
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
                     <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
                     Sign up
-        </Typography>
+            </Typography>
                 <form className={classes.form} noValidate>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
@@ -213,7 +233,7 @@ export default function SignUp() {
                         onClick={createUser}
                     >
                         Sign Up
-          </Button>
+                    </Button>
                     <Grid container justify="flex-end">
                         <Grid item>
                             <Link href="/" variant="body2">

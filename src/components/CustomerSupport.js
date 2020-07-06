@@ -147,7 +147,7 @@ export default function CustomerSupport() {
     if (currentPage != 'support') {
         return <Redirect to={"/" + currentPage}></Redirect>
     }
-  
+    if (userId) {
         return (
             <div className={classes.root}>
                 <CssBaseline />
@@ -180,4 +180,7 @@ export default function CustomerSupport() {
             </div>
 
         );
+    } else {
+        return <Redirect to="/signup"></Redirect>
+    }
 }

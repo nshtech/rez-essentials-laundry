@@ -149,7 +149,7 @@ export default function Account() {
     }
 
 
-
+    if (userId) {
         return (
             <div className={classes.root}>
                 <CssBaseline />
@@ -182,5 +182,8 @@ export default function Account() {
             </div>
 
         );
+        } else {
+            return <Redirect to="/signup"></Redirect>
+        }
 
 }

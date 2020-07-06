@@ -166,7 +166,8 @@ export default function DashboardWrapper() {
         return <Redirect to={"/" + currentPage}></Redirect>
     }
 
-    if (customerinfo){
+    const userId = localStorage.getItem('user_id');
+    if (userId){
         // console.log(user.id)
         return (
             <div className={classes.root}>
@@ -201,8 +202,8 @@ export default function DashboardWrapper() {
 
         );
     } else {
-        localStorage.removeItem('user_id');
-        return <Redirect to="/"></Redirect>
+        // localStorage.removeItem('user_id');
+        return <Redirect to="/signup"></Redirect>
     }
 
     }
