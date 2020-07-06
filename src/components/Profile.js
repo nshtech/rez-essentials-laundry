@@ -203,7 +203,7 @@ function Copyright() {
                 <Card>
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}>
-                      <PersonIcon/>User Information
+                      <PersonIcon/>{'  '}User Information
                     </Typography>
                     <Typography gutterBottom variant="body1" component="p">
                         <b>Customer ID:</b> {customerinfo.id} <br/>
@@ -218,7 +218,7 @@ function Copyright() {
               <Grid item xs={12}>
                   <Card className={classes.paper}>
                     <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}>
-                      <PermContactCalendarIcon/>Contact Information <Button size="small" variant="contained" className={classes.rezbutton} onClick={() => {saveContactInfo()}}><b>SAVE</b></Button>
+                      <PermContactCalendarIcon/>{' '}Contact Information <Button size="small" variant="contained" className={classes.rezbutton} onClick={() => {saveContactInfo()}}><b>SAVE</b></Button>
                     </Typography>
                     <Typography component="p" variant="body1">
                       <b>Phone:</b> <Input name="phone" placeholder={customerinfo.phone} defaultValue={customerinfo.phone} className={classes.textField} onChange={handleInputChange}/> <br/>
@@ -230,7 +230,7 @@ function Copyright() {
                 {/* Laundry History */}
                 <Grid item xs={12}>
                   <Card className={classes.paperbottom}>
-                    <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}><LocalLaundryServiceIcon/>Account Trends</Typography>
+                    <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}><LocalLaundryServiceIcon/>{' '}Account Trends</Typography>
                     {suggestions(laundry_times,overweight_times)}
                   </Card>
                 </Grid>
@@ -260,12 +260,12 @@ function Copyright() {
               <Card>
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}>
-                    <PersonIcon/>User Information
+                    <PersonIcon/>{' '}User Information
                   </Typography>
                   <Typography gutterBottom variant="body1" component="p">
                       <b>Customer ID:</b> {customerinfo.id} <br/>
                       <b>Residential Hall:</b> {customerinfo.reshall} <br/>
-                    <b>Current Plan:</b> School Year 2019-2020 <br/>
+                    <b>Current Plan:</b> {customerinfo.plan} <br/>
                       <b>Weight Limit:</b> {customerinfo.maxweight} lb/week
                   </Typography>
                 </CardContent>
@@ -275,7 +275,7 @@ function Copyright() {
             <Grid item xs={12}>
                 <Card className={classes.paper}>
                   <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}>
-                    <PermContactCalendarIcon/>Contact Information <Button size="small" variant="contained" className={classes.rezbutton} onClick={() => {setEdit(true)}}><b>EDIT</b></Button>
+                    <PermContactCalendarIcon/>{' '}Contact Information <Button size="small" variant="contained" className={classes.rezbutton} onClick={() => {setEdit(true)}}><b>EDIT</b></Button>
                   </Typography>
                   <Typography component="p" variant="body1">
                     <b>Phone:</b> {customerinfo.phone} <br/>
@@ -287,7 +287,7 @@ function Copyright() {
               {/* Laundry History */}
               <Grid item xs={12}>
                 <Card className={classes.paperbottom}>
-                  <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}><LocalLaundryServiceIcon/>Account Trends</Typography>
+                  <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}><LocalLaundryServiceIcon/>{' '}Account Trends</Typography>
                   {suggestions(laundry_times,overweight_times)}
                   
     
