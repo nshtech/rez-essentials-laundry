@@ -8,26 +8,40 @@ import LocalLaundryServiceIcon from '@material-ui/icons/LocalLaundryService';
 import ContactSupportIcon from '@material-ui/icons/ContactSupport';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+  active: {
+    color: 'purple'
+  },
+  inactive: {
+  color: 'grey'
+}})
+)
+
 export default function MainListItems({ currentPageState }) {
+  const classes = useStyles();
+
+  console.log(currentPageState.currentPage)
 
   return (
     <List>
       <div>
         <ListItem button onClick={() => currentPageState.setCurrentPage('dashboard')}>
           <ListItemIcon>
-            <LocalLaundryServiceIcon />
+            <LocalLaundryServiceIcon className={(currentPageState.currentPage ==='dashboard' ? classes.active : classes.inactive)}/>
           </ListItemIcon>
           <ListItemText primary="Dashboard" />
         </ListItem>
         <ListItem button onClick={() => currentPageState.setCurrentPage('account')}>
           <ListItemIcon>
-            <AccountCircleIcon />
+            <AccountCircleIcon className={(currentPageState.currentPage === 'account' ? classes.active : classes.inactive)} />
           </ListItemIcon>
           <ListItemText primary="Profile" />
         </ListItem>
         <ListItem button onClick={() => currentPageState.setCurrentPage('support')}>
           <ListItemIcon>
-            <ContactSupportIcon />
+            <ContactSupportIcon className={(currentPageState.currentPage === 'support' ? classes.active : classes.inactive)} />
           </ListItemIcon>
           <ListItemText primary="Support" />
         </ListItem>
