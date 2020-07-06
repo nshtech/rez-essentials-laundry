@@ -22,6 +22,7 @@ import 'firebase/database';
 import PersonIcon from '@material-ui/icons/Person';
 import LocalLaundryServiceIcon from '@material-ui/icons/LocalLaundryService';
 import PermContactCalendarIcon from '@material-ui/icons/PermContactCalendar';
+import { StrictMode } from 'react';
 
 
 
@@ -190,6 +191,28 @@ function Copyright() {
         </Typography>);
       }
     }
+
+    function planBody(customerinfo) {
+      const plan = customerinfo.plan;
+      if (plan) {
+  
+      if (plan.substring(10)==='F') {
+        const result = 'Fall ' + plan.substring(0,9);
+        return result;
+      }
+      else if (plan.substring(10)==='W') {
+        const result = 'Winter ' + plan.substring(0,9);
+        return result;
+      }
+      else if (plan.substring(10)==='S') {
+        const result = 'Spring ' + plan.substring(0,9);
+        return result;
+      }
+      else if (plan.substring(10)==='F-W-S') {
+        const result = 'School Year ' + plan.substring(0,9);
+        return result;
+      } }
+    }
     {/*EDIT MODE */}
     if (edit) {
       return (
@@ -208,7 +231,7 @@ function Copyright() {
                     <Typography gutterBottom variant="body1" component="p">
                         <b>Customer ID:</b> {customerinfo.id} <br/>
                         <b>Residential Hall:</b> {customerinfo.reshall} <br/>
-                      <b>Current Plan:</b> School Year 2019-2020 <br/>
+                        <b>Current Plan:</b> {planBody(customerinfo)}<br/>
                         <b>Weight Limit:</b> {customerinfo.maxweight} lb/week
                     </Typography>
                   </CardContent>
@@ -265,7 +288,7 @@ function Copyright() {
                   <Typography gutterBottom variant="body1" component="p">
                       <b>Customer ID:</b> {customerinfo.id} <br/>
                       <b>Residential Hall:</b> {customerinfo.reshall} <br/>
-                    <b>Current Plan:</b> {customerinfo.plan} <br/>
+                    <b>Current Plan:</b> {planBody(customerinfo)}<br/>
                       <b>Weight Limit:</b> {customerinfo.maxweight} lb/week
                   </Typography>
                 </CardContent>
