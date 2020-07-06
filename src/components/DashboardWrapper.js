@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -121,11 +121,28 @@ const useStyles = makeStyles((theme) => ({
 export default function DashboardWrapper() {
 
     const classes = useStyles();
+    const [user, setUser] = useState(null)
+    // const [uid, setUid]
     const [open, setOpen] = React.useState(false)
     const [signout, setSignout] = useState(false)
     const [currentPage, setCurrentPage] = React.useState('dashboard');
+    const [userData, setUserData] = React.useState({});
+    const [customerinfo, setCustomerInfo] = React.useState({});
 
-    const userId = localStorage.getItem('user_id')
+    useEffect(() => {
+        const userId = localStorage.getItem('user_id');
+        const db = firebase.database().ref().child('/customers/' + userId);;
+
+        const getCustomer = snap => {
+            console.log(snap.val())
+            if (snap.val()) {
+                setCustomerInfo(snap.val());
+            }
+        }
+        db.on('value', getCustomer, error => alert(error));
+        return () => { db.off('value', getCustomer); };
+    }, []);
+
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -149,24 +166,8 @@ export default function DashboardWrapper() {
         return <Redirect to={"/" + currentPage}></Redirect>
     }
 
-    const isRezUser = (userId) => {
-        const db = firebase.database().ref()
-        db.child('/customers/').on("value", function (snapshot) {
-            console.log(snapshot.val());
-            snapshot.forEach(function (data) {
-                if (data.val().id == userId) {
-                    console.log("email found!!!")
-                    console.log(data.val().id)
-                    isrezuser = true
-                }
-            });
-        });
-        return isrezuser
-    }
-    var isrezuser = isRezUser(userId)
-
-    if (isrezuser){
-        console.log(userId)
+    if (customerinfo){
+        // console.log(user.id)
         return (
             <div className={classes.root}>
                 <CssBaseline />
@@ -176,7 +177,7 @@ export default function DashboardWrapper() {
                             className={clsx(classes.menuButton, open && classes.menuButtonHidden)}>
                             <MenuIcon />
                         </IconButton>
-                        <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>Hello, Patrice</Typography>
+                        <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>Hello, {customerinfo.name}</Typography>
                         <Button onClick={signOutUser} color="inherit">
                             Logout
                     </Button>
@@ -200,7 +201,7 @@ export default function DashboardWrapper() {
 
         );
     } else {
-        return <Redirect to="/"></Redirect>
+        return <Button>Hi</Button>
     }
 
     }

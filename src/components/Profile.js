@@ -130,7 +130,8 @@ function Copyright() {
     const overweight_times = 5;
 
     useEffect(() => {
-      const db = firebase.database().ref().child('/customers/001');
+      const userId = localStorage.getItem('user_id');
+      const db = firebase.database().ref().child('/customers/' + userId);;
 
       const getCustomer = snap => {
         console.log(snap.val())

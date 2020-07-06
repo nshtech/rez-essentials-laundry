@@ -102,7 +102,8 @@ export default function SignInSide() {
     };
 
     if (userId) {
-        return <Redirect to='/dashboard'></Redirect>
+        console.log("TRYING TO REDIRECT")
+        return <Redirect to="/dashboard"></Redirect>
     }
 
 

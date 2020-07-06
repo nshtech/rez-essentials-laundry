@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
@@ -23,6 +23,9 @@ import Profile from './Profile';
 import WeightSpark from './WeightSpark';
 import { CardActionArea } from '@material-ui/core';
 import { Redirect } from 'react-router';
+
+import firebase from 'firebase/app';
+import 'firebase/database';
 
 function Copyright() {
   return (
@@ -128,12 +131,29 @@ export default function Dashboard({currentPageState}) {
 
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [customerinfo, setCustomerInfo] = React.useState({});
+
+  useEffect(() => {
+    const userId = localStorage.getItem('user_id');
+    const db = firebase.database().ref().child('/customers/' + userId);;
+
+    const getCustomer = snap => {
+      console.log(snap.val())
+      if (snap.val()) {
+        setCustomerInfo(snap.val());
+      }
+    }
+    db.on('value', getCustomer, error => alert(error));
+    return () => { db.off('value', getCustomer); };
+  }, []);
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const theme = useTheme();
   return (
@@ -187,10 +207,10 @@ export default function Dashboard({currentPageState}) {
                 <Card className={classes.paperflex}>
                     <Typography gutterBottom variant="h6" component="h2">Most Recent Weight</Typography>
                     <Typography component="p" variant="h4">
-                      15.7 lbs
+                      {customerinfo.weekweight} lbs
                     </Typography>
                     <Typography color="textSecondary" className={classes.depositContext}>
-                      on 7/15/2020
+                      of your allowed {customerinfo.maxweight} lb/week limit.
                     </Typography>
                     <Typography gutterBottom variant="h6" component="h2">Past Month</Typography>
                     <WeightSpark />
