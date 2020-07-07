@@ -66,14 +66,28 @@ function Copyright() {
     },
     grid: {
       //justify: "space-evenly",
-      //alignItems: "stretch",
+      alignItems: "stretch",
       width: '100%',
     },
     subgrid: {
-       maxWidth: '100%',
+       maxWidth: '50%',
+       padding: theme.spacing(2),
+       display: 'flex',
+       flexDirection: 'column',
+       //overflow: 'auto',
+       minHeight: 190,
     },
     paper: {
+      paddingLeft: theme.spacing(1),
+      paddingRight: theme.spacing(2),
+      minHeight: 190,
+      display: 'flex',
+      overflow: 'auto',
+      flexDirection: 'column',
+    },
+    paperContact: {
       padding: theme.spacing(2),
+      minHeight: 190,
       display: 'flex',
       overflow: 'auto',
       flexDirection: 'column',
@@ -106,6 +120,9 @@ function Copyright() {
       marginRight: theme.spacing(1),
       width: '40ch',
     },
+    cardtitle: {
+      verticalAlign: 'bottom',
+    }
 
   }));
 
@@ -220,13 +237,14 @@ function Copyright() {
   
         <main className="classes.content">
         <Container maxWidth="lg" className={classes.container}>
-            <Grid container spacing={1} classes={classes.grid} direction="row">
+            <Grid container spacing={1} classes={classes.grid} >
               {/* Account Info */}
-              <Grid item xs={12} className={classes.subgrid}>
-                <Card>
+
+              <Grid item xs={12} sm={8} className={classes.subgrid}>
+                <Card className={classes.paper}>
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}>
-                      <PersonIcon/>{'  '}User Information
+                      <PersonIcon style={{ verticalAlign: 'middle'}}/>{'  '}User Information
                     </Typography>
                     <Typography gutterBottom variant="body1" component="p">
                         <b>Customer ID:</b> {customerinfo.id} <br/>
@@ -238,10 +256,10 @@ function Copyright() {
                 </Card>
               </Grid>
               {/* Contact Information */}
-              <Grid item xs={12}>
-                  <Card className={classes.paper}>
+              <Grid item xs={12} sm={8} className={classes.subgrid}>
+                  <Card className={classes.paperContact}>
                     <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}>
-                      <PermContactCalendarIcon/>{' '}Contact Information <Button size="small" variant="contained" className={classes.rezbutton} onClick={() => {saveContactInfo()}}><b>SAVE</b></Button>
+                      <PermContactCalendarIcon style={{ verticalAlign: 'middle'}}/>{' '}Contact Information <Button size="small" variant="contained" className={classes.rezbutton} onClick={() => {saveContactInfo()}}><b>SAVE</b></Button>
                     </Typography>
                     <Typography component="p" variant="body1">
                       <b>Phone:</b> <Input name="phone" placeholder={customerinfo.phone} defaultValue={customerinfo.phone} className={classes.textField} onChange={handleInputChange}/> <br/>
@@ -249,11 +267,11 @@ function Copyright() {
                     </Typography>
                   </Card>
                 </Grid>
-              <Grid container item xs={12} className={classes.subgrid}>
+              <Grid container item xs={12} className={classes.grid}>
                 {/* Laundry History */}
                 <Grid item xs={12}>
                   <Card className={classes.paperbottom}>
-                    <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}><LocalLaundryServiceIcon/>{' '}Account Trends</Typography>
+                    <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}><LocalLaundryServiceIcon style={{ verticalAlign: 'middle'}}/>{' '}Account Trends</Typography>
                     {suggestions(laundry_times,overweight_times)}
                   </Card>
                 </Grid>
@@ -277,13 +295,13 @@ function Copyright() {
 
       <main className="classes.content">
       <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={1} classes={classes.grid} direction="row">
+          <Grid container spacing={1} classes={classes.grid}>
             {/* Account Info */}
-            <Grid item xs={12} className={classes.subgrid}>
-              <Card>
+              <Grid item xs={12} sm={8}className={classes.subgrid}>
+              <Card className={classes.paper}>
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}>
-                    <PersonIcon/>{' '}User Information
+                    <PersonIcon style={{ verticalAlign: 'middle'}}/>{' '}User Information
                   </Typography>
                   <Typography gutterBottom variant="body1" component="p">
                       <b>Customer ID:</b> {customerinfo.id} <br/>
@@ -295,22 +313,22 @@ function Copyright() {
               </Card>
             </Grid>
             {/* Contact Information */}
-            <Grid item xs={12}>
-                <Card className={classes.paper}>
+            <Grid item xs={12} sm={8} className={classes.subgrid}>
+                <Card className={classes.paperContact}>
                   <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}>
-                    <PermContactCalendarIcon/>{' '}Contact Information <Button size="small" variant="contained" className={classes.rezbutton} onClick={() => {setEdit(true)}}><b>EDIT</b></Button>
+                    <PermContactCalendarIcon style={{ verticalAlign: 'middle'}}/>{' '}Contact Information <Button size="small" variant="contained" className={classes.rezbutton} onClick={() => {setEdit(true)}}><b>EDIT</b></Button>
                   </Typography>
                   <Typography component="p" variant="body1">
                     <b>Phone:</b> {customerinfo.phone} <br/>
-                    <b>Email:</b> {customerinfo.email}
+                    <b>Email:</b> {customerinfo.email} <br/>
                   </Typography>
                 </Card>
               </Grid>
-            <Grid container item xs={12} className={classes.subgrid}>
+            <Grid container item xs={12} className={classes.grid}>
               {/* Laundry History */}
               <Grid item xs={12}>
                 <Card className={classes.paperbottom}>
-                  <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}><LocalLaundryServiceIcon/>{' '}Account Trends</Typography>
+                  <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}><LocalLaundryServiceIcon style={{ verticalAlign: 'middle'}}/>{' '}Account Trends</Typography>
                   {suggestions(laundry_times,overweight_times)}
                   
     
