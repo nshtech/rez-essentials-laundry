@@ -233,9 +233,6 @@ function Copyright() {
     {/*EDIT MODE */}
     if (edit) {
       return (
-        <div className={classes.root}>
-  
-        <main className="classes.content">
         <Container maxWidth="lg" className={classes.container}>
             <Grid container spacing={1} classes={classes.grid} >
               {/* Account Info */}
@@ -281,8 +278,6 @@ function Copyright() {
               <Copyright style={{ paddingTop: 3 }} />
             </Box>
           </Container>
-        </main>
-        </div>
         
       );
     }
@@ -291,9 +286,7 @@ function Copyright() {
     //VIEW MODE
     else {
     return (
-      <div className={classes.root}>
-
-      <main className="classes.content">
+      
       <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={1} classes={classes.grid}>
             {/* Account Info */}
@@ -340,8 +333,6 @@ function Copyright() {
             <Copyright style={{ paddingTop: 3 }} />
           </Box>
         </Container>
-      </main>
-      </div>
       
     ); }
   }
