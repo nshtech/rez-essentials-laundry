@@ -11,6 +11,7 @@ import SignUp from './components/SignUp'
 import DashboardWrapper from './components/DashboardWrapper'
 import Account from './components/Account'
 import CustomerSupport from './components/CustomerSupport'
+import CSupport from './components/CSupport'
 import Login from './components/Login'
 import firebase from './components/shared/firebase';
 
@@ -81,6 +82,7 @@ function App() {
             <Route path="/support" exact component={() => <CustomerSupport />}></Route>
             <Route path="/" exact component={() => <SignIn />}></Route>
             <Route path="/signup" exact component={() => <SignUp />}></Route>
+            <Route path="/csupport" exact component={() => <CSupport />}></Route>
             <Route path="/404" render={() => <div>404</div>}></Route>
           </Switch>
         </BrowserRouter>
