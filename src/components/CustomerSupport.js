@@ -24,6 +24,7 @@ import 'firebase/database';
 
 import '../App.css'
 import Forms from './form';
+import CSupport from './CSupport'
 
 function Copyright() {
     return (
@@ -157,7 +158,7 @@ export default function CustomerSupport() {
                             className={clsx(classes.menuButton, open && classes.menuButtonHidden)}>
                             <MenuIcon />
                         </IconButton>
-                        <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>Hello, Patrice</Typography>
+                        <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>Customer Support</Typography>
                         <Button onClick={signOutUser} color="inherit">
                             Logout
                     </Button>
@@ -175,7 +176,7 @@ export default function CustomerSupport() {
                 </Drawer>
                 <main className={classes.content}>
                     <div className={classes.appBarSpacer} />
-                    <Forms />
+                    <CSupport />
                 </main>
             </div>
 

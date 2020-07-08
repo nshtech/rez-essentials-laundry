@@ -33,13 +33,13 @@ const useStyles = makeStyles((theme) => ({
     },
     heroContent: {
         backgroundColor: "theme.palette.background.paper",
-        padding: theme.spacing(8, 0, 6),
+        padding: theme.spacing(8, 0, 0),
     },
     heroButtons: {
         marginTop: theme.spacing(4),
     },
     cardGrid: {
-        paddingTop: theme.spacing(8),
+        paddingTop: theme.spacing(5),
         paddingBottom: theme.spacing(8),
     },
     card: {
@@ -74,6 +74,9 @@ const cards = [1, 2, 3];
 
 export default function Album({ currentPageState }) {
     const classes = useStyles();
+    const handleWebsiteClick = () => {
+        window.location.assign('https://rezessentials.com/');
+    }
 
     return (
         <React.Fragment>
@@ -81,14 +84,14 @@ export default function Album({ currentPageState }) {
             <main>
                 {/* Hero unit */}
                 <div className={classes.heroContent}>
-                    <Container maxWidth="sm">
-                        <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-                            Contact Us!
+                    <Container maxWidth="md">
+                        <Typography component="h3" variant="h4" align="center" color="textPrimary" gutterBottom>
+                            We're here for you.
                         </Typography>
                         <Typography variant="h5" align="center" color="textSecondary" paragraph>
                             Feel free to contact RezLaundry about any of your needs, present or future!
                         </Typography>
-                        <div className={classes.quickbuttons}>
+                        {/* <div className={classes.quickbuttons}>
                             <Grid container spacing={2} justify="center">
                                 <Grid item>
                                     <Button color="primary" className={classes.rezbutton}>
@@ -101,7 +104,7 @@ export default function Album({ currentPageState }) {
                                     </Button>
                                 </Grid>
                             </Grid>
-                        </div>
+                        </div> */}
                     </Container>
                 </div>
                 <Container className={classes.cardGrid} maxWidth="md">
@@ -123,7 +126,7 @@ export default function Album({ currentPageState }) {
                                         </Typography>
                                     </CardContent>
                                     <CardActions>
-                                        <Button size="small" color="primary" className={classes.rezbutton} onClick={() => currentPageState.setCurrentPage('support')}>
+                                        <Button size="small" color="primary" className={classes.rezbutton}>
                                             View
                                         </Button>
                                     </CardActions>
@@ -170,7 +173,7 @@ export default function Album({ currentPageState }) {
                                     <Button size="small" color="primary" className={classes.rezbutton}>
                                         Email
                                     </Button>
-                                    <Button size="small" color="primary" className={classes.rezbutton}>
+                                    <Button size="small" color="primary" className={classes.rezbutton} onClick={handleWebsiteClick}>
                                         Website
                                     </Button>
                                 </CardActions>

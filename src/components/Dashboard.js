@@ -48,6 +48,9 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: '325',
     height: '100%'
   },
+  title: {
+    marginBottom: 40
+  },
   header: {
     color: 'purple',
     align: 'center',
@@ -73,7 +76,11 @@ const useStyles = makeStyles((theme) => ({
   },
   grid: {
     alignItems: "stretch",
-    width: '100%'
+    width: '100%',
+    height: '100%'
+  },
+  subgridleft: {
+    maxWidth: '50%',
   },
   subgrid: {
     maxWidth: '50%',
@@ -83,13 +90,15 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
+    height: 200
   },
   paperflex: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(5),
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
-    marginTop: 10
+    marginTop: 10,
+    height: 200
   },
   divflex: {
     display: 'flex',
@@ -153,21 +162,66 @@ export default function Dashboard({currentPageState}) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  function statusBody(customerinfo) {
+    const laundrystatus = customerinfo.laundrystatus;
+    if (laundrystatus) {
+
+      if (laundrystatus == 'picked-up') {
+        const result = 'Washing and Folding';
+        return result;
+      }
+      else if (laundrystatus == 'out-of-service') {
+        const result = 'No service this week';
+        return result;
+      }
+      else if (laundrystatus=== 'delivered-to-dorm') {
+        const result = 'Delivered';
+        return result;
+      }
+      else if (laundrystatus === 'delivered-to-SH') {
+        const result = 'On the way';
+        return result;
+      }
+    }
+  }
+  function planBody(customerinfo) {
+    const plan = customerinfo.plan;
+    if (plan) {
+
+      if (plan.substring(10) === 'F') {
+        const result = 'Fall ' + plan.substring(0, 9);
+        return result;
+      }
+      else if (plan.substring(10) === 'W') {
+        const result = 'Winter ' + plan.substring(0, 9);
+        return result;
+      }
+      else if (plan.substring(10) === 'S') {
+        const result = 'Spring ' + plan.substring(0, 9);
+        return result;
+      }
+      else if (plan.substring(10) === 'F-W-S') {
+        const result = 'School Year ' + plan.substring(0, 9);
+        return result;
+      }
+    }
+  }
   
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const theme = useTheme();
   return (
         <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={1} classes={classes.grid}>
+          <Grid container spacing={2} classes={classes.grid}>
             {/* Chart */}
-            <Grid item xs={12} className={classes.subgrid}>
-              <Card>
+            <Grid item xs={9} className={classes.subgridleft}>
+              <Card className={classes.statuscard}>
                 <CardContent>
                   <Typography gutterBottom variant="h6" component="h2">
                     Laundry Status
                   </Typography>
                   <Typography gutterBottom variant="h4" component="p">
-                    Washing
+                    {statusBody(customerinfo)}
                   </Typography>
                   <Typography variant="body2" color="textSecondary" component="p">
                     Your laundry is currently being washed and will be with you shortly.
@@ -181,15 +235,51 @@ export default function Dashboard({currentPageState}) {
               </Card>
             </Grid>
             <Grid item xs={12} className={classes.subgrid}>
+              <Grid container spacing={2} classes={classes.grid}>
+                {/* Current Plan */}
+                <Grid item xs={12} className={classes.subgridleft}>
+                  <Card className={classes.paper}>
+                    <Typography gutterBottom variant="h6" component="h2">Current Plan</Typography>
+                    <Typography component="p" variant="h4">
+                      {planBody(customerinfo)}
+                    </Typography>
+                    <Typography color="textSecondary" className={classes.depositContext}>
+                      will end after Fall quarter.
+                    </Typography>
+                    <Button size="small" color="primary" className={classes.rezbutton}>
+                        Account Details
+                    </Button>
+                  </Card>
+                </Grid>
+                {/* Current Weight */}
+                <Grid item xs={12} className={classes.subgridleft}>
+                  <Card className={classes.paper}>
+                    <Typography gutterBottom variant="h6" component="h2">Most Recent Weight</Typography>
+                    <Typography component="p" variant="h4">
+                      {customerinfo.weekweight} lb
+                    </Typography>
+                    <Typography color="textSecondary" className={classes.depositContext}>
+                      of your allowed {customerinfo.maxweight} lb/week limit.
+                    </Typography>
+                    <Typography>No overage charges this week.</Typography>
+                    {/* <Button size="small" color="primary" className={classes.rezbutton}>
+                      Upgrade Plan
+                    </Button> */}
+                    {/* <Typography gutterBottom variant="h6" component="h2">Past Month</Typography> */}
+                    {/* <WeightSpark /> */}
+                  </Card>
+                </Grid>
+                </Grid>
               {/* Recent Activity */}
-              <Grid item xs={12}>
-                <Card className={classes.paper}>
+                <Grid item xs={12}>
+                <Card className={classes.paperflex}>
                   <Typography gutterBottom variant="h6" component="h2">
                     Customer Support
                   </Typography>
                   <Typography color="textSecondary">
                     Help us offer you the best laundry experience we can.
                   </Typography>
+                  
                   <CardActions>
                     <div className={classes.quickbuttons}>
                       <Button size="small" color="primary" className={classes.rezbutton} onClick={() => currentPageState.setCurrentPage('support')}>
@@ -200,20 +290,6 @@ export default function Dashboard({currentPageState}) {
                         Contact RezLaundry</Button>
                     </div>
                   </CardActions>
-                </Card>
-              </Grid>
-              {/* Current Plan */}
-              <Grid item xs={12}>
-                <Card className={classes.paperflex}>
-                    <Typography gutterBottom variant="h6" component="h2">Most Recent Weight</Typography>
-                    <Typography component="p" variant="h4">
-                      {customerinfo.weekweight} lbs
-                    </Typography>
-                    <Typography color="textSecondary" className={classes.depositContext}>
-                      of your allowed {customerinfo.maxweight} lb/week limit.
-                    </Typography>
-                    <Typography gutterBottom variant="h6" component="h2">Past Month</Typography>
-                    <WeightSpark />
                 </Card>
               </Grid>
             </Grid>

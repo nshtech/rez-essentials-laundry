@@ -178,7 +178,7 @@ export default function Account() {
                             className={clsx(classes.menuButton, open && classes.menuButtonHidden)}>
                             <MenuIcon />
                         </IconButton>
-                        <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>Hello, {customerinfo.name}</Typography>
+                        <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>Account Information</Typography>
                         <Button onClick={signOutUser} color="inherit">
                             Logout
                     </Button>
