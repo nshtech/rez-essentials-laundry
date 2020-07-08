@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -125,6 +125,22 @@ export default function CustomerSupport() {
     const [open, setOpen] = React.useState(false)
     const [signout, setSignout] = useState(false)
     const [currentPage, setCurrentPage] = React.useState('support');
+    const [customerinfo, setCustomerInfo] = React.useState({});
+
+    useEffect(() => {
+        const userId = localStorage.getItem('user_id');
+        const db = firebase.database().ref().child('/customers/' + userId);;
+
+        const getCustomer = snap => {
+            console.log(snap.val())
+            if (snap.val()) {
+                setCustomerInfo(snap.val());
+            }
+        }
+        db.on('value', getCustomer, error => alert(error));
+        return () => { db.off('value', getCustomer); };
+    }, []);
+
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -154,19 +170,17 @@ export default function CustomerSupport() {
                 <CssBaseline />
                 <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
                     <Toolbar className={classes.toolbar}>
-                        <IconButton edge="start" color="inherit" aria-label="open drawer" onClick={handleDrawerOpen}
-                            className={clsx(classes.menuButton, open && classes.menuButtonHidden)}>
-                            <MenuIcon />
-                        </IconButton>
+                        <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>{customerinfo.name}</Typography>
                         <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>Customer Support</Typography>
+                        
                         <Button onClick={signOutUser} color="inherit">
                             Logout
                     </Button>
                     </Toolbar>
                 </AppBar>
-                <Drawer variant="permanent" classes={{ paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose), }} open={open}>
+                <Drawer variant="permanent" classes={{ paper: clsx(classes.drawerPaper), }}>
                     <div className={classes.toolbarIcon}>
-                        <IconButton onClick={handleDrawerClose}>
+                        <IconButton>
                             <ChevronLeftIcon />
                         </IconButton>
                     </div>

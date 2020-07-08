@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
+
+// Material UI Core
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
@@ -11,17 +13,26 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
+import { CardActionArea } from '@material-ui/core';
+
+// Material UI Icons
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import FeedbackIcon from '@material-ui/icons/Feedback';
+import SentimentVerySatisfiedIcon from '@material-ui/icons/SentimentVerySatisfied';
+import AssignmentIcon from '@material-ui/icons/Assignment';
+import ContactSupportIcon from '@material-ui/icons/ContactSupport'; 
+
+// Components
+import '../App.css'
 import Title from './Title';
 import { Sparklines, SparklinesReferenceLine, SparklinesLine } from 'react-sparklines';
-import ProfileSnapshot from './ProfileSnapshot';
-import FormSnapshot from './FormSnapshot';
-import CurrentPlan from './CurrentPlan';
 import Orders from './Orders';
-import Cat from './source.gif'
-import '../App.css'
 import Profile from './Profile';
 import WeightSpark from './WeightSpark';
-import { CardActionArea } from '@material-ui/core';
+import statusImage from './shared/getStatusImage'
+import planBody from './shared/getPlanName'
+import statusBody from './shared/getStatusName'
+
 import { Redirect } from 'react-router';
 
 import firebase from 'firebase/app';
@@ -70,8 +81,8 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'auto',
   },
   container: {
-    paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4),
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
 
   },
   grid: {
@@ -85,15 +96,19 @@ const useStyles = makeStyles((theme) => ({
   subgrid: {
     maxWidth: '50%',
   },
+  subgridright: {
+    maxWidth: '50%',
+    minHeight: '100%'
+  },
   paper: {
     padding: theme.spacing(2),
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
-    height: 200
+    minHeight: 200
   },
   paperflex: {
-    padding: theme.spacing(5),
+    padding: theme.spacing(2),
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
@@ -108,7 +123,7 @@ const useStyles = makeStyles((theme) => ({
     width: 50,
   },
   ImageCat: {
-    width: '20%',
+    // width: '20%',
     height: 'auto',
     alignItems: 'center',
     display: 'block',
@@ -130,16 +145,24 @@ const useStyles = makeStyles((theme) => ({
     margin:'auto'
   },
   rezbutton: {
-    backgroundColor: '#6a09a4',
-    color: 'white',
-    margin: 4
+    borderColor: '#6a09a4',
+    color: '#6a09a4',
+    backgroundColor: 'white',
+    margin: 0,
+  },
+  rezbuttonsupport: {
+    borderColor: '#6a09a4',
+    color: '#6a09a4',
+    backgroundColor: 'white',
+    margin: 15,
+    marginTop: 20,
+    padding: 10
   },
 }));
 
 export default function Dashboard({currentPageState}) {
 
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
   const [customerinfo, setCustomerInfo] = React.useState({});
 
   useEffect(() => {
@@ -156,62 +179,18 @@ export default function Dashboard({currentPageState}) {
     return () => { db.off('value', getCustomer); };
   }, []);
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
 
-  function statusBody(customerinfo) {
-    const laundrystatus = customerinfo.laundrystatus;
-    if (laundrystatus) {
-
-      if (laundrystatus == 'picked-up') {
-        const result = 'Washing and Folding';
-        return result;
-      }
-      else if (laundrystatus == 'out-of-service') {
-        const result = 'No service this week';
-        return result;
-      }
-      else if (laundrystatus=== 'delivered-to-dorm') {
-        const result = 'Delivered';
-        return result;
-      }
-      else if (laundrystatus === 'delivered-to-SH') {
-        const result = 'On the way';
-        return result;
-      }
-    }
-  }
-  function planBody(customerinfo) {
-    const plan = customerinfo.plan;
-    if (plan) {
-
-      if (plan.substring(10) === 'F') {
-        const result = 'Fall ' + plan.substring(0, 9);
-        return result;
-      }
-      else if (plan.substring(10) === 'W') {
-        const result = 'Winter ' + plan.substring(0, 9);
-        return result;
-      }
-      else if (plan.substring(10) === 'S') {
-        const result = 'Spring ' + plan.substring(0, 9);
-        return result;
-      }
-      else if (plan.substring(10) === 'F-W-S') {
-        const result = 'School Year ' + plan.substring(0, 9);
-        return result;
-      }
-    }
-  }
   
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const theme = useTheme();
   return (
         <Container maxWidth="lg" className={classes.container}>
+          {/* <Typography component="h3" variant="h4" align="center" color="textPrimary" gutterBottom>
+            My Dashboard
+          </Typography>
+          <Typography variant="h5" align="center" color="textSecondary" paragraph>
+            {customerinfo.name}
+          </Typography> */}
           <Grid container spacing={2} classes={classes.grid}>
             {/* Chart */}
             <Grid item xs={9} className={classes.subgridleft}>
@@ -229,12 +208,12 @@ export default function Dashboard({currentPageState}) {
                 </CardContent>
                 <CardMedia
                   className={classes.media}
-                  image={Cat}
+                  image={statusImage(customerinfo)}
                   title="Cat"
                 />
               </Card>
             </Grid>
-            <Grid item xs={12} className={classes.subgrid}>
+            <Grid item xs={12} className={classes.subgridright}>
               <Grid container spacing={2} classes={classes.grid}>
                 {/* Current Plan */}
                 <Grid item xs={12} className={classes.subgridleft}>
@@ -246,9 +225,13 @@ export default function Dashboard({currentPageState}) {
                     <Typography color="textSecondary" className={classes.depositContext}>
                       will end after Fall quarter.
                     </Typography>
-                    <Button size="small" color="primary" className={classes.rezbutton}>
+                    <CardActions>
+                  <div className={classes.quickbuttons}>
+                    <Button size="small" color="primary" className={classes.rezbutton} onClick={() => currentPageState.setCurrentPage('account')}>
                         Account Details
                     </Button>
+                    </div>
+                    </CardActions>
                   </Card>
                 </Grid>
                 {/* Current Weight */}
@@ -273,23 +256,25 @@ export default function Dashboard({currentPageState}) {
               {/* Recent Activity */}
                 <Grid item xs={12}>
                 <Card className={classes.paperflex}>
-                  <Typography gutterBottom variant="h6" component="h2">
-                    Customer Support
-                  </Typography>
-                  <Typography color="textSecondary">
-                    Help us offer you the best laundry experience we can.
-                  </Typography>
-                  
+                    <Typography gutterBottom variant="h6" component="h2">
+                      Customer Support
+                    </Typography>
+                    <Typography color="textSecondary">
+                      Help us offer you the best laundry experience we can. 
+                    </Typography>
                   <CardActions>
                     <div className={classes.quickbuttons}>
-                      <Button size="small" color="primary" className={classes.rezbutton} onClick={() => currentPageState.setCurrentPage('support')}>
-                        Submit Feedback</Button>
-                      <Button size="small" color="primary" className={classes.rezbutton} onClick={() => currentPageState.setCurrentPage('support')}>
-                        Update Preferences</Button>
-                      <Button size="small" color="primary" className={classes.rezbutton} onClick={() => currentPageState.setCurrentPage('support')}>
-                        Contact RezLaundry</Button>
+                  <Button size="small" color="primary" className={classes.rezbuttonsupport} startIcon={<SentimentVerySatisfiedIcon />} onClick={() => currentPageState.setCurrentPage('support')}>
+                        Give Feedback</Button>
+                  <Button size="small" color="primary" className={classes.rezbuttonsupport} startIcon={<AssignmentIcon />} onClick={() => currentPageState.setCurrentPage('support')}>
+                        Weekly Preferences</Button>
+                  <Button size="small" color="primary" className={classes.rezbuttonsupport} startIcon={<ContactSupportIcon />} onClick={() => currentPageState.setCurrentPage('support')}>
+                    Support Page</Button>
+                      {/* <Button size="small" color="primary" className={classes.rezbutton} onClick={() => currentPageState.setCurrentPage('support')}>
+                        Support Page</Button> */}
                     </div>
                   </CardActions>
+                  
                 </Card>
               </Grid>
             </Grid>

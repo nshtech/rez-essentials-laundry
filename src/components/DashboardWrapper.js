@@ -38,7 +38,7 @@ function Copyright() {
     );
 }
 
-const drawerWidth = 240;
+const drawerWidth = 200;
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -174,19 +174,16 @@ export default function DashboardWrapper() {
                 <CssBaseline />
                 <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
                     <Toolbar className={classes.toolbar}>
-                        <IconButton edge="start" color="inherit" aria-label="open drawer" onClick={handleDrawerOpen}
-                            className={clsx(classes.menuButton, open && classes.menuButtonHidden)}>
-                            <MenuIcon />
-                        </IconButton>
-                        <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>Dashboard</Typography>
+                        <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>{customerinfo.name}</Typography>
+                        <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>RezLaundry Dashboard</Typography>
                         <Button onClick={signOutUser} color="inherit">
                             Logout
                     </Button>
                     </Toolbar>
                 </AppBar>
-                <Drawer variant="permanent" classes={{ paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose), }} open={open}>
+                <Drawer variant="permanent" classes={{ paper: clsx(classes.drawerPaper), }} >
                     <div className={classes.toolbarIcon}>
-                        <IconButton onClick={handleDrawerClose}>
+                        <IconButton>
                             <ChevronLeftIcon />
                         </IconButton>
                     </div>

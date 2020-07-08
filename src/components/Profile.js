@@ -1,13 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+
 import Card from '@material-ui/core/Card';
 import Container from '@material-ui/core/Container';
 import CardContent from '@material-ui/core/CardContent';
-
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
-
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
@@ -15,10 +14,12 @@ import TextField from '@material-ui/core/TextField';
 import Input from '@material-ui/core/Input';
 
 import '../App.css';
+import planBody from './shared/getPlanName'
 
 import firebase from 'firebase/app';
 import 'firebase/database';
 
+// Icons
 import PersonIcon from '@material-ui/icons/Person';
 import LocalLaundryServiceIcon from '@material-ui/icons/LocalLaundryService';
 import PermContactCalendarIcon from '@material-ui/icons/PermContactCalendar';
@@ -209,31 +210,17 @@ function Copyright() {
       }
     }
 
-    function planBody(customerinfo) {
-      const plan = customerinfo.plan;
-      if (plan) {
-  
-      if (plan.substring(10)==='F') {
-        const result = 'Fall ' + plan.substring(0,9);
-        return result;
-      }
-      else if (plan.substring(10)==='W') {
-        const result = 'Winter ' + plan.substring(0,9);
-        return result;
-      }
-      else if (plan.substring(10)==='S') {
-        const result = 'Spring ' + plan.substring(0,9);
-        return result;
-      }
-      else if (plan.substring(10)==='F-W-S') {
-        const result = 'School Year ' + plan.substring(0,9);
-        return result;
-      } }
-    }
+
     {/*EDIT MODE */}
     if (edit) {
       return (
         <Container maxWidth="lg" className={classes.container}>
+          <Typography component="h3" variant="h4" align="center" color="textPrimary" gutterBottom>
+            {customerinfo.name}
+          </Typography>
+          <Typography variant="h5" align="center" color="textSecondary" paragraph>
+            Feel free to contact RezLaundry about any of your needs, present or future!
+          </Typography>
             <Grid container spacing={1} classes={classes.grid} >
               {/* Account Info */}
 
@@ -288,6 +275,9 @@ function Copyright() {
     return (
       
       <Container maxWidth="lg" className={classes.container}>
+        {/* <Typography variant="h5" align="center" color="textSecondary" paragraph>
+          {customerinfo.email}
+        </Typography> */}
           <Grid container spacing={1} classes={classes.grid}>
             {/* Account Info */}
               <Grid item xs={12} sm={8}className={classes.subgrid}>
