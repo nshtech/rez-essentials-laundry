@@ -16,8 +16,6 @@ import Button from '@material-ui/core/Button';
 import { CardActionArea } from '@material-ui/core';
 
 // Material UI Icons
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import FeedbackIcon from '@material-ui/icons/Feedback';
 import SentimentVerySatisfiedIcon from '@material-ui/icons/SentimentVerySatisfied';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import ContactSupportIcon from '@material-ui/icons/ContactSupport'; 
@@ -33,8 +31,7 @@ import statusImage from './shared/getStatusImage'
 import planBody from './shared/getPlanName'
 import statusBody from './shared/getStatusName'
 
-import { Redirect } from 'react-router';
-
+// Firebase
 import firebase from 'firebase/app';
 import 'firebase/database';
 

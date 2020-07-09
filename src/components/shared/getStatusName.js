@@ -4,7 +4,7 @@ export default function statusBody(customerinfo) {
 
         if (laundrystatus == 'picked-up') {
             const result = 'Washing and Folding';
-            return 'Washing and Folding';
+            return result;
         }
         else if (laundrystatus == 'out-of-service') {
             const result = 'No service this week';
