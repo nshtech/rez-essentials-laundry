@@ -342,7 +342,7 @@ function Copyright() {
                   <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}>
                     <PermContactCalendarIcon style={{ verticalAlign: 'middle'}}/>{' '}Contact Information
                   </Typography>
-                  <Typography component="p" variant="body1">
+                  <Typography component="h3" variant="h6">
                   <Typography variant="body2" component="p" color="textSecondary">PHONE<br/></Typography>
                   {customerinfo.phone} <br/>
                   <Divider />
