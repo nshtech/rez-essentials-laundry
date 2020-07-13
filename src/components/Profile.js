@@ -13,6 +13,10 @@ import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 import TextField from '@material-ui/core/TextField';
 import Input from '@material-ui/core/Input';
+import Divider from '@material-ui/core/Divider';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 
 import '../App.css';
 import planBody from './shared/getPlanName'
@@ -128,10 +132,13 @@ function Copyright() {
     textField: {
       marginLeft: theme.spacing(1),
       marginRight: theme.spacing(1),
-      //width: '40ch',
+      width: '33ch',
     },
     cardtitle: {
       verticalAlign: 'bottom',
+    },
+    dividers: {
+      color: 'darkgrey',
     }
 
   }));
@@ -239,11 +246,21 @@ function Copyright() {
                     <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}>
                       <PersonIcon style={{ verticalAlign: 'middle'}}/>{'  '}User Information
                     </Typography>
-                    <Typography gutterBottom variant="body1" component="p">
-                        CUSTOMER ID: {customerinfo.id} <br/>
-                        RESIDENTIAL HALL: {customerinfo.reshall} <br/>
-                        CURRENT PLAN: {planBody(customerinfo)}<br/>
-                        WEIGHT LIMIT: {customerinfo.maxweight} lb/week
+                    <Typography gutterBottom variant="h6" component="h3">
+                        <Typography variant="body2" component="p" color="textSecondary">CUSTOMER ID <br/></Typography>
+                        {customerinfo.id} <br/>
+                        <Divider />
+    
+                        <Typography variant="body2" component="p" color="textSecondary">RESIDENCE HALL <br/></Typography>
+                        {customerinfo.reshall} <br/>
+                        <Divider />
+
+                        <Typography variant="body2" component="p" color="textSecondary">CURRENT PLAN <br/></Typography>
+                        {planBody(customerinfo)}<br/>
+                        <Divider />
+
+                        <Typography variant="body2" component="p" color="textSecondary">WEIGHT LIMIT <br/></Typography>
+                        {customerinfo.maxweight} lb/week
                     </Typography>
                   </CardContent>
                 </Card>
@@ -254,7 +271,7 @@ function Copyright() {
                     <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}>
                       <PermContactCalendarIcon style={{ verticalAlign: 'middle'}}/>{' '}Contact Information
                     </Typography>
-                    <Typography component="p" variant="body1">
+                    <Typography component="p" variant="body1" color="textSecondary">
                       PHONE: <Input  name="phone" placeholder={customerinfo.phone} defaultValue={customerinfo.phone} className={classes.textField} onChange={handleInputChange}/> <br/>
                       EMAIL: <Input margin="dense" name="email" placeholder={customerinfo.email} defaultValue={customerinfo.email} className={classes.textField} onChange={handleInputChange}/>
                     </Typography>
@@ -302,12 +319,20 @@ function Copyright() {
                   <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}>
                     <PersonIcon style={{ verticalAlign: 'middle'}}/>{' '}User Information
                   </Typography>
-                  <Typography gutterBottom variant="body1" component="p">
-                      CUSTOMER ID: {customerinfo.id} <br/>
-                      RESIDENTIAL HALL: {customerinfo.reshall} <br/>
-                      CURRENT PLAN: {planBody(customerinfo)}<br/>
-                      WEIGHT LIMIT: {customerinfo.maxweight} lb/week
-                  </Typography>
+                  <Typography gutterBottom variant="h6" component="h3">
+                        <Typography variant="body2" component="p" color="textSecondary">CUSTOMER ID <br/></Typography> 
+                        {customerinfo.id} <br/>
+                        <Divider />
+                    <Typography variant="body2" component="p" color="textSecondary">RESIDENCE HALL <br/></Typography> 
+                        {customerinfo.reshall} <br/>
+                        <Divider />
+                    <Typography variant="body2" component="p" color="textSecondary">CURRENT PLAN <br/></Typography> 
+                      {planBody(customerinfo)} <br/>
+                        <Divider />
+                    <Typography variant="body2" component="p" color="textSecondary">WEIGHT LIMIT<br/></Typography> 
+                        {customerinfo.maxweight} lb/week <br/>
+                    </Typography>
+                  
                 </CardContent>
               </Card>
             </Grid>
@@ -318,8 +343,11 @@ function Copyright() {
                     <PermContactCalendarIcon style={{ verticalAlign: 'middle'}}/>{' '}Contact Information
                   </Typography>
                   <Typography component="p" variant="body1">
-                    PHONE: {customerinfo.phone} <br/>
-                    EMAIL: {customerinfo.email} <br/>
+                  <Typography variant="body2" component="p" color="textSecondary">PHONE<br/></Typography>
+                  {customerinfo.phone} <br/>
+                  <Divider />
+                  <Typography variant="body2" component="p" color="textSecondary">EMAIL <br/></Typography>
+                  {customerinfo.email} <br/>
                   </Typography>
                   <CardActions>
                   <div className={classes.quickbuttons}>
