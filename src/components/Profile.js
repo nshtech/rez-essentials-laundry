@@ -5,6 +5,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import Container from '@material-ui/core/Container';
 import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
@@ -12,6 +13,10 @@ import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 import TextField from '@material-ui/core/TextField';
 import Input from '@material-ui/core/Input';
+import Divider from '@material-ui/core/Divider';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 
 import '../App.css';
 import planBody from './shared/getPlanName'
@@ -112,17 +117,28 @@ function Copyright() {
     depositContext: {
       paddingBottom: 15
     },
+    quickbuttons: {
+      padding: 'auto',
+      display: 'flex',
+      alignItems: 'center',
+      margin:'auto'
+    },
     rezbutton: {
-      backgroundColor: '#6a09a4',
-      color: 'white'
+      borderColor: '#6a09a4',
+      color: '#6a09a4',
+      backgroundColor: 'white',
+      margin: 0,
     },
     textField: {
       marginLeft: theme.spacing(1),
       marginRight: theme.spacing(1),
-      width: '40ch',
+      width: '33ch',
     },
     cardtitle: {
       verticalAlign: 'bottom',
+    },
+    dividers: {
+      color: 'darkgrey',
     }
 
   }));
@@ -230,11 +246,21 @@ function Copyright() {
                     <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}>
                       <PersonIcon style={{ verticalAlign: 'middle'}}/>{'  '}User Information
                     </Typography>
-                    <Typography gutterBottom variant="body1" component="p">
-                        <b>Customer ID:</b> {customerinfo.id} <br/>
-                        <b>Residential Hall:</b> {customerinfo.reshall} <br/>
-                        <b>Current Plan:</b> {planBody(customerinfo)}<br/>
-                        <b>Weight Limit:</b> {customerinfo.maxweight} lb/week
+                    <Typography gutterBottom variant="h6" component="h3">
+                        <Typography variant="body2" component="p" color="textSecondary">CUSTOMER ID <br/></Typography>
+                        {customerinfo.id} <br/>
+                        <Divider />
+    
+                        <Typography variant="body2" component="p" color="textSecondary">RESIDENCE HALL <br/></Typography>
+                        {customerinfo.reshall} <br/>
+                        <Divider />
+
+                        <Typography variant="body2" component="p" color="textSecondary">CURRENT PLAN <br/></Typography>
+                        {planBody(customerinfo)}<br/>
+                        <Divider />
+
+                        <Typography variant="body2" component="p" color="textSecondary">WEIGHT LIMIT <br/></Typography>
+                        {customerinfo.maxweight} lb/week
                     </Typography>
                   </CardContent>
                 </Card>
@@ -243,12 +269,19 @@ function Copyright() {
               <Grid item xs={12} sm={8} className={classes.subgrid}>
                   <Card className={classes.paperContact}>
                     <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}>
-                      <PermContactCalendarIcon style={{ verticalAlign: 'middle'}}/>{' '}Contact Information <Button size="small" variant="contained" className={classes.rezbutton} onClick={() => {saveContactInfo()}}><b>SAVE</b></Button>
+                      <PermContactCalendarIcon style={{ verticalAlign: 'middle'}}/>{' '}Contact Information
                     </Typography>
-                    <Typography component="p" variant="body1">
-                      <b>Phone:</b> <Input name="phone" placeholder={customerinfo.phone} defaultValue={customerinfo.phone} className={classes.textField} onChange={handleInputChange}/> <br/>
-                      <b>Email:</b> <Input name="email" placeholder={customerinfo.email} defaultValue={customerinfo.email} className={classes.textField} onChange={handleInputChange}/>
+                    <Typography component="p" variant="body1" color="textSecondary">
+                      PHONE: <Input  name="phone" placeholder={customerinfo.phone} defaultValue={customerinfo.phone} className={classes.textField} onChange={handleInputChange}/> <br/>
+                      EMAIL: <Input margin="dense" name="email" placeholder={customerinfo.email} defaultValue={customerinfo.email} className={classes.textField} onChange={handleInputChange}/>
                     </Typography>
+                    <CardActions>
+                    <div className={classes.quickbuttons}>
+                    <Button size="large" color="primary" className={classes.rezbutton} onClick={() => {saveContactInfo()}}>
+                        SAVE
+                    </Button>
+                    </div>
+                    </CardActions>
                   </Card>
                 </Grid>
               <Grid container item xs={12} className={classes.grid}>
@@ -286,12 +319,20 @@ function Copyright() {
                   <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}>
                     <PersonIcon style={{ verticalAlign: 'middle'}}/>{' '}User Information
                   </Typography>
-                  <Typography gutterBottom variant="body1" component="p">
-                      <b>Customer ID:</b> {customerinfo.id} <br/>
-                      <b>Residential Hall:</b> {customerinfo.reshall} <br/>
-                    <b>Current Plan:</b> {planBody(customerinfo)}<br/>
-                      <b>Weight Limit:</b> {customerinfo.maxweight} lb/week
-                  </Typography>
+                  <Typography gutterBottom variant="h6" component="h3">
+                        <Typography variant="body2" component="p" color="textSecondary">CUSTOMER ID <br/></Typography> 
+                        {customerinfo.id} <br/>
+                        <Divider />
+                    <Typography variant="body2" component="p" color="textSecondary">RESIDENCE HALL <br/></Typography> 
+                        {customerinfo.reshall} <br/>
+                        <Divider />
+                    <Typography variant="body2" component="p" color="textSecondary">CURRENT PLAN <br/></Typography> 
+                      {planBody(customerinfo)} <br/>
+                        <Divider />
+                    <Typography variant="body2" component="p" color="textSecondary">WEIGHT LIMIT<br/></Typography> 
+                        {customerinfo.maxweight} lb/week <br/>
+                    </Typography>
+                  
                 </CardContent>
               </Card>
             </Grid>
@@ -299,12 +340,22 @@ function Copyright() {
             <Grid item xs={12} sm={8} className={classes.subgrid}>
                 <Card className={classes.paperContact}>
                   <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}>
-                    <PermContactCalendarIcon style={{ verticalAlign: 'middle'}}/>{' '}Contact Information <Button size="small" variant="contained" className={classes.rezbutton} onClick={() => {setEdit(true)}}><b>EDIT</b></Button>
+                    <PermContactCalendarIcon style={{ verticalAlign: 'middle'}}/>{' '}Contact Information
                   </Typography>
-                  <Typography component="p" variant="body1">
-                    <b>Phone:</b> {customerinfo.phone} <br/>
-                    <b>Email:</b> {customerinfo.email} <br/>
+                  <Typography component="h3" variant="h6">
+                  <Typography variant="body2" component="p" color="textSecondary">PHONE<br/></Typography>
+                  {customerinfo.phone} <br/>
+                  <Divider />
+                  <Typography variant="body2" component="p" color="textSecondary">EMAIL <br/></Typography>
+                  {customerinfo.email} <br/>
                   </Typography>
+                  <CardActions>
+                  <div className={classes.quickbuttons}>
+                    <Button size="large" color="primary" className={classes.rezbutton} onClick={() => {setEdit(true)}}>
+                        EDIT
+                    </Button>
+                    </div>
+                  </CardActions>
                 </Card>
               </Grid>
             <Grid container item xs={12} className={classes.grid}>
