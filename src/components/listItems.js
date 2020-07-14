@@ -45,12 +45,12 @@ export default function MainListItems({ currentPageState }) {
           </ListItemIcon>
           <ListItemText primary="Support" />
         </ListItem>
-        <ListItem button>
+        {/* <ListItem button>
           <ListItemIcon>
             <AssignmentIcon />
           </ListItemIcon>
           <ListItemText primary="Usage" />
-        </ListItem>
+        </ListItem> */}
       </div>
     </List>
     )

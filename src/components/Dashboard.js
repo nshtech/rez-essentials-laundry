@@ -34,6 +34,7 @@ import statusBody from './shared/getStatusName'
 // Firebase
 import firebase from 'firebase/app';
 import 'firebase/database';
+import { green } from '@material-ui/core/colors';
 
 function Copyright() {
   return (
@@ -88,16 +89,37 @@ const useStyles = makeStyles((theme) => ({
     height: '100%'
   },
   subgridleft: {
-    maxWidth: '50%',
+    maxWidth: '55%',
   },
+  subgridaccount: {
+    maxWidth: '50%'
+  },
+  // subgridweight: {
+  //   maxWidth: '50%'
+  // },
   subgrid: {
     maxWidth: '50%',
   },
   subgridright: {
-    maxWidth: '50%',
-    minHeight: '100%'
+    maxWidth: '45%',
+    minHeight: '100%',
+    alignItems: "stretch",
   },
   paper: {
+    padding: theme.spacing(2),
+    display: 'flex',
+    overflow: 'auto',
+    flexDirection: 'column',
+    minHeight: 200
+  },
+  paperweight: {
+    padding: theme.spacing(2),
+    display: 'flex',
+    overflow: 'auto',
+    flexDirection: 'column',
+    minHeight: 200
+  },
+  paperaccount: {
     padding: theme.spacing(2),
     display: 'flex',
     overflow: 'auto',
@@ -110,7 +132,7 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'auto',
     flexDirection: 'column',
     marginTop: 10,
-    height: 200
+    minHeight: 100
   },
   divflex: {
     display: 'flex',
@@ -149,12 +171,20 @@ const useStyles = makeStyles((theme) => ({
   },
   rezbuttonsupport: {
     borderColor: '#6a09a4',
+    borderWidth: 5,
     color: '#6a09a4',
     backgroundColor: 'white',
-    margin: 15,
-    marginTop: 20,
+    marginLeft: 15,
+    marginRight: 15,
+    marginTop: 10,
     padding: 10
   },
+  underweight: {
+    color: 'green'
+  },
+  overweight: {
+    color: 'red'
+  }
 }));
 
 export default function Dashboard({currentPageState}) {
@@ -176,18 +206,25 @@ export default function Dashboard({currentPageState}) {
     return () => { db.off('value', getCustomer); };
   }, []);
 
+  function weightLimit(customerinfo, classes) {
+    const weekweight = customerinfo.weekweight;
+    if (customerinfo.weekweight) {
+
+      if (customerinfo.weekweight > customerinfo.maxweight) {
+        return classes.overweight;
+      }
+      else{
+        return classes.underweight;
+      }
+    }
+  }
+
 
   
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const theme = useTheme();
   return (
         <Container maxWidth="lg" className={classes.container}>
-          {/* <Typography component="h3" variant="h4" align="center" color="textPrimary" gutterBottom>
-            My Dashboard
-          </Typography>
-          <Typography variant="h5" align="center" color="textSecondary" paragraph>
-            {customerinfo.name}
-          </Typography> */}
           <Grid container spacing={2} classes={classes.grid}>
             {/* Chart */}
             <Grid item xs={9} className={classes.subgridleft}>
@@ -213,10 +250,10 @@ export default function Dashboard({currentPageState}) {
             <Grid item xs={12} className={classes.subgridright}>
               <Grid container spacing={2} classes={classes.grid}>
                 {/* Current Plan */}
-                <Grid item xs={12} className={classes.subgridleft}>
-                  <Card className={classes.paper}>
+                {/* <Grid item xs={12} className={classes.subgridaccount}>
+                  <Card className={classes.paperaccount}>
                     <Typography gutterBottom variant="h6" component="h2">Current Plan</Typography>
-                    <Typography component="p" variant="h4">
+                    <Typography component="h2" variant="h7">
                       {planBody(customerinfo)}
                     </Typography>
                     <Typography color="textSecondary" className={classes.depositContext}>
@@ -230,28 +267,30 @@ export default function Dashboard({currentPageState}) {
                     </div>
                     </CardActions>
                   </Card>
-                </Grid>
+                </Grid> */}
                 {/* Current Weight */}
-                <Grid item xs={12} className={classes.subgridleft}>
-                  <Card className={classes.paper}>
+                <Grid item xs={12} className={classes.subgridweight}>
+                  <Card className={classes.paperweight}>
                     <Typography gutterBottom variant="h6" component="h2">Most Recent Weight</Typography>
-                    <Typography component="p" variant="h4">
+                    <Typography component="h2" variant="h4" className={weightLimit(customerinfo, classes)}>
                       {customerinfo.weekweight} lb
                     </Typography>
                     <Typography color="textSecondary" className={classes.depositContext}>
                       of your allowed {customerinfo.maxweight} lb/week limit.
                     </Typography>
-                    <Typography>No overage charges this week.</Typography>
+                    {/* <Typography>No overage charges this week.</Typography> */}
                     {/* <Button size="small" color="primary" className={classes.rezbutton}>
                       Upgrade Plan
                     </Button> */}
                     {/* <Typography gutterBottom variant="h6" component="h2">Past Month</Typography> */}
-                    {/* <WeightSpark /> */}
+                    <Typography gutterBottom variant="h6" component="h2">Weight Usage</Typography>
+                    <WeightSpark customerinfo={customerinfo} />
                   </Card>
+                  
                 </Grid>
                 </Grid>
               {/* Recent Activity */}
-                <Grid item xs={12}>
+                <Grid item xs={12} className={classes.customergrid}>
                 <Card className={classes.paperflex}>
                     <Typography gutterBottom variant="h6" component="h2">
                       Customer Support
@@ -265,13 +304,13 @@ export default function Dashboard({currentPageState}) {
                         Give Feedback</Button>
                   <Button size="small" color="primary" className={classes.rezbuttonsupport} startIcon={<AssignmentIcon />} onClick={() => currentPageState.setCurrentPage('support')}>
                         Weekly Preferences</Button>
-                  <Button size="small" color="primary" className={classes.rezbuttonsupport} startIcon={<ContactSupportIcon />} onClick={() => currentPageState.setCurrentPage('support')}>
-                    Support Page</Button>
                       {/* <Button size="small" color="primary" className={classes.rezbutton} onClick={() => currentPageState.setCurrentPage('support')}>
                         Support Page</Button> */}
                     </div>
+                {/* <Button size="small" color="primary" className={classes.rezbuttonsupport} startIcon={<ContactSupportIcon />} onClick={() => currentPageState.setCurrentPage('support')}>
+                  Support Page</Button> */}
                   </CardActions>
-                  
+
                 </Card>
               </Grid>
             </Grid>

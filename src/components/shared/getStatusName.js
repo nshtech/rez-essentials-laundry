@@ -18,5 +18,9 @@ export default function statusBody(customerinfo) {
             const result = 'On the way';
             return result;
         }
+        else if (laundrystatus == 'missing') {
+            const result = 'No service this week';
+            return result;
+        }
     }
 }

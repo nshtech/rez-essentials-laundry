@@ -74,6 +74,7 @@ function Copyright() {
       //justify: "space-evenly",
       alignItems: "stretch",
       width: '100%',
+      height: 300,
     },
     subgrid: {
        maxWidth: '50%',
@@ -81,22 +82,21 @@ function Copyright() {
        display: 'flex',
        flexDirection: 'column',
        //overflow: 'auto',
-       minHeight: 180,
     },
     paper: {
       paddingLeft: theme.spacing(1),
       paddingRight: theme.spacing(2),
-      minHeight: 180,
+      height:300,
       display: 'flex',
       overflow: 'auto',
       flexDirection: 'column',
     },
     paperContact: {
       padding: theme.spacing(2),
-      minHeight: 180,
+      height:300,
       display: 'flex',
       overflow: 'auto',
-      flexDirection: 'column',
+      flexDirection: 'column'
     },
     paperbottom: {
       padding: theme.spacing(2),
@@ -231,12 +231,12 @@ function Copyright() {
     if (edit) {
       return (
         <Container maxWidth="lg" className={classes.container}>
-          <Typography component="h3" variant="h4" align="center" color="textPrimary" gutterBottom>
+          {/* <Typography component="h3" variant="h4" align="center" color="textPrimary" gutterBottom>
             {customerinfo.name}
           </Typography>
           <Typography variant="h5" align="center" color="textSecondary" paragraph>
             Feel free to contact RezLaundry about any of your needs, present or future!
-          </Typography>
+          </Typography> */}
             <Grid container spacing={1} classes={classes.grid} >
               {/* Account Info */}
 
@@ -343,6 +343,7 @@ function Copyright() {
                     <PermContactCalendarIcon style={{ verticalAlign: 'middle'}}/>{' '}Contact Information
                   </Typography>
                   <Typography component="h3" variant="h6">
+
                   <Typography variant="body2" component="p" color="textSecondary">PHONE<br/></Typography>
                   {customerinfo.phone} <br/>
                   <Divider />
@@ -352,7 +353,7 @@ function Copyright() {
                   <CardActions>
                   <div className={classes.quickbuttons}>
                     <Button size="large" color="primary" className={classes.rezbutton} onClick={() => {setEdit(true)}}>
-                        EDIT
+                        EDIT CONTACT INFO
                     </Button>
                     </div>
                   </CardActions>
