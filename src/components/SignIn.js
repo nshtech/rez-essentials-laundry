@@ -68,13 +68,14 @@ function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-export default function SignIn() {
+export default function SignIn({userstate}) {
     const classes = useStyles();
     const [userId, setUserId] = useState(null);
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
     const [loggedIn, setLoggedIn] = useState(false);
     const [noEmailFound, setNoEmailFound] = useState(false);
+    console.log(userstate)
 
     const [open, setOpen] = React.useState(false);
 
@@ -107,6 +108,7 @@ export default function SignIn() {
                         // console.log(data.val().id)
                         setUserId(data.val().id)
                         localStorage.setItem('user_id', data.val().id);
+                        userstate.setUser(data.val().id)
                     }
                 });
             });
@@ -118,6 +120,7 @@ export default function SignIn() {
         }
 
     };
+    console.log(userstate)
 
     if (userId) {
         console.log("TRYING TO REDIRECT")
@@ -167,10 +170,10 @@ export default function SignIn() {
                             autoComplete="current-password"
                             onChange={updatePasswordInput}
                         />
-                        <FormControlLabel
+                        {/* <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}
                             label="Remember me"
-                        />
+                        /> */}
                         <Button
                             // type="submit"
                             fullWidth
@@ -181,11 +184,11 @@ export default function SignIn() {
                             Sign In
                         </Button>
                         <Grid container>
-                            <Grid item xs>
+                            {/* <Grid item xs>
                                 <Link href="#" variant="body2">
                                     Forgot password?
                                 </Link>
-                            </Grid>
+                            </Grid> */}
                             <Grid item>
                                 <Link href="/signup" variant="body2">
                                     {"Don't have an account? Sign Up"}

@@ -200,7 +200,7 @@ export default function Account() {
 
         );
     } else {
-        // localStorage.removeItem('user_id');
-        return <Redirect to="/signup"></Redirect>
+        localStorage.removeItem('user_id');
+        return <Redirect to="/"></Redirect>
     }
 }

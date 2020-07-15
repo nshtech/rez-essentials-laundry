@@ -32,17 +32,32 @@ const THEME = createMuiTheme({
 
 function App() {
   const [user, setUser] = useState(null);
-  const [uid, setUid] = useState(null);
+  console.log(user)
 
+  const [customerinfo, setCustomerInfo] = React.useState({});
+
+  useEffect(() => {
+    // const userId = localStorage.getItem('user_id');
+    const db = firebase.database().ref().child('/customers/' + user);;
+
+    const getCustomer = snap => {
+      console.log(snap.val())
+      if (snap.val()) {
+        setCustomerInfo(snap.val());
+      }
+    }
+    db.on('value', getCustomer, error => alert(error));
+    return () => { db.off('value', getCustomer); };
+  }, []);
 
   return (
       <MuiThemeProvider theme={THEME}>
         <BrowserRouter>
           <Switch>
-            <Route path="/dashboard" exact component={() => <DashboardWrapper />}></Route>
-            <Route path="/account" exact component={() => <Account />}></Route>
-            <Route path="/support" exact component={() => <CustomerSupport />}></Route>
-            <Route path="/" exact component={() => <SignIn />}></Route>
+            <Route path="/dashboard" exact component={() => <DashboardWrapper user={user}/>}></Route>
+            <Route path="/account" exact component={() => <Account user={user}/>}></Route>
+            <Route path="/support" exact component={() => <CustomerSupport user={user} />}></Route>
+            <Route path="/" exact component={() => <SignIn userstate={{ user, setUser }}/>}></Route>
             <Route path="/signup" exact component={() => <SignUp />}></Route>
             <Route path="/404" render={() => <div>404</div>}></Route>
           </Switch>

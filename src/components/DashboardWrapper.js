@@ -118,11 +118,9 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-export default function DashboardWrapper() {
+export default function DashboardWrapper({user}) {
 
     const classes = useStyles();
-    const [user, setUser] = useState(null)
-    // const [uid, setUid]
     const [open, setOpen] = React.useState(false)
     const [signout, setSignout] = useState(false)
     const [currentPage, setCurrentPage] = React.useState('dashboard');
@@ -199,8 +197,8 @@ export default function DashboardWrapper() {
 
         );
     } else {
-        // localStorage.removeItem('user_id');
-        return <Redirect to="/signup"></Redirect>
+        localStorage.removeItem('user_id');
+        return <Redirect to="/"></Redirect>
     }
 
     }

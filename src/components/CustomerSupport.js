@@ -196,6 +196,6 @@ export default function CustomerSupport() {
 
         );
     } else {
-        return <Redirect to="/signup"></Redirect>
+        return <Redirect to="/"></Redirect>
     }
 }
