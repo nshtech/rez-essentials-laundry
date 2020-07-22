@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import Avatar from '@material-ui/core/Avatar';
@@ -68,16 +68,40 @@ function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-export default function SignIn({userstate}) {
+export default function SignIn() {
     const classes = useStyles();
     const [userId, setUserId] = useState(null);
     const [email, setEmail] = useState(null);
+    const [id, setId] = useState(null);
     const [password, setPassword] = useState(null);
     const [loggedIn, setLoggedIn] = useState(false);
-    const [noEmailFound, setNoEmailFound] = useState(false);
-    console.log(userstate)
+    const [allemails, setAllEmails] = useState([]);
+    const [allids, setAllIds] = useState([]);
 
     const [open, setOpen] = React.useState(false);
+
+    // useEffect(() => {
+    //     const db = firebase.database().ref().child('/customers');
+    //     const emailArray = [];
+    //     firebase.database().ref('/customers').on('value', function (snapshot) {
+    //         snapshot.forEach(function (childSnapshot) {
+    //             emailArray.push(childSnapshot.val().email);
+    //         })});
+
+    //     setAllEmails(emailArray);
+
+    // }, [allemails]);
+    // useEffect(() => {
+    //     const db = firebase.database().ref().child('/customers');
+
+    //     const getIds = snap => {
+    //         if (snap.val()) {
+    //             setAllIds(Object.values(snap.val()));
+    //         }
+    //     }
+    //     db.on('value', getIds, error => alert(error));
+    //     return () => { db.off('value', getIds); };
+    // }, [allids]);
 
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -90,6 +114,10 @@ export default function SignIn({userstate}) {
         console.log(event.target.value)
         setEmail(event.target.value)
     }
+    const updateIdInput = (event) => {
+        console.log(event.target.value)
+        setId(event.target.value)
+    }
 
     const updatePasswordInput = (event) => {
         setPassword(event.target.value)
@@ -100,29 +128,34 @@ export default function SignIn({userstate}) {
         console.log(email)
         console.log(password)
         if (email != null && password != null) {
-            db.child('/users/').on("value", function (snapshot) {
+            
+                
+            db.child('/customers/').on("value", function (snapshot) {
                 console.log(snapshot.val());
                 snapshot.forEach(function (data) {
-                    if (data.val().email == email && data.val().password == password) {
-                        console.log("email found!!!")
-                        // console.log(data.val().id)
-                        setUserId(data.val().id)
-                        localStorage.setItem('user_id', data.val().id);
-                        userstate.setUser(data.val().id)
+                    console.log(data.val().email)
+                    console.log(data.val().id)
+                    if (data.val().email == email & data.val().id == id) {
+                        localStorage.setItem('user_email', email);
+                        localStorage.setItem('user_id', id);
+                        localStorage.setItem('user_password', password);
+                        setLoggedIn(true)
                     }
                 });
             });
-            const isuser = localStorage.getItem('user_id');
-            console.log(isuser)
-            if (!isuser) {
-                setOpen(true);
-            }
-        }
-
+            
+            // const isuser = localStorage.getItem('user_id');
+            // console.log(isuser)
+            // if (!isuser) {
+            //     setOpen(true);
+            // }
+        // }
+    }
     };
-    console.log(userstate)
 
-    if (userId) {
+    const uservalidated = localStorage.getItem('user_id');
+    
+    if (loggedIn) {
         console.log("TRYING TO REDIRECT")
         return <Redirect to="/dashboard"></Redirect>
     }
@@ -156,6 +189,18 @@ export default function SignIn({userstate}) {
                             name="email"
                             autoComplete="email"
                             onChange={updateEmailInput}
+                            autoFocus
+                        />
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="id"
+                            label="Customer Id"
+                            name="id"
+                            autoComplete="id"
+                            onChange={updateIdInput}
                             autoFocus
                         />
                         <TextField
@@ -202,5 +247,4 @@ export default function SignIn({userstate}) {
                 </div>
             </Grid>
         </Grid>
-    );
-}
+    );}
