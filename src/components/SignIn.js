@@ -24,7 +24,7 @@ function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
             {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
+            <Link color="inherit" href="https://rezessentials.com/">
                 Rez Essentials Laundry
       </Link>{' '}
             {new Date().getFullYear()}
@@ -73,7 +73,7 @@ export default function SignIn() {
     const [userId, setUserId] = useState(null);
     const [email, setEmail] = useState(null);
     const [id, setId] = useState(null);
-    const [password, setPassword] = useState(null);
+    // const [password, setPassword] = useState(null);
     const [loggedIn, setLoggedIn] = useState(false);
     const [allemails, setAllEmails] = useState([]);
     const [allids, setAllIds] = useState([]);
@@ -119,15 +119,15 @@ export default function SignIn() {
         setId(event.target.value)
     }
 
-    const updatePasswordInput = (event) => {
-        setPassword(event.target.value)
-    }
+    // const updatePasswordInput = (event) => {
+    //     setPassword(event.target.value)
+    // }
 
     const checkUser = () => {
         const db = firebase.database().ref()
         console.log(email)
-        console.log(password)
-        if (email != null && password != null) {
+        // console.log(password)
+        if (email != null && id != null) {
             
                 
             db.child('/customers/').on("value", function (snapshot) {
@@ -138,7 +138,7 @@ export default function SignIn() {
                     if (data.val().email == email & data.val().id == id) {
                         localStorage.setItem('user_email', email);
                         localStorage.setItem('user_id', id);
-                        localStorage.setItem('user_password', password);
+                        // localStorage.setItem('user_password', password);
                         setLoggedIn(true)
                     }
                 });
@@ -203,7 +203,7 @@ export default function SignIn() {
                             onChange={updateIdInput}
                             autoFocus
                         />
-                        <TextField
+                        {/* <TextField
                             variant="outlined"
                             margin="normal"
                             required
@@ -214,7 +214,7 @@ export default function SignIn() {
                             id="password"
                             autoComplete="current-password"
                             onChange={updatePasswordInput}
-                        />
+                        /> */}
                         {/* <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}
                             label="Remember me"
@@ -229,16 +229,16 @@ export default function SignIn() {
                             Sign In
                         </Button>
                         <Grid container>
-                            {/* <Grid item xs>
-                                <Link href="#" variant="body2">
-                                    Forgot password?
+                            <Grid item xs>
+                                <Link href="mailto:rezessentials@studentholdings.org" variant="body2">
+                                    Forgot customer ID?
                                 </Link>
-                            </Grid> */}
-                            <Grid item>
+                            </Grid>
+                            {/* <Grid item>
                                 <Link href="/signup" variant="body2">
                                     {"Don't have an account? Sign Up"}
                                 </Link>
-                            </Grid>
+                            </Grid> */}
                         </Grid>
                         <Box mt={5}>
                             <Copyright />

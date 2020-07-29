@@ -58,7 +58,6 @@ function App() {
             <Route path="/account" exact component={() => <Account user={user}/>}></Route>
             <Route path="/support" exact component={() => <CustomerSupport user={user} />}></Route>
             <Route path="/" exact component={() => <SignIn />}></Route>
-            <Route path="/signup" exact component={() => <SignUp />}></Route>
             <Route path="/404" render={() => <div>404</div>}></Route>
           </Switch>
         </BrowserRouter>

@@ -8,6 +8,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -16,11 +17,11 @@ import Link from '@material-ui/core/Link';
 
 function Copyright() {
     return (
-        <Typography variant="body2" color="purple" align="center">
+        <Typography variant="body2" color="textSecondary" align="center">
             {'Copyright © '}
-            <Link color="purple" href="https://material-ui.com/">
-                Your Website
-            </Link>{' '}
+            <Link color="inherit" href="https://rezessentials.com/">
+                Rez Essentials Laundry
+      </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
         </Typography>
@@ -64,10 +65,11 @@ const useStyles = makeStyles((theme) => ({
         margin:'auto'
     },
     rezbutton: {
-        backgroundColor: '#6a09a4',
-        color: 'white',
-        margin: 4
-    }
+        borderColor: '#6a09a4',
+        color: '#6a09a4',
+        backgroundColor: 'white',
+        margin: 0,
+    },
 }));
 
 const cards = [1, 2, 3];
@@ -75,7 +77,11 @@ const cards = [1, 2, 3];
 export default function Album({ currentPageState }) {
     const classes = useStyles();
     const handleWebsiteClick = () => {
-        window.location.assign('https://rezessentials.com/');
+        window.location.assign('https://rezessentials.com/pages/contact-us');
+    }
+    
+    const handleEmailClick = () => {
+        window.location.assign('mailto:rezessentials@studentholdings.org');
     }
 
     return (
@@ -170,7 +176,7 @@ export default function Album({ currentPageState }) {
                                     </Typography>
                                 </CardContent>
                                 <CardActions>
-                                    <Button size="small" color="primary" className={classes.rezbutton}>
+                                    <Button size="small" color="primary" className={classes.rezbutton} onClick={handleEmailClick}>
                                         Email
                                     </Button>
                                     <Button size="small" color="primary" className={classes.rezbutton} onClick={handleWebsiteClick}>
@@ -180,6 +186,9 @@ export default function Album({ currentPageState }) {
                             </Card>
                     </Grid>
                     </Grid>
+                    <Box mt={5}>
+                        <Copyright />
+                    </Box>
                 </Container>
             </main>
             {/* Footer */}

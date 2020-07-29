@@ -22,5 +22,8 @@ export default function statusBody(customerinfo) {
             const result = 'No service this week';
             return result;
         }
+        else {
+            return 'No service'
+        }
     }
 }

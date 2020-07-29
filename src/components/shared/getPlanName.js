@@ -21,5 +21,8 @@ export default function planBody(customerinfo) {
             const result = 'School Year ' + plan.substring(0, 9);
             return result;
         }
+        else {
+            return 'N/A'
+        }
     }
 }

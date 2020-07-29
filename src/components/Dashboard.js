@@ -30,6 +30,7 @@ import WeightSpark from './WeightSpark';
 import statusImage from './shared/getStatusImage'
 import planBody from './shared/getPlanName'
 import statusBody from './shared/getStatusName'
+import description from './shared/getDescription'
 
 // Firebase
 import firebase from 'firebase/app';
@@ -39,10 +40,10 @@ import { green } from '@material-ui/core/colors';
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
-
+      {'Copyright © '}
       <Link color="inherit" href="https://rezessentials.com/">
-        Student Holdings Rez Laundry
-      </Link>{' © '}
+        Rez Essentials Laundry
+      </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
@@ -237,7 +238,7 @@ export default function Dashboard({currentPageState}) {
                     {statusBody(customerinfo)}
                   </Typography>
                   <Typography variant="body2" color="textSecondary" component="p">
-                    Your laundry is currently being washed and will be with you shortly.
+                    {description(customerinfo)}
                   </Typography>
                 </CardContent>
                 <CardMedia

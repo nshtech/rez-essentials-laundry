@@ -34,17 +34,17 @@ import { StrictMode } from 'react';
 
 
 function Copyright() {
-    return (
-      <Typography variant="body2" color="textSecondary" align="center">
-
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {'Copyright © '}
       <Link color="inherit" href="https://rezessentials.com/">
-        Student Holdings Rez Laundry
-      </Link>{' © '}
+        Rez Essentials Laundry
+      </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
-    );
-  }
+  );
+}
   
   const drawerWidth = 240;
   
@@ -365,15 +365,13 @@ function Copyright() {
                 <Card className={classes.paperbottom}>
                   <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}><LocalLaundryServiceIcon style={{ verticalAlign: 'middle'}}/>{' '}Account Trends</Typography>
                   {suggestions(laundry_times,overweight_times)}
-                  
-    
                 </Card>
               </Grid>
             </Grid>
           </Grid>
-          <Box pt={4}>
-            <Copyright style={{ paddingTop: 3 }} />
-          </Box>
+        <Box mt={5}>
+          <Copyright />
+        </Box>
         </Container>
       
     ); }
