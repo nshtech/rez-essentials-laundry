@@ -225,6 +225,7 @@ export default function Dashboard({currentPageState}) {
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const theme = useTheme();
   return (
+    
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={2} classes={classes.grid}>
             {/* Chart */}
@@ -239,6 +240,9 @@ export default function Dashboard({currentPageState}) {
                   </Typography>
                   <Typography variant="body2" color="textSecondary" component="p">
                     {description(customerinfo)}
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary" component="p">
+                    Updated: {customerinfo.last_status_updated}
                   </Typography>
                 </CardContent>
                 <CardMedia
@@ -279,13 +283,16 @@ export default function Dashboard({currentPageState}) {
                     <Typography color="textSecondary" className={classes.depositContext}>
                       of your allowed {customerinfo.maxweight} lb/week limit.
                     </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p">
+                      Updated: {customerinfo.last_weight_updated}
+                    </Typography>
                     {/* <Typography>No overage charges this week.</Typography> */}
                     {/* <Button size="small" color="primary" className={classes.rezbutton}>
                       Upgrade Plan
                     </Button> */}
                     {/* <Typography gutterBottom variant="h6" component="h2">Past Month</Typography> */}
-                    <Typography gutterBottom variant="h6" component="h2">Weight Usage</Typography>
-                    <WeightSpark customerinfo={customerinfo} />
+                    {/* <Typography gutterBottom variant="h6" component="h2">Weight Usage</Typography>
+                    <WeightSpark customerinfo={customerinfo} /> */}
                   </Card>
                   
                 </Grid>
