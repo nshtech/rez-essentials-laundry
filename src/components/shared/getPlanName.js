@@ -17,6 +17,10 @@ export default function planBody(customerinfo) {
             const result = 'Spring ' + plan.substring(0, 9);
             return result;
         }
+        else if (plan.substring(10) === 'W-S') {
+            const result = 'Winter/Spring ' + plan.substring(0, 9);
+            return result;
+        }
         else if (plan.substring(10) === 'F-W-S') {
             const result = 'School Year ' + plan.substring(0, 9);
             return result;
