@@ -67,14 +67,14 @@ function Copyright() {
     container: {
       width: '100%',
       paddingTop: theme.spacing(4),
-      paddingBottom: theme.spacing(4),
+      //paddingBottom: theme.spacing(4),
   
     },
     grid: {
       //justify: "space-evenly",
       alignItems: "stretch",
       width: '100%',
-      height: 300,
+      //height: 300,
     },
     subgrid: {
        maxWidth: '50%',
@@ -199,7 +199,7 @@ function Copyright() {
       const target=event.target;
       const name = target.name;
       const value = target.value;
-      if (name==="phone" && value.length===12) {
+      if (name==="phone" && value[3]==='-' && value[7]==='-' && value.length===12) {
         setNewPhone(value);
         //firebase.database().ref('/customers/'+customerinfo.id+'/phone').set(value);
         //customerinfo.phone = value;
@@ -273,7 +273,9 @@ function Copyright() {
                     </Typography>
                     <Typography component="p" variant="body1" color="textSecondary">
                       PHONE: <Input  name="phone" placeholder={customerinfo.phone} defaultValue={customerinfo.phone} className={classes.textField} onChange={handleInputChange}/> <br/>
-                      EMAIL: <Input margin="dense" name="email" placeholder={customerinfo.email} defaultValue={customerinfo.email} className={classes.textField} onChange={handleInputChange}/>
+                      EMAIL: {customerinfo.email}
+                      <br/> <br/>
+                      NOTE: If your email needs to be changed, please contact RezLaundry. This will affect your login information!
                     </Typography>
                     <CardActions>
                     <div className={classes.quickbuttons}>
@@ -376,3 +378,5 @@ function Copyright() {
       
     ); }
   }
+
+  //<Input margin="dense" name="email" placeholder={customerinfo.email} defaultValue={customerinfo.email} className={classes.textField} onChange={handleInputChange}/>
