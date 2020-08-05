@@ -199,7 +199,8 @@ function Copyright() {
       const target=event.target;
       const name = target.name;
       const value = target.value;
-      if (name==="phone" && value[3]==='-' && value[7]==='-' && value.length===12) {
+      const phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/
+      if (name==="phone" && value[3]==='-' && value[7]==='-' && value.length===12 && value.match(phoneno)) {
         setNewPhone(value);
         //firebase.database().ref('/customers/'+customerinfo.id+'/phone').set(value);
         //customerinfo.phone = value;
