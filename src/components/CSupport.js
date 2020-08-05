@@ -14,6 +14,9 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
+import feedback from '../images/weekly_rescaled_1.png'
+import preference from '../images/preference_rescaled_1.png'
+import contact from '../images/contact_rescaled_1.png'
 
 function Copyright() {
     return (
@@ -79,6 +82,14 @@ export default function Album({ currentPageState }) {
     const handleWebsiteClick = () => {
         window.location.assign('https://rezessentials.com/pages/contact-us');
     }
+
+    const handleFeedbackClick = () => {
+        window.location.assign('https://forms.gle/UuVCpWVWSPCnRS4K7');
+    }
+
+    const handlePreferenceClick = () => {
+        window.location.assign('https://forms.gle/bquf321KEXTLXPUEA');
+    }
     
     const handleEmailClick = () => {
         window.location.assign('mailto:rezessentials@studentholdings.org');
@@ -115,12 +126,12 @@ export default function Album({ currentPageState }) {
                 </div>
                 <Container className={classes.cardGrid} maxWidth="md">
                     {/* End hero unit */}
-                    <Grid container spacing ={3}>
+                    <Grid container spacing ={1}>
                             <Grid item xs={12} sm={6} md={4}>
                                 <Card className={classes.card}>
                                     <CardMedia
                                         className={classes.cardMedia}
-                                        image="https://source.unsplash.com/random"
+                                        image={feedback}
                                         title="Image title"
                                     />
                                     <CardContent className={classes.cardContent}>
@@ -132,17 +143,17 @@ export default function Album({ currentPageState }) {
                                         </Typography>
                                     </CardContent>
                                     <CardActions>
-                                        <Button size="small" color="primary" className={classes.rezbutton}>
+                                        <Button size="small" color="primary" className={classes.rezbutton} onClick={handleFeedbackClick}>
                                             View
                                         </Button>
                                     </CardActions>
                                 </Card>
                             </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
+                        <Grid item xs={6} sm={6} md={4}>
                             <Card className={classes.card}>
                                 <CardMedia
                                     className={classes.cardMedia}
-                                    image="https://source.unsplash.com/random"
+                                    image={preference}
                                     title="Image title"
                                 />
                                 <CardContent className={classes.cardContent}>
@@ -154,17 +165,17 @@ export default function Album({ currentPageState }) {
                                     </Typography>
                                 </CardContent>
                                 <CardActions>
-                                    <Button size="small" color="primary" className={classes.rezbutton}>
+                                    <Button size="small" color="primary" className={classes.rezbutton} onClick={handlePreferenceClick}>
                                         View
                                     </Button>
                                 </CardActions>
                             </Card>
                     </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
+                        <Grid item xs={6} sm={6} md={4}>
                             <Card className={classes.card}>
                                 <CardMedia
                                     className={classes.cardMedia}
-                                    image="https://source.unsplash.com/random"
+                                    image={contact}
                                     title="Image title"
                                 />
                                 <CardContent className={classes.cardContent}>
