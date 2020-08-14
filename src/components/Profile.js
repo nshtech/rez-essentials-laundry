@@ -358,7 +358,7 @@ function useWindowSize() {
                     <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}>
                       <PersonIcon style={{ verticalAlign: 'middle'}}/>{'  '}User Information
                     </Typography>
-                    <Typography gutterBottom variant="h6" component="h3">
+                    <Typography gutterBottom variant="body1" component="p">
                         <Typography variant="body2" component="p" color="textSecondary">CUSTOMER ID <br/></Typography>
                         {customerinfo.id} <br />
                     <Divider className={classes.dividers}/>
