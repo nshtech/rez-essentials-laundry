@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import clsx from 'clsx';
 
 // Material UI Core
@@ -13,7 +13,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
-import { CardActionArea } from '@material-ui/core';
+import { CardActionArea, TextareaAutosize } from '@material-ui/core';
 
 // Material UI Icons
 import SentimentVerySatisfiedIcon from '@material-ui/icons/SentimentVerySatisfied';
@@ -30,6 +30,7 @@ import WeightSpark from './WeightSpark';
 import statusImage from './shared/getStatusImage'
 import planBody from './shared/getPlanName'
 import statusBody from './shared/getStatusName'
+import getWeight from './shared/getWeight'
 import description from './shared/getDescription'
 
 // Firebase
@@ -48,6 +49,18 @@ function Copyright() {
       {'.'}
     </Typography>
   );
+}
+function useWindowSize() {
+  const [size, setSize] = useState([0, 0]);
+  useLayoutEffect(() => {
+    function updateSize() {
+      setSize([window.innerWidth, window.innerHeight]);
+    }
+    window.addEventListener('resize', updateSize);
+    updateSize();
+    return () => window.removeEventListener('resize', updateSize);
+  }, []);
+  return size;
 }
 
 const drawerWidth = 240;
@@ -92,6 +105,9 @@ const useStyles = makeStyles((theme) => ({
   subgridleft: {
     maxWidth: '55%',
   },
+  subgridleftsmall: {
+    minHeight: '100%',
+  },
   subgridaccount: {
     maxWidth: '50%'
   },
@@ -106,6 +122,9 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '100%',
     alignItems: "stretch",
   },
+  subgridrightsmall: {
+    minHeight: '100%',
+  },
   paper: {
     padding: theme.spacing(2),
     display: 'flex',
@@ -118,6 +137,9 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
+    minHeight: 180
+  },
+  statuscard: {
     minHeight: 200
   },
   paperaccount: {
@@ -128,12 +150,25 @@ const useStyles = makeStyles((theme) => ({
     minHeight: 200
   },
   paperflex: {
-    padding: theme.spacing(2),
+    paddingTop: theme.spacing(2),
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+    paddingBottom: theme.spacing(1),
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
     marginTop: 10,
     minHeight: 100
+  },
+  paperflexone: {
+    paddingTop: theme.spacing(2),
+    paddingLeft: theme.spacing(2),
+    paddingBottom: theme.spacing(1),
+    display: 'flex',
+    overflow: 'auto',
+    flexDirection: 'column',
+    marginTop: 10,
+    minHeight: 170
   },
   divflex: {
     display: 'flex',
@@ -162,7 +197,17 @@ const useStyles = makeStyles((theme) => ({
     padding: 'auto',
     display: 'flex',
     alignItems: 'center',
-    margin:'auto'
+    margin:'auto',
+    paddingTop:0
+  },
+  preferences: {
+    display: 'flex',
+    alignItems: 'left',
+    paddingBottom: 10
+  },
+  perferencesdetergent: {
+    paddingRight: 10,
+    paddingLeft: 0,
   },
   rezbutton: {
     borderColor: '#6a09a4',
@@ -175,16 +220,18 @@ const useStyles = makeStyles((theme) => ({
     borderWidth: 5,
     color: '#6a09a4',
     backgroundColor: 'white',
-    marginLeft: 15,
-    marginRight: 15,
-    marginTop: 10,
-    padding: 10
+    marginLeft: 10,
+    marginRight: 10,
+    // padding: 10
   },
   underweight: {
     color: 'green'
   },
   overweight: {
     color: 'red'
+  },
+  noweight: {
+    color: 'grey'
   }
 }));
 
@@ -210,8 +257,10 @@ export default function Dashboard({currentPageState}) {
   function weightLimit(customerinfo, classes) {
     const weekweight = customerinfo.weekweight;
     if (customerinfo.weekweight) {
-
-      if (customerinfo.weekweight > customerinfo.maxweight) {
+      if (customerinfo.weekweight == 'N/A') {
+        return classes.noweight;
+      }
+      else if (customerinfo.weekweight > customerinfo.maxweight) {
         return classes.overweight;
       }
       else{
@@ -220,8 +269,34 @@ export default function Dashboard({currentPageState}) {
     }
   }
 
+  function detergentName(customerinfo) {
+    const deterg = customerinfo.detergent;
+    if (deterg == 'scented') {
+      return "Regular (scented)"
+    } else if (deterg == 'unscented') {
+      return "Hypoallergenic (unscented)"
+    }
+  }
 
-  
+  console.log(useWindowSize())
+  if (useWindowSize()[0] > 900) {
+    var rightgrid = classes.subgridright
+    var leftgrid = classes.subgridleft
+  } else {
+    var rightgrid = classes.subgridrightsmall
+    var leftgrid = classes.subgridleftsmall
+  }
+
+  const handleFeedbackClick = () => {
+    window.location.assign('https://forms.gle/UuVCpWVWSPCnRS4K7');
+  }
+
+
+  const handleEmailClick = () => {
+    window.location.assign('mailto:rezessentials@studentholdings.org');
+  }
+
+
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const theme = useTheme();
   return (
@@ -229,7 +304,7 @@ export default function Dashboard({currentPageState}) {
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={2} classes={classes.grid}>
             {/* Chart */}
-            <Grid item xs={9} className={classes.subgridleft}>
+            <Grid item xs={12} className={leftgrid}>
               <Card className={classes.statuscard}>
                 <CardContent>
                   <Typography gutterBottom variant="h6" component="h2">
@@ -252,33 +327,14 @@ export default function Dashboard({currentPageState}) {
                 />
               </Card>
             </Grid>
-            <Grid item xs={12} className={classes.subgridright}>
+            <Grid item xs={12} className={rightgrid}>
               <Grid container spacing={2} classes={classes.grid}>
-                {/* Current Plan */}
-                {/* <Grid item xs={12} className={classes.subgridaccount}>
-                  <Card className={classes.paperaccount}>
-                    <Typography gutterBottom variant="h6" component="h2">Current Plan</Typography>
-                    <Typography component="h2" variant="h7">
-                      {planBody(customerinfo)}
-                    </Typography>
-                    <Typography color="textSecondary" className={classes.depositContext}>
-                      will end after Fall quarter.
-                    </Typography>
-                    <CardActions>
-                  <div className={classes.quickbuttons}>
-                    <Button size="small" color="primary" className={classes.rezbutton} onClick={() => currentPageState.setCurrentPage('account')}>
-                        Account Details
-                    </Button>
-                    </div>
-                    </CardActions>
-                  </Card>
-                </Grid> */}
-                {/* Current Weight */}
+
                 <Grid item xs={12} className={classes.subgridweight}>
                   <Card className={classes.paperweight}>
                     <Typography gutterBottom variant="h6" component="h2">Most Recent Weight</Typography>
                     <Typography component="h2" variant="h4" className={weightLimit(customerinfo, classes)}>
-                      {customerinfo.weekweight} lb
+                    {getWeight(customerinfo)} lb
                     </Typography>
                     <Typography color="textSecondary" className={classes.depositContext}>
                       of your allowed {customerinfo.maxweight} lb/week limit.
@@ -297,23 +353,52 @@ export default function Dashboard({currentPageState}) {
                   
                 </Grid>
                 </Grid>
+                <Grid item xs={12} className={classes.customergrid}>
+                  <Card className={classes.paperflexone}>
+                    <Typography gutterBottom variant="h6" component="h2">
+                      Wash Preferences
+                            </Typography>
+                  <Typography gutterBottom variant="body2" component="p">
+                    <div className={classes.preferences}>
+                    
+                  <Typography variant="body2" component="p" color="textSecondary" className={classes.perferencesdetergent}>DETERGENT</Typography>
+                      {detergentName(customerinfo)}
+                      </div> 
+                  <div className={classes.preferences}>
+                  <Typography variant="body2" component="p" color="textSecondary" className={classes.perferencesdetergent}>FABRIC SOFTENER</Typography>
+                    {customerinfo.fabric_softener}
+                
+                </div> 
+                <div className={classes.preferences}>
+                  <Typography variant="body2" component="p" color="textSecondary" className={classes.perferencesdetergent}>SPECIAL NOTES</Typography>
+                  {customerinfo.special_request}
+
+                </div>   
+              </Typography>
+                    
+                    {/* <CardActions>
+                      <div className={classes.quickbuttons}>
+                        <Button size="small" color="primary" className={classes.rezbuttonsupport} startIcon={<AssignmentIcon />} onClick={() => currentPageState.setCurrentPage('account')}>
+                          Update Preferences</Button>
+                      </div>
+                    </CardActions> */}
+
+                  </Card>
+                </Grid>
               {/* Recent Activity */}
                 <Grid item xs={12} className={classes.customergrid}>
                 <Card className={classes.paperflex}>
                     <Typography gutterBottom variant="h6" component="h2">
                       Customer Support
                     </Typography>
-                    <Typography color="textSecondary">
-                      Help us offer you the best laundry experience we can. 
-                    </Typography>
                   <CardActions>
                     <div className={classes.quickbuttons}>
-                  <Button size="small" color="primary" className={classes.rezbuttonsupport} startIcon={<SentimentVerySatisfiedIcon />} onClick={() => currentPageState.setCurrentPage('support')}>
+                  <Button size="small" color="primary" className={classes.rezbuttonsupport} startIcon={<SentimentVerySatisfiedIcon />} onClick={handleFeedbackClick}>
                         Give Feedback</Button>
-                  <Button size="small" color="primary" className={classes.rezbuttonsupport} startIcon={<AssignmentIcon />} onClick={() => currentPageState.setCurrentPage('support')}>
-                        Weekly Preferences</Button>
-                      {/* <Button size="small" color="primary" className={classes.rezbutton} onClick={() => currentPageState.setCurrentPage('support')}>
-                        Support Page</Button> */}
+                  <Button size="small" color="primary" className={classes.rezbuttonsupport} startIcon={<ContactSupportIcon />} onClick={handleEmailClick}>
+                        Contact Rez</Button>
+                  <Button size="small" color="primary" className={classes.rezbuttonsupport} startIcon={<AssignmentIcon />} onClick={() => currentPageState.setCurrentPage('account')}>
+                        Update Preferences</Button>
                     </div>
                 {/* <Button size="small" color="primary" className={classes.rezbuttonsupport} startIcon={<ContactSupportIcon />} onClick={() => currentPageState.setCurrentPage('support')}>
                   Support Page</Button> */}

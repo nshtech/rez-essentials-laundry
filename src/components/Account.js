@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -37,8 +37,21 @@ function Copyright() {
         </Typography>
     );
 }
+function useWindowSize() {
+    const [size, setSize] = useState([0, 0]);
+    useLayoutEffect(() => {
+        function updateSize() {
+            setSize([window.innerWidth, window.innerHeight]);
+        }
+        window.addEventListener('resize', updateSize);
+        updateSize();
+        return () => window.removeEventListener('resize', updateSize);
+    }, []);
+    return size;
+}
 
-const drawerWidth = 240;
+const drawerWidth = 60;
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -58,9 +71,9 @@ const useStyles = makeStyles((theme) => ({
     },
     toolbarIcon: {
         display: 'flex',
-        alignItems: 'center',
+        alignItems: 'left',
         justifyContent: 'flex-end',
-        padding: '0 8px',
+        padding: '0 0px',
         ...theme.mixins.toolbar,
     },
     appBar: {

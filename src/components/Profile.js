@@ -1,7 +1,8 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect, useLayoutEffect} from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
+import MuiAlert from '@material-ui/lab/Alert';
 import Card from '@material-ui/core/Card';
 import Container from '@material-ui/core/Container';
 import CardContent from '@material-ui/core/CardContent';
@@ -17,6 +18,12 @@ import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import Snackbar from '@material-ui/core/Snackbar';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
 
 import '../App.css';
 import planBody from './shared/getPlanName'
@@ -29,9 +36,12 @@ import PersonIcon from '@material-ui/icons/Person';
 import LocalLaundryServiceIcon from '@material-ui/icons/LocalLaundryService';
 import PermContactCalendarIcon from '@material-ui/icons/PermContactCalendar';
 import { StrictMode } from 'react';
+// import classes from '*.module.css';
 
 
-
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 function Copyright() {
   return (
@@ -45,6 +55,19 @@ function Copyright() {
     </Typography>
   );
 }
+function useWindowSize() {
+  const [size, setSize] = useState([0, 0]);
+  useLayoutEffect(() => {
+    function updateSize() {
+      setSize([window.innerWidth, window.innerHeight]);
+    }
+    window.addEventListener('resize', updateSize);
+    updateSize();
+    return () => window.removeEventListener('resize', updateSize);
+  }, []);
+  return size;
+}
+
   
   const drawerWidth = 240;
   
@@ -74,7 +97,7 @@ function Copyright() {
       //justify: "space-evenly",
       alignItems: "stretch",
       width: '100%',
-      //height: 300,
+      // height: 300,
     },
     subgrid: {
        maxWidth: '50%',
@@ -83,17 +106,30 @@ function Copyright() {
        flexDirection: 'column',
        //overflow: 'auto',
     },
+    threegrid: {
+      maxWidth: '33%',
+      padding: theme.spacing(2),
+      display: 'flex',
+      flexDirection: 'column',
+    },
+    narrowgrid: {
+      width: '100%',
+      // maxWidth: '100%',
+      padding: theme.spacing(2),
+    },
     paper: {
-      paddingLeft: theme.spacing(1),
-      paddingRight: theme.spacing(2),
-      height:300,
+      // paddingLeft: theme.spacing(1),
+      // paddingRight: theme.spacing(2),
+      width: '100%',
+      minHeight:360,
       display: 'flex',
       overflow: 'auto',
       flexDirection: 'column',
     },
     paperContact: {
-      padding: theme.spacing(2),
-      height:300,
+      // padding: theme.spacing(2),
+      width: '100%',
+      minHeight: 360,
       display: 'flex',
       overflow: 'auto',
       flexDirection: 'column'
@@ -121,7 +157,9 @@ function Copyright() {
       padding: 'auto',
       display: 'flex',
       alignItems: 'center',
-      margin:'auto'
+      margin:'auto',
+      // position: 'absolute',
+      // top: 0,
     },
     rezbutton: {
       borderColor: '#6a09a4',
@@ -130,15 +168,25 @@ function Copyright() {
       margin: 0,
     },
     textField: {
-      marginLeft: theme.spacing(1),
+      // marginLeft: theme.spacing(1),
       marginRight: theme.spacing(1),
       width: '33ch',
+      maxWidth: '100%',
+      marginBottom: 10
     },
     cardtitle: {
       verticalAlign: 'bottom',
     },
     dividers: {
       color: 'darkgrey',
+      marginBottom: 10
+    },
+    radio:
+    {
+      colorPrimary: '#6a09a4',
+    },
+    cardcontent: {
+      maxWidth: '100%'
     }
 
   }));
@@ -148,21 +196,62 @@ function Copyright() {
 
   export default function Profile() {
     const classes = useStyles();
-    const [open, setOpen] = React.useState(true);
+    const [open, setOpen] = React.useState(false);
     const [customerinfo, setCustomerInfo] = React.useState({});
     const [newphone, setNewPhone] = React.useState(null);
     const [newemail, setNewEmail] = React.useState(null);
     const theme = useTheme();
-    const handleDrawerOpen = () => {
-      setOpen(true);
+    const [detergent, setDetergent] = React.useState('None');
+    const [fabricsoftener, setFabricSoftener] = React.useState('None');
+    const [editpref, setEditPref] = React.useState(false);
+    const [edit, setEdit] = React.useState(false);
+
+    const handleDetergentChange = (event) => {
+      setDetergent(event.target.value);
     };
-    const handleDrawerClose = () => {
+
+    const handleSoftenerChange = (event) => {
+      setFabricSoftener(event.target.value);
+    };
+
+    const handleClose = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
       setOpen(false);
     };
-    const [edit,setEdit] = React.useState(false);
+    
 
     const laundry_times = 13;
     const overweight_times = 5;
+
+    useEffect(() => {
+      const userId = localStorage.getItem('user_id');
+      const db = firebase.database().ref().child('/customers/' + userId);;
+
+      const getDetergent = snap => {
+        console.log(snap.val())
+        if (snap.val()) {
+          setDetergent(snap.val().detergent);
+        }
+      }
+      db.on('value', getDetergent, error => alert(error));
+      return () => { db.off('value', getDetergent); };
+    }, []);
+
+    useEffect(() => {
+      const userId = localStorage.getItem('user_id');
+      const db = firebase.database().ref().child('/customers/' + userId);;
+
+      const getSoftener = snap => {
+        console.log(snap.val())
+        if (snap.val()) {
+          setFabricSoftener(snap.val().fabric_softener);
+        }
+      }
+      db.on('value', getSoftener, error => alert(error));
+      return () => { db.off('value', getSoftener); };
+    }, []);
 
     useEffect(() => {
       const userId = localStorage.getItem('user_id');
@@ -177,6 +266,24 @@ function Copyright() {
       db.on('value', getCustomer, error => alert(error));
       return () => { db.off('value', getCustomer); };
     }, []);
+
+    function handleEditButton() {
+      setEdit(true);
+    }
+
+
+    function savePref() {
+      if (detergent !== null) {
+        firebase.database().ref('/customers/' + customerinfo.id + '/detergent').set(detergent);
+        customerinfo.detergent = detergent;
+      }
+
+      if (fabricsoftener !== null) {
+        firebase.database().ref('/customers/' + customerinfo.id + '/fabric_softener').set(fabricsoftener);
+        customerinfo.fabric_softener = fabricsoftener;
+      }
+      setOpen(true);
+    }
 
     function saveContactInfo() {
       if (newphone !== null) {
@@ -227,38 +334,42 @@ function Copyright() {
       }
     }
 
+    console.log(useWindowSize())
+    if (useWindowSize()[0] > 900) {
+      var grid = classes.threegrid
+    } else {
+      var grid = classes.narrowgrid
+    }
 
     {/*EDIT MODE */}
     if (edit) {
       return (
         <Container maxWidth="lg" className={classes.container}>
-          {/* <Typography component="h3" variant="h4" align="center" color="textPrimary" gutterBottom>
-            {customerinfo.name}
-          </Typography>
-          <Typography variant="h5" align="center" color="textSecondary" paragraph>
-            Feel free to contact RezLaundry about any of your needs, present or future!
-          </Typography> */}
+          <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity="success">
+              Preferences updated successfully.
+            </Alert>
+          </Snackbar>
             <Grid container spacing={1} classes={classes.grid} >
               {/* Account Info */}
-
-              <Grid item xs={12} sm={8} className={classes.subgrid}>
+              <Grid item xs={12} className={grid}>
                 <Card className={classes.paper}>
-                  <CardContent>
+                <CardContent className={classes.cardcontent}>
                     <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}>
                       <PersonIcon style={{ verticalAlign: 'middle'}}/>{'  '}User Information
                     </Typography>
                     <Typography gutterBottom variant="h6" component="h3">
                         <Typography variant="body2" component="p" color="textSecondary">CUSTOMER ID <br/></Typography>
-                        {customerinfo.id} <br/>
-                        <Divider />
-    
+                        {customerinfo.id} <br />
+                    <Divider className={classes.dividers}/>
+
                         <Typography variant="body2" component="p" color="textSecondary">RESIDENCE HALL <br/></Typography>
-                        {customerinfo.reshall} <br/>
-                        <Divider />
+                        {customerinfo.reshall} <br />
+                    <Divider className={classes.dividers}/> 
 
                         <Typography variant="body2" component="p" color="textSecondary">CURRENT PLAN <br/></Typography>
-                        {planBody(customerinfo)}<br/>
-                        <Divider />
+                        {planBody(customerinfo)}<br />
+                    <Divider className={classes.dividers}/>  
 
                         <Typography variant="body2" component="p" color="textSecondary">WEIGHT LIMIT <br/></Typography>
                         {customerinfo.maxweight} lb/week
@@ -267,17 +378,21 @@ function Copyright() {
                 </Card>
               </Grid>
               {/* Contact Information */}
-              <Grid item xs={12} sm={8} className={classes.subgrid}>
+              <Grid item xs={12} className={grid}>
                   <Card className={classes.paperContact}>
+                <CardContent className={classes.cardcontent}>
                     <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}>
                       <PermContactCalendarIcon style={{ verticalAlign: 'middle'}}/>{' '}Contact Information
                     </Typography>
                     <Typography component="p" variant="body1" color="textSecondary">
-                      PHONE: <Input  name="phone" placeholder={customerinfo.phone} defaultValue={customerinfo.phone} className={classes.textField} onChange={handleInputChange}/> <br/>
-                      EMAIL: {customerinfo.email}
+                    <Typography variant="body2" component="p" color="textSecondary">PHONE<br /></Typography>
+                      <Input  name="phone" placeholder={customerinfo.phone} defaultValue={customerinfo.phone} className={classes.textField} onChange={handleInputChange}/> <br/>
+                    <Typography variant="body2" component="p" color="textSecondary">EMAIL<br /></Typography>
+                      {customerinfo.email}
                       <br/> <br/>
                       NOTE: If your email needs to be changed, please contact RezLaundry. This will affect your login information!
                     </Typography>
+                  </CardContent>
                     <CardActions>
                     <div className={classes.quickbuttons}>
                     <Button size="large" color="primary" className={classes.rezbutton} onClick={() => {saveContactInfo()}}>
@@ -287,97 +402,140 @@ function Copyright() {
                     </CardActions>
                   </Card>
                 </Grid>
-              <Grid container item xs={12} className={classes.grid}>
-                {/* Laundry History */}
-                <Grid item xs={12}>
-                  <Card className={classes.paperbottom}>
-                    <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}><LocalLaundryServiceIcon style={{ verticalAlign: 'middle'}}/>{' '}Account Trends</Typography>
-                    {suggestions(laundry_times,overweight_times)}
-                  </Card>
-                </Grid>
+                <Grid container item xs={12} className={grid}>
+                  {/* Laundry History */}
+                    <Card className={classes.paperContact}>
+                <CardContent className={classes.cardcontent}>
+                    <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}><LocalLaundryServiceIcon style={{ verticalAlign: 'middle' }} />{' '}Preferences</Typography>
+                    {/* {suggestions(laundry_times,overweight_times)} */}
+                    <Typography gutterBottom variant="h6" component="h3">
+                      <Typography variant="body2" component="p" color="textSecondary">DETERGENT <br /></Typography>
+                      <RadioGroup aria-label="gender" name="gender1" value={detergent} onChange={handleDetergentChange}>
+                        <FormControlLabel value="unscented" control={<Radio />} label="Hypoallergenic (Unscented)" />
+                        <FormControlLabel value="scented" control={<Radio />} label="Regular (Scented)" />
+                      </RadioGroup>
+                      <Divider className={classes.dividers} />
+                      <Typography variant="body2" component="p" color="textSecondary">FABRIC SOFTENER<br /></Typography>
+                      <RadioGroup aria-label="gender" name="gender1" value={fabricsoftener} onChange={handleSoftenerChange}>
+                        <FormControlLabel value="Yes" control={<Radio/>} label="Yes" />
+                    <FormControlLabel value="No" control={<Radio/>} label="No" />
+                      </RadioGroup>
+                    </Typography>
+                  </CardContent>
+                    <CardActions>
+                      <div className={classes.quickbuttons}>
+                        <Button size="large" color="primary" className={classes.rezbutton} onClick={() => savePref()}>
+                          SAVE NEW PREFERENCES
+                        </Button>
+                      </div>
+                    </CardActions>
+                    </Card>
               </Grid>
             </Grid>
-            <Box pt={4}>
+            <Box mt={5}>
               <Copyright style={{ paddingTop: 3 }} />
             </Box>
           </Container>
         
       );
     }
-    
-
-    //VIEW MODE
+  
     else {
-    return (
-      
+      // VIEW MODE
+      return(
       <Container maxWidth="lg" className={classes.container}>
-        {/* <Typography variant="h5" align="center" color="textSecondary" paragraph>
-          {customerinfo.email}
-        </Typography> */}
-          <Grid container spacing={1} classes={classes.grid}>
-            {/* Account Info */}
-              <Grid item xs={12} sm={8}className={classes.subgrid}>
-              <Card className={classes.paper}>
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}>
-                    <PersonIcon style={{ verticalAlign: 'middle'}}/>{' '}User Information
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Alert onClose={handleClose} severity="success">
+            Preferences updated successfully.
+          </Alert>
+        </Snackbar>
+        <Grid container spacing={1} classes={classes.grid}>
+          {/* Account Info */}
+          <Grid item xs={12} className={grid}>
+            <Card className={classes.paper}>
+              <CardContent className={classes.cardcontent}>
+                <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}>
+                  <PersonIcon style={{ verticalAlign: 'middle' }} />{' '}User Information
                   </Typography>
-                  <Typography gutterBottom variant="h6" component="h3">
-                        <Typography variant="body2" component="p" color="textSecondary">CUSTOMER ID <br/></Typography> 
-                        {customerinfo.id} <br/>
-                        <Divider />
-                    <Typography variant="body2" component="p" color="textSecondary">RESIDENCE HALL <br/></Typography> 
-                        {customerinfo.reshall} <br/>
-                        <Divider />
-                    <Typography variant="body2" component="p" color="textSecondary">CURRENT PLAN <br/></Typography> 
-                      {planBody(customerinfo)} <br/>
-                        <Divider />
-                    <Typography variant="body2" component="p" color="textSecondary">WEIGHT LIMIT<br/></Typography> 
-                        {customerinfo.maxweight} lb/week <br/>
-                    </Typography>
-                  
-                </CardContent>
-              </Card>
-            </Grid>
-            {/* Contact Information */}
-            <Grid item xs={12} sm={8} className={classes.subgrid}>
-                <Card className={classes.paperContact}>
-                  <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}>
-                    <PermContactCalendarIcon style={{ verticalAlign: 'middle'}}/>{' '}Contact Information
-                  </Typography>
-                  <Typography component="h3" variant="h6">
+                  <Typography gutterBottom component="p" variant="body1">
+                  <Typography variant="body2" component="p" color="textSecondary">CUSTOMER ID <br /></Typography>
+                  {customerinfo.id} <br />
+                  <Divider className={classes.dividers} />
+                  <Typography variant="body2" component="p" color="textSecondary">RESIDENCE HALL <br /></Typography>
+                  {customerinfo.reshall} <br />
+                  <Divider className={classes.dividers} />
+                  <Typography variant="body2" component="p" color="textSecondary">CURRENT PLAN <br /></Typography>
+                  {planBody(customerinfo)} <br />
+                  <Divider className={classes.dividers} />
+                  <Typography variant="body2" component="p" color="textSecondary">WEIGHT LIMIT<br /></Typography>
+                  {customerinfo.maxweight} lb/week <br />
+                </Typography>
 
-                  <Typography variant="body2" component="p" color="textSecondary">PHONE<br/></Typography>
-                  {customerinfo.phone} <br/>
-                  <Divider />
-                  <Typography variant="body2" component="p" color="textSecondary">EMAIL <br/></Typography>
-                  {customerinfo.email} <br/>
-                  </Typography>
-                  <CardActions>
-                  <div className={classes.quickbuttons}>
-                    <Button size="large" color="primary" className={classes.rezbutton} onClick={() => {setEdit(true)}}>
-                        EDIT CONTACT INFO
-                    </Button>
-                    </div>
-                  </CardActions>
-                </Card>
-              </Grid>
-            <Grid container item xs={12} className={classes.grid}>
-              {/* Laundry History */}
-              <Grid item xs={12}>
-                <Card className={classes.paperbottom}>
-                  <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}><LocalLaundryServiceIcon style={{ verticalAlign: 'middle'}}/>{' '}Account Trends</Typography>
-                  {suggestions(laundry_times,overweight_times)}
-                </Card>
-              </Grid>
-            </Grid>
+              </CardContent>
+            </Card>
           </Grid>
+          {/* Contact Information */}
+          <Grid item xs={12} className={grid}>
+            <Card className={classes.paperContact}>
+                <CardContent className={classes.cardcontent}>
+              <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}>
+                <PermContactCalendarIcon style={{ verticalAlign: 'middle' }} />{' '}Contact Information
+                  </Typography>
+                <Typography component="p" variant="body1" color="textPrimary">
+
+                <Typography variant="body2" component="p" color="textSecondary">PHONE<br /></Typography>
+                {customerinfo.phone} <br />
+                <Divider className={classes.dividers} />
+                <Typography variant="body1" component="p" color="textSecondary">EMAIL <br /></Typography>
+                {customerinfo.email} <br />
+              </Typography>
+                  </CardContent>
+              <CardActions>
+                <div className={classes.quickbuttons}>
+                    <Button size="large" color="primary" className={classes.rezbutton} onClick={() => handleEditButton()}>
+                    EDIT CONTACT INFO
+                    </Button>
+                </div>
+              </CardActions>
+            </Card>
+          </Grid>
+          <Grid container item xs={12} className={grid}>
+            {/* Laundry History */}
+            <Card className={classes.paperContact}>
+                <CardContent className={classes.cardcontent}>
+                <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}><LocalLaundryServiceIcon style={{ verticalAlign: 'middle' }} />{' '}Preferences</Typography>
+                {/* {suggestions(laundry_times,overweight_times)} */}
+                <Typography gutterBottom variant="h6" component="h3">
+                  <Typography variant="body2" component="p" color="textSecondary">DETERGENT <br /></Typography>
+                  <RadioGroup aria-label="gender" name="gender1" value={detergent} onChange={handleDetergentChange}>
+                      <FormControlLabel value="unscented" control={<Radio />} label="Hypoallergenic (Unscented)" />
+                      <FormControlLabel value="scented" control={<Radio />} label="Regular (Scented)" />
+                  </RadioGroup>
+                  <Divider className={classes.dividers} />
+                  <Typography variant="body2" component="p" color="textSecondary">FABRIC SOFTENER<br /></Typography>
+                  <RadioGroup aria-label="gender" name="gender1" value={fabricsoftener} onChange={handleSoftenerChange}>
+                    <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                    <FormControlLabel value="No" control={<Radio />} label="No" />
+                  </RadioGroup>
+                </Typography>
+                </CardContent>
+                <CardActions>
+                  <div className={classes.quickbuttons}>
+                    <Button size="large" color="primary" className={classes.rezbutton} onClick={() => savePref()}>
+                      SAVE NEW PREFERENCES
+                    </Button>
+                  </div>
+                </CardActions>
+            </Card>
+          </Grid>
+        </Grid>
         <Box mt={5}>
-          <Copyright />
+          <Copyright style={{ paddingTop: 3 }}/>
         </Box>
-        </Container>
+      </Container>
       
-    ); }
+      )
+    }
   }
 
   //<Input margin="dense" name="email" placeholder={customerinfo.email} defaultValue={customerinfo.email} className={classes.textField} onChange={handleInputChange}/>

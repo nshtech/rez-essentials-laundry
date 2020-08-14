@@ -41,7 +41,6 @@ function App() {
     const db = firebase.database().ref().child('/customers/' + user);;
 
     const getCustomer = snap => {
-      console.log(snap.val())
       if (snap.val()) {
         setCustomerInfo(snap.val());
       }
@@ -56,7 +55,7 @@ function App() {
           <Switch>
             <Route path="/dashboard" exact component={() => <DashboardWrapper user={user}/>}></Route>
             <Route path="/account" exact component={() => <Account user={user}/>}></Route>
-            <Route path="/support" exact component={() => <CustomerSupport user={user} />}></Route>
+            {/* <Route path="/support" exact component={() => <CustomerSupport user={user} />}></Route> */}
             <Route path="/" exact component={() => <SignIn />}></Route>
             <Route path="/404" render={() => <div>404</div>}></Route>
           </Switch>
