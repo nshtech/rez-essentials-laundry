@@ -100,11 +100,11 @@ function useWindowSize() {
       // height: 300,
     },
     subgrid: {
-       maxWidth: '50%',
-       padding: theme.spacing(2),
-       display: 'flex',
-       flexDirection: 'column',
-       //overflow: 'auto',
+      alignItems: "stretch",
+      width: '99%',
+      //  display: 'flex',
+      //  flexDirection: 'column',
+       overflow: 'auto',
     },
     threegrid: {
       maxWidth: '33%',
@@ -130,6 +130,14 @@ function useWindowSize() {
       // padding: theme.spacing(2),
       width: '100%',
       minHeight: 360,
+      display: 'flex',
+      overflow: 'auto',
+      flexDirection: 'column'
+    },
+    paperPref: {
+      // padding: theme.spacing(2),
+      width: '100%',
+      minHeight: 120,
       display: 'flex',
       overflow: 'auto',
       flexDirection: 'column'
@@ -174,6 +182,12 @@ function useWindowSize() {
       maxWidth: '100%',
       marginBottom: 10
     },
+    textFieldLong: {
+      marginRight: theme.spacing(1),
+      width: '60ch',
+      maxWidth: '100%',
+      marginBottom: 10
+    },
     cardtitle: {
       verticalAlign: 'bottom',
     },
@@ -199,6 +213,7 @@ function useWindowSize() {
     const [open, setOpen] = React.useState(false);
     const [customerinfo, setCustomerInfo] = React.useState({});
     const [newphone, setNewPhone] = React.useState(null);
+    const [newrequest, setNewRequest] = React.useState(null);
     const [newemail, setNewEmail] = React.useState(null);
     const theme = useTheme();
     const [detergent, setDetergent] = React.useState('None');
@@ -285,6 +300,15 @@ function useWindowSize() {
       setOpen(true);
     }
 
+    function saveRequest() {
+      if (newrequest !== null) {
+        firebase.database().ref('/customers/' + customerinfo.id + '/special_request').set(newrequest);
+        customerinfo.special_request = newrequest;
+        //console.log('database phone updated');
+      }
+
+    }
+
     function saveContactInfo() {
       if (newphone !== null) {
         firebase.database().ref('/customers/'+customerinfo.id+'/phone').set(newphone);
@@ -320,6 +344,19 @@ function useWindowSize() {
         //console.log('state var email updated')
       } 
     }
+
+    function handleInputRequest(event) {
+      const target = event.target;
+      const name = target.name;
+      const value = target.value;
+      
+      if (value == ''){
+        setNewRequest('None');
+      } else {
+        setNewRequest(value);
+      }
+
+    }
     //plan upgrade suggestion
     function suggestions(laundry_times,overweight_times) {
       if (overweight_times/laundry_times > 0.5) {
@@ -350,6 +387,7 @@ function useWindowSize() {
               Preferences updated successfully.
             </Alert>
           </Snackbar>
+          <Grid>
             <Grid container spacing={1} classes={classes.grid} >
               {/* Account Info */}
               <Grid item xs={12} className={grid}>
@@ -417,8 +455,8 @@ function useWindowSize() {
                       <Divider className={classes.dividers} />
                       <Typography variant="body2" component="p" color="textSecondary">FABRIC SOFTENER<br /></Typography>
                       <RadioGroup aria-label="gender" name="gender1" value={fabricsoftener} onChange={handleSoftenerChange}>
-                        <FormControlLabel value="Yes" control={<Radio/>} label="Yes" />
-                    <FormControlLabel value="No" control={<Radio/>} label="No" />
+                        <FormControlLabel value="yes" control={<Radio/>} label="Yes" />
+                    <FormControlLabel value="no" control={<Radio/>} label="No" />
                       </RadioGroup>
                     </Typography>
                   </CardContent>
@@ -431,6 +469,25 @@ function useWindowSize() {
                     </CardActions>
                     </Card>
               </Grid>
+            </Grid>
+            <Grid container spacing={1} className={classes.grid}>
+              <Grid container item xs={12} className={classes.subgrid}>
+                <Card className={classes.paperPref}>
+                  <CardContent className={classes.cardcontent}>
+                    <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}><LocalLaundryServiceIcon style={{ verticalAlign: 'middle' }} />{' '}Special Requests</Typography>
+                    {/* <Typography variant="body2" component="p" color="textSecondary">PHONE<br /></Typography> */}
+                    <Input name="request" placeholder={customerinfo.special_request} defaultValue={customerinfo.special_request} className={classes.textFieldLong} onChange={handleInputRequest} /> <br />
+                  </CardContent>
+                  <CardActions>
+                    <div className={classes.quickbuttons}>
+                      <Button size="large" color="primary" className={classes.rezbutton} onClick={() => { saveRequest() }}>
+                        SAVE REQUEST
+                </Button>
+                    </div>
+                  </CardActions>
+                </Card>
+              </Grid>
+            </Grid>
             </Grid>
             <Box mt={5}>
               <Copyright style={{ paddingTop: 3 }} />
@@ -449,6 +506,7 @@ function useWindowSize() {
             Preferences updated successfully.
           </Alert>
         </Snackbar>
+        <Grid>
         <Grid container spacing={1} classes={classes.grid}>
           {/* Account Info */}
           <Grid item xs={12} className={grid}>
@@ -514,8 +572,8 @@ function useWindowSize() {
                   <Divider className={classes.dividers} />
                   <Typography variant="body2" component="p" color="textSecondary">FABRIC SOFTENER<br /></Typography>
                   <RadioGroup aria-label="gender" name="gender1" value={fabricsoftener} onChange={handleSoftenerChange}>
-                    <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
-                    <FormControlLabel value="No" control={<Radio />} label="No" />
+                    <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+                    <FormControlLabel value="no" control={<Radio />} label="No" />
                   </RadioGroup>
                 </Typography>
                 </CardContent>
@@ -528,6 +586,25 @@ function useWindowSize() {
                 </CardActions>
             </Card>
           </Grid>
+        </Grid>
+        <Grid container spacing={1} className={classes.grid}>
+          <Grid container item xs={12} className={classes.subgrid}>
+            <Card className={classes.paperPref}>
+              <CardContent className={classes.cardcontent}>
+                <Typography gutterBottom variant="h5" component="h2" className={classes.cardtitle}><LocalLaundryServiceIcon style={{ verticalAlign: 'middle' }} />{' '}Special Requests</Typography>
+                <Typography variant="body2" component="p" color="textSecondary">ADD SPECIAL NOTE<br /></Typography>
+                    <Input name="request" placeholder={customerinfo.special_request} defaultValue={customerinfo.special_request} className={classes.textFieldLong} onChange={handleInputRequest}/> <br />
+              </CardContent>
+              <CardActions>
+                <div className={classes.quickbuttons}>
+                  <Button size="large" color="primary" className={classes.rezbutton} onClick={() => {saveRequest()}}>
+                    SAVE REQUEST
+                </Button>
+                </div>
+              </CardActions>
+            </Card>
+          </Grid>
+        </Grid>
         </Grid>
         <Box mt={5}>
           <Copyright style={{ paddingTop: 3 }}/>
