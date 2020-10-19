@@ -25,6 +25,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 
+
 import '../App.css';
 import planBody from './shared/getPlanName'
 
@@ -220,6 +221,11 @@ function useWindowSize() {
     const [fabricsoftener, setFabricSoftener] = React.useState('None');
     const [editpref, setEditPref] = React.useState(false);
     const [edit, setEdit] = React.useState(false);
+    const [warnPhone,setWarnPhone] = React.useState(false)
+    const [successContact,setSuccessContact] = React.useState(false)
+    const [requestSuccess,setRequestSuccess] = React.useState(false)
+
+
 
     const handleDetergentChange = (event) => {
       setDetergent(event.target.value);
@@ -234,6 +240,19 @@ function useWindowSize() {
         return;
       }
       setOpen(false);
+    };
+    const handlePhoneClose = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+      setWarnPhone(false);
+      setSuccessContact(false);
+    };
+    const handleRequestClose = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+      setRequestSuccess(false);
     };
     
 
@@ -304,23 +323,25 @@ function useWindowSize() {
       if (newrequest !== null) {
         firebase.database().ref('/customers/' + customerinfo.id + '/special_request').set(newrequest);
         customerinfo.special_request = newrequest;
+        setRequestSuccess(true);
         //console.log('database phone updated');
       }
 
     }
 
     function saveContactInfo() {
-      if (newphone !== null) {
+      if (newphone !== null && newphone != 'invalid') {
         firebase.database().ref('/customers/'+customerinfo.id+'/phone').set(newphone);
         customerinfo.phone = newphone;
-        //console.log('database phone updated');
+        setSuccessContact(true);
+        setWarnPhone(false);
       }
-      if (newemail !== null) {
-        firebase.database().ref('/customers/'+customerinfo.id+'/email').set(newemail);
-        customerinfo.email = newemail;
-        //console.log('database email updated');
+      if (newphone == 'invalid') {
+        setWarnPhone(true);
+        setSuccessContact(false);
+  
       }
-      setEdit(false);
+(false);
       //console.log('edit == false');
       
     }
@@ -337,12 +358,22 @@ function useWindowSize() {
         //customerinfo.phone = value;
         //console.log('state var phone updated');
       }
+      else if (name==="phone" && (value[3] !=='-' || value[7] !=='-' || value.length !==12 )) {
+        setNewPhone('invalid');=
+      }
       else if (name==="email" && value.includes("@") && value.includes('.')) {
         setNewEmail(value);
         //firebase.database().ref('/customers/'+customerinfo.id+'/email').set(value);
         //customerinfo.email = value;
         //console.log('state var email updated')
       } 
+      else if (name==="email" && (!value.includes("@") || !value.includes('.'))) {
+        setNewEmail('invalid');
+        //firebase.database().ref('/customers/'+customerinfo.id+'/email').set(value);
+        //customerinfo.email = value;
+        //console.log('state var email updated')
+      }
+      
     }
 
     function handleInputRequest(event) {
@@ -382,11 +413,17 @@ function useWindowSize() {
     if (edit) {
       return (
         <Container maxWidth="lg" className={classes.container}>
-          <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
             <Alert onClose={handleClose} severity="success">
               Preferences updated successfully.
             </Alert>
           </Snackbar>
+          <Snackbar open={requestSuccess} autoHideDuration={3000} onClose={handleRequestClose}>
+            <Alert onClose={handleRequestClose} severity="success">
+              Special requests updated successfully.
+            </Alert>
+          </Snackbar>
+          
           <Grid>
             <Grid container spacing={1} classes={classes.grid} >
               {/* Account Info */}
@@ -501,11 +538,26 @@ function useWindowSize() {
       // VIEW MODE
       return(
       <Container maxWidth="lg" className={classes.container}>
-        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Snackbar open={warnPhone} autoHideDuration={3000} onClose={handlePhoneClose}>
+            <Alert onClose={handlePhoneClose} severity="warning">
+              Invalid Phone Number, please try again! Remember, the input style should be ### - ### - ####.
+            </Alert>
+        </Snackbar>
+        <Snackbar open={successContact} autoHideDuration={3000} onClose={handlePhoneClose}>
+            <Alert onClose={handlePhoneClose} severity="success">
+              Contact information updated successfully.
+            </Alert>
+        </Snackbar>
+        <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
           <Alert onClose={handleClose} severity="success">
             Preferences updated successfully.
           </Alert>
         </Snackbar>
+        <Snackbar open={requestSuccess} autoHideDuration={3000} onClose={handleRequestClose}>
+            <Alert onClose={handleRequestClose} severity="success">
+              Special requests updated successfully.
+            </Alert>
+          </Snackbar>
         <Grid>
         <Grid container spacing={1} classes={classes.grid}>
           {/* Account Info */}
