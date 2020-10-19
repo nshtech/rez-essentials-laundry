@@ -341,7 +341,6 @@ function useWindowSize() {
         setSuccessContact(false);
   
       }
-(false);
       //console.log('edit == false');
       
     }
