@@ -359,7 +359,7 @@ function useWindowSize() {
         //console.log('state var phone updated');
       }
       else if (name==="phone" && (value[3] !=='-' || value[7] !=='-' || value.length !==12 )) {
-        setNewPhone('invalid');=
+        setNewPhone('invalid');
       }
       else if (name==="email" && value.includes("@") && value.includes('.')) {
         setNewEmail(value);
