@@ -69,9 +69,9 @@ function useWindowSize() {
   return size;
 }
 
-  
+
   const drawerWidth = 240;
-  
+
   const useStyles = makeStyles((theme) => ({
     root: {
       display: 'flex',
@@ -92,7 +92,7 @@ function useWindowSize() {
       width: '100%',
       paddingTop: theme.spacing(4),
       //paddingBottom: theme.spacing(4),
-  
+
     },
     grid: {
       //justify: "space-evenly",
@@ -206,7 +206,7 @@ function useWindowSize() {
 
   }));
 
-  
+
 
 
   export default function Profile() {
@@ -254,7 +254,7 @@ function useWindowSize() {
       }
       setRequestSuccess(false);
     };
-    
+
 
     const laundry_times = 13;
     const overweight_times = 5;
@@ -339,10 +339,10 @@ function useWindowSize() {
       if (newphone == 'invalid') {
         setWarnPhone(true);
         setSuccessContact(false);
-  
+
       }
       //console.log('edit == false');
-      
+
     }
 
     //HANDLE PHONE AND EMAIL UPDATE
@@ -365,21 +365,21 @@ function useWindowSize() {
         //firebase.database().ref('/customers/'+customerinfo.id+'/email').set(value);
         //customerinfo.email = value;
         //console.log('state var email updated')
-      } 
+      }
       else if (name==="email" && (!value.includes("@") || !value.includes('.'))) {
         setNewEmail('invalid');
         //firebase.database().ref('/customers/'+customerinfo.id+'/email').set(value);
         //customerinfo.email = value;
         //console.log('state var email updated')
       }
-      
+
     }
 
     function handleInputRequest(event) {
       const target = event.target;
       const name = target.name;
       const value = target.value;
-      
+
       if (value == ''){
         setNewRequest('None');
       } else {
@@ -422,7 +422,7 @@ function useWindowSize() {
               Special requests updated successfully.
             </Alert>
           </Snackbar>
-          
+
           <Grid>
             <Grid container spacing={1} classes={classes.grid} >
               {/* Account Info */}
@@ -439,11 +439,11 @@ function useWindowSize() {
 
                         <Typography variant="body2" component="p" color="textSecondary">RESIDENCE HALL <br/></Typography>
                         {customerinfo.reshall} <br />
-                    <Divider className={classes.dividers}/> 
+                    <Divider className={classes.dividers}/>
 
                         <Typography variant="body2" component="p" color="textSecondary">CURRENT PLAN <br/></Typography>
                         {planBody(customerinfo)}<br />
-                    <Divider className={classes.dividers}/>  
+                    <Divider className={classes.dividers}/>
 
                         <Typography variant="body2" component="p" color="textSecondary">WEIGHT LIMIT <br/></Typography>
                         {customerinfo.maxweight} lb/week
@@ -529,10 +529,10 @@ function useWindowSize() {
               <Copyright style={{ paddingTop: 3 }} />
             </Box>
           </Container>
-        
+
       );
     }
-  
+
     else {
       // VIEW MODE
       return(
@@ -661,7 +661,7 @@ function useWindowSize() {
           <Copyright style={{ paddingTop: 3 }}/>
         </Box>
       </Container>
-      
+
       )
     }
   }

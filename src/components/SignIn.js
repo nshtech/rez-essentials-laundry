@@ -16,7 +16,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
 import rezImage from '../images/wash.png';
-
+import ForgotEmail from './ForgotEmail'
 import firebase from './shared/firebase'
 import 'firebase/database';
 
@@ -78,6 +78,7 @@ export default function SignIn() {
     const [id, setId] = useState(null);
     // const [password, setPassword] = useState(null);
     const [loggedIn, setLoggedIn] = useState(false);
+    const [forgot, setForgot] = useState(false)
     const [allemails, setAllEmails] = useState([]);
     const [allids, setAllIds] = useState([]);
 
@@ -131,8 +132,8 @@ export default function SignIn() {
         console.log(email)
         // console.log(password)
         if (email != null && id != null) {
-            
-                
+
+
             db.child('/customers/').on("value", function (snapshot) {
                 console.log(snapshot.val());
                 snapshot.forEach(function (data) {
@@ -146,7 +147,7 @@ export default function SignIn() {
                     }
                 });
             });
-            
+
             // const isuser = localStorage.getItem('user_id');
             // console.log(isuser)
             // if (!isuser) {
@@ -155,17 +156,27 @@ export default function SignIn() {
         // }
     }
     };
+    const forgotLink = () => {
+      setForgot(true)
+
+    };
+
+    if (forgot) {
+      console.log("TRYING TO REDIRECT TO FORGOT")
+        return <Redirect to="/forgot"></Redirect>
+    }
 
     const uservalidated = localStorage.getItem('user_id');
-    
+
     if (loggedIn) {
         console.log("TRYING TO REDIRECT")
         return <Redirect to="/dashboard"></Redirect>
     }
 
-
     return (
+
         <Grid container component="main" className={classes.root}>
+
             <CssBaseline />
             <Grid item xs={false} sm={4} md={7} className={classes.image} />
             <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
@@ -233,9 +244,11 @@ export default function SignIn() {
                         </Button>
                         <Grid container>
                             <Grid item xs>
-                                <Link href="mailto:rezessentials@studentholdings.org" variant="body2">
+                                <Button
+                                  onClick={forgotLink}>
                                     Forgot customer ID?
-                                </Link>
+
+                                    </Button>
                             </Grid>
                             {/* <Grid item>
                                 <Link href="/signup" variant="body2">

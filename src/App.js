@@ -21,7 +21,7 @@ import Profile from './components/Profile';
 // Material UI
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Dashboard from './components/Dashboard';
-
+import ForgotEmail from './components/ForgotEmail';
 
 
 const THEME = createMuiTheme({
@@ -55,6 +55,7 @@ function App() {
           <Switch>
             <Route path="/dashboard" exact component={() => <DashboardWrapper user={user}/>}></Route>
             <Route path="/account" exact component={() => <Account user={user}/>}></Route>
+            <Route path="/forgot" exact component={() => <ForgotEmail/>}></Route>
             {/* <Route path="/support" exact component={() => <CustomerSupport user={user} />}></Route> */}
             <Route path="/" exact component={() => <SignIn />}></Route>
             <Route path="/404" render={() => <div>404</div>}></Route>
