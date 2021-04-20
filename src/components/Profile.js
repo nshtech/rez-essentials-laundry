@@ -447,6 +447,10 @@ function useWindowSize() {
 
                         <Typography variant="body2" component="p" color="textSecondary">WEIGHT LIMIT <br/></Typography>
                         {customerinfo.maxweight} lb/week
+                      <Divider className={classes.dividers}/>
+
+                      <Typography variant="body2" component="p" color="textSecondary">Quarter Overages <br/></Typography>
+                      {customerinfo.quarter_overages} lbs
                     </Typography>
                   </CardContent>
                 </Card>
@@ -578,6 +582,9 @@ function useWindowSize() {
                   <Divider className={classes.dividers} />
                   <Typography variant="body2" component="p" color="textSecondary">WEIGHT LIMIT<br /></Typography>
                   {customerinfo.maxweight} lb/week <br />
+                    <Divider className={classes.dividers}/>
+                    <Typography variant="body2" component="p" color="textSecondary">QUARTER OVERAGES <br/></Typography>
+                    {customerinfo.quarter_overages} lbs
                 </Typography>
 
               </CardContent>
