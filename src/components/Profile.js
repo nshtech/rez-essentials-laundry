@@ -335,13 +335,15 @@ function useWindowSize() {
         customerinfo.phone = newphone;
         setSuccessContact(true);
         setWarnPhone(false);
+        //setEdit(false);
       }
       if (newphone == 'invalid') {
         setWarnPhone(true);
         setSuccessContact(false);
+        //setEdit(false);
 
       }
-      //console.log('edit == false');
+      console.log('edit == ',edit);
 
     }
 
