@@ -340,7 +340,7 @@ function useWindowSize() {
         setWarnPhone(true);
         setSuccessContact(false);
       }
-      //setEdit(false);
+      setEdit(false);
       console.log('edit == ',edit);
 
     }
