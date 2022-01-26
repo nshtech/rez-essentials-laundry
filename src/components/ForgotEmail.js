@@ -99,7 +99,7 @@ render() {
       <>
         <Paper elevation={3} />
           <Typography  component="h1" variant="h5">Receive an Email with your Customer ID:</Typography>
-          <Form onSubmit={this.handleSubmit.bind(this)}>
+          <Form className="test-box" onSubmit={this.handleSubmit.bind(this)}>
             <FormGroup controlId="formBasicEmail">
               <Label className="text-muted">Email address: </Label>
               <Input
